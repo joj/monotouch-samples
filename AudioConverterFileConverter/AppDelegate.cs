@@ -27,12 +27,12 @@
 //
 
 using System;
-
+using Foundation;
+using UIKit;
+using AudioToolbox;
 using System.Diagnostics;
 using System.Threading;
-using MonoTouch.AVFoundation;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using AVFoundation;
 
 namespace AudioConverterFileConverter
 {
@@ -94,7 +94,7 @@ namespace AudioConverterFileConverter
                 ThreadStateEndInterruption();
             };
 
-            int routes = session.InputNumberOfChannels;
+            nint routes = session.InputNumberOfChannels;
 
             // our default category -- we change this for conversion and playback appropriately
             try
