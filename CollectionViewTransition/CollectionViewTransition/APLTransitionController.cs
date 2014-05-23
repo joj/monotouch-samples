@@ -1,7 +1,7 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace CollectionViewTransition {
 
@@ -12,7 +12,7 @@ namespace CollectionViewTransition {
 		UINavigationController navigationController;
 		IUIViewControllerContextTransitioning context;
 		float initialPinchDistance;
-		PointF initialPinchPoint;
+		CGPoint initialPinchPoint;
 
 		public APLTransitionController (UICollectionView view, UINavigationController controller)
 		{
@@ -27,13 +27,13 @@ namespace CollectionViewTransition {
 
 		// required method for view controller transitions, called when the system needs to set up
 		// the interactive portions of a view controller transition and start the animations
-		void InteractionBegan (PointF point)
+		void InteractionBegan (CGPoint point)
 		{
 			UIViewController viewController = ((APLCollectionViewController)navigationController.TopViewController).NextViewControllerAtPoint (point);
 			if (viewController != null) {
 				navigationController.PushViewController (viewController, true);
 			} else {
-				navigationController.PopViewControllerAnimated (true);
+				navigationController.PopViewController (true);
 			}
 		}
 
@@ -95,8 +95,49 @@ namespace CollectionViewTransition {
 		// action method for our pinch gesture recognizer
 		public void HandlePinch (UIPinchGestureRecognizer sender)
 		{
+<<<<<<< HEAD
 			// here we want to end the transition interaction if the user stops or finishes the pinch gesture
 			if (sender.State == UIGestureRecognizerState.Ended) {
+=======
+			if (sender.NumberOfTouches < 2)
+				return;
+
+			CGPoint point1 = sender.LocationOfTouch (0, sender.View);
+			CGPoint point2 = sender.LocationOfTouch (1, sender.View);
+			float distance = (float) Math.Sqrt ((point1.X - point2.X) * (point1.X - point2.X) +
+			                                    (point1.Y - point2.Y) * (point1.Y - point2.Y));
+			CGPoint point = sender.LocationInView (sender.View);
+
+			if (sender.State == UIGestureRecognizerState.Began) {
+				if (HasActiveInteraction)
+					return;
+
+				initialPinchDistance = distance;
+				initialPinchPoint = point;
+				HasActiveInteraction = true;
+				InteractionBegan (point);
+				return;
+			}
+
+			if (!HasActiveInteraction)
+				return;
+
+			switch (sender.State) {
+			case UIGestureRecognizerState.Changed:
+				float offsetX = (float) (point.X - initialPinchPoint.X);
+				float offsetY = (float) (point.Y - initialPinchPoint.Y);
+				float distanceDelta = distance - initialPinchDistance;
+
+				if (NavigationOperation == UINavigationControllerOperation.Pop)
+					distanceDelta = -distanceDelta;
+
+				CGSize size = collectionView.Bounds.Size;
+				float dimension = (float)Math.Sqrt (size.Width * size.Width + size.Height * size.Height);
+				float progress = (float) Math.Max (Math.Min (distanceDelta / dimension, 1.0), 0.0);
+				Update (progress, new UIOffset (offsetX, offsetY));
+				break;
+			case UIGestureRecognizerState.Ended:
+>>>>>>> CollectionViewTransition ported to 64bits
 				EndInteraction (true);
 			} else if (sender.State == UIGestureRecognizerState.Cancelled) {
 				EndInteraction (false);
