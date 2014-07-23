@@ -1,4 +1,5 @@
 using System;
+<<<<<<< HEAD
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
@@ -11,6 +12,10 @@ using MonoTouch.CoreBluetooth;
 using MonoTouch.Accounts;
 using MonoTouch.AdSupport;
 using MonoTouch.CoreLocation;
+=======
+using Foundation;
+using UIKit;
+>>>>>>> PrivacyPrompts ported to 64-bits
 
 namespace PrivacyPrompts
 {
