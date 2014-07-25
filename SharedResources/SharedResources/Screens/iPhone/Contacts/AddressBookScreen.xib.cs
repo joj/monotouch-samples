@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.AddressBook;
-using MonoTouch.AddressBookUI;
-using System.Drawing;
+using Foundation;
+using UIKit;
+using AddressBook;
+using AddressBookUI;
+using CoreGraphics;
 
 namespace Example_SharedResources.Screens.iPhone.Contacts
 {
@@ -27,7 +27,7 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 		/// <summary>
 		/// Used to resize the scroll view to allow for keyboard
 		/// </summary>
-		RectangleF contentViewSize = RectangleF.Empty;
+		CGRect contentViewSize = CGRect.Empty;
 
 		ABAddressBook addressBook;
 
@@ -239,10 +239,17 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 					// get the phones and copy them to a mutable set of multivalues (so we can edit)
 					ABMutableMultiValue<string> phones = contact.GetPhones ().ToMutableMultiValue ();
 
+<<<<<<< HEAD
 					// remove all phones data
 					for (int i = phones.Count - 1; i >= 0; i--) {
 						phones.RemoveAt (i);
 					}
+=======
+				// remove all phones data
+				for (nint i = phones.Count - 1; i >= 0 ; i--) {
+					phones.RemoveAt(i);
+				}
+>>>>>>> SharedResources sample ported to 64-bits
 
 					// add the phone number to the phones from the table data source
 					for (int i = 0; i < PhoneNumberTableSource.labels.Count; i++) {
@@ -298,15 +305,23 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			NavigationController.PresentModalViewController (addressBookPicker, true);
 			
 			// wire up the cancelled event to dismiss the picker
+<<<<<<< HEAD
 			addressBookPicker.Cancelled += (sender, eventArgs) => {
 				NavigationController.DismissModalViewControllerAnimated (true);
 			};
+=======
+			addressBookPicker.Cancelled += (sender, eventArgs) => { NavigationController.DismissModalViewController (true); };
+>>>>>>> SharedResources sample ported to 64-bits
 			
 			// when a contact is chosen, populate the page and then dismiss the picker
 			addressBookPicker.SelectPerson += (object sender, ABPeoplePickerSelectPersonEventArgs args) => {
 				PopulatePage (args.Person);				
+<<<<<<< HEAD
 				EnableTextFields (true);
 				NavigationController.DismissModalViewControllerAnimated (true);			
+=======
+				NavigationController.DismissModalViewController (true);			
+>>>>>>> SharedResources sample ported to 64-bits
 			};
 		}
 
@@ -360,6 +375,7 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 					numbers.Add (phoneNumbers [i].Value);
 				}
 			}
+<<<<<<< HEAD
 
 			public override int NumberOfSections (UITableView tableView)
 			{
@@ -371,6 +387,13 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 				return phoneNumbers.Count;
 			}
 
+=======
+			
+			public override nint NumberOfSections (UITableView tableView) { return 1; }
+			
+			public override nint RowsInSection (UITableView tableview, nint section) { return phoneNumbers.Count; }
+			
+>>>>>>> SharedResources sample ported to 64-bits
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 			{
 				EditablePhoneTableCell cell = tableView.DequeueReusableCell ("PhoneCell") as EditablePhoneTableCell;
@@ -380,17 +403,30 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 					cell = new EditablePhoneTableCell ("PhoneCell");
 					cell.dataIndex = indexPath.Row;
 					cell.txtLabel.EditingDidEnd += (sender, e) => {
+<<<<<<< HEAD
 						labels [cell.dataIndex] = cell.PhoneLabel;
 
 					};
 					cell.txtPhoneNumber.EditingDidEnd += (sender, e) => {
 						numbers [cell.dataIndex] = cell.PhoneNumber;
+=======
+						labels[(int)cell.dataIndex] = cell.PhoneLabel;
+
+					};
+					cell.txtPhoneNumber.EditingDidEnd += (sender, e) => {
+						numbers[(int)cell.dataIndex] = cell.PhoneNumber;
+>>>>>>> SharedResources sample ported to 64-bits
 					};
 				}
 //				cell.PhoneLabel = phoneNumbers[indexPath.Row].Label.ToString ().Replace ("_$!<", "").Replace (">!$_", "");
 //				cell.PhoneNumber = phoneNumbers[indexPath.Row].Value.ToString ();
+<<<<<<< HEAD
 				cell.PhoneLabel = labels [indexPath.Row].Replace ("_$!<", "").Replace (">!$_", "");
 				cell.PhoneNumber = numbers [indexPath.Row];
+=======
+				cell.PhoneLabel = labels[(int)indexPath.Row].Replace ("_$!<", "").Replace (">!$_", "");
+				cell.PhoneNumber = numbers [(int)indexPath.Row];
+>>>>>>> SharedResources sample ported to 64-bits
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 
 
@@ -436,15 +472,20 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 		protected class EditablePhoneTableCell : UITableViewCell
 		{
 			// label and phone number text boxes
+<<<<<<< HEAD
 			public UITextField txtLabel = new UITextField (new RectangleF (10, 5, 110, 33));
 			public UITextField txtPhoneNumber = new UITextField (new RectangleF (130, 5, 140, 33));
+=======
+			public UITextField txtLabel = new UITextField(new CGRect(10, 5, 110, 33));
+			public UITextField txtPhoneNumber = new UITextField(new CGRect(130, 5, 140, 33));
+>>>>>>> SharedResources sample ported to 64-bits
 
 			// properties
 			public string PhoneLabel { get { return txtLabel.Text; } set { txtLabel.Text = value; } }
 
 			public string PhoneNumber { get { return txtPhoneNumber.Text; } set { txtPhoneNumber.Text = value; } }
 
-			public int dataIndex;
+			public nint dataIndex;
 
 			public EditablePhoneTableCell (string reuseIdentifier) : base (UITableViewCellStyle.Default, reuseIdentifier)
 			{
@@ -483,9 +524,9 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			if (openOrClose == "Open") {
 				Console.WriteLine ("Keyboard opening");
 				// declare vars
-				RectangleF kbdFrame = UIKeyboard.BoundsFromNotification (n); 
+				CGRect kbdFrame = UIKeyboard.BoundsFromNotification (n); 
 				double animationDuration = UIKeyboard.AnimationDurationFromNotification (n); 
-				RectangleF newFrame = contentViewSize;
+				CGRect newFrame = contentViewSize;
 				// resize our frame depending on whether the keyboard pops in or out 
 				newFrame.Height -= kbdFrame.Height;
 				// apply the size change
