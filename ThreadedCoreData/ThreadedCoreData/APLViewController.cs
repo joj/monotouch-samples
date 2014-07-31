@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using MonoTouch;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreData;
-using MonoTouch.ObjCRuntime;
+using Foundation;
+using UIKit;
+using CoreData;
+using ObjCRuntime;
 using System.Text;
 using System.Reflection;
 
@@ -124,7 +124,7 @@ namespace ThreadedCoreData
 			parseQueue = new NSOperationQueue ();
 			parseQueue.AddObserver (this, new NSString ("operationCount"), NSKeyValueObservingOptions.New, IntPtr.Zero);
 
-			NSNotificationCenter.DefaultCenter.AddObserver (this, new Selector ("EarthquakesError:"), APLParseOperation.EarthquakesErrorNotificationName, null);
+			NSNotificationCenter.DefaultCenter.AddObserver (this, new Selector ("EarthquakesError:"), (NSString)APLParseOperation.EarthquakesErrorNotificationName, null);
 			NSNotificationCenter.DefaultCenter.AddObserver (this, new Selector ("LocaleChanged:"), NSLocale.CurrentLocaleDidChangeNotification, null);
 
 			var spinner = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.White);
@@ -143,17 +143,17 @@ namespace ThreadedCoreData
 			}
 		}
 
-		public override int NumberOfSections (UITableView tableView)
+		public override nint NumberOfSections (UITableView tableView)
 		{
 			return FetchedResultsController.Sections.Length;
 		}
 
-		public override int RowsInSection (UITableView tableview, int section)
+		public override nint RowsInSection (UITableView tableview, nint section)
 		{
-			int numberOfRows = 0;
+			nint numberOfRows = 0;
 
 			if (FetchedResultsController.Sections.Length > 0)
-				numberOfRows = FetchedResultsController.Sections [section].Count;
+				numberOfRows = FetchedResultsController.Sections [(int)section].Count;
 
 			return numberOfRows;
 		}

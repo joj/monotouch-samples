@@ -1,10 +1,10 @@
 using System;
 using System.Json;
-using MonoTouch.Foundation;
-using MonoTouch.CoreData;
+using Foundation;
+using CoreData;
 using System.Collections.Generic;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.UIKit;
+using ObjCRuntime;
+using UIKit;
 using System.Linq;
 
 namespace ThreadedCoreData
@@ -147,7 +147,7 @@ namespace ThreadedCoreData
 
 				var olderEarthquakes = NSArray.FromObjects (managedObjectContext.ExecuteFetchRequest (fetchRequest, out error));
 				
-				for (int i = 0; i < olderEarthquakes.Count; i++) {
+				for (int i = 0; i < (int)olderEarthquakes.Count; i++) {
 					managedObjectContext.DeleteObject (olderEarthquakes.GetItem<ManagedEarthquake> (i));
 				}
 
