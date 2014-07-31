@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.ObjCRuntime;
+using Foundation;
+using UIKit;
+using ObjCRuntime;
 
 namespace Example_Touch.Screens.iPhone.GestureRecognizers
 {
 	public partial class GestureRecognizers_iPhone : UIViewController
 	{		
-		System.Drawing.RectangleF originalImageFrame = System.Drawing.RectangleF.Empty;
+		CoreGraphics.CGRect originalImageFrame = CoreGraphics.CGRect.Empty;
 			
 		#region Constructors
 
@@ -96,8 +96,8 @@ namespace Example_Touch.Screens.iPhone.GestureRecognizers
 				| UIGestureRecognizerState.Possible)) {
 				
 				// move the shape by adding the offset to the object's frame
-				System.Drawing.PointF offset = recognizer.TranslationInView (imgDragMe);
-				System.Drawing.RectangleF newFrame = originalImageFrame;
+				CoreGraphics.CGPoint offset = recognizer.TranslationInView (imgDragMe);
+				CoreGraphics.CGRect newFrame = originalImageFrame;
 				newFrame.Offset (offset.X, offset.Y);			
 				imgDragMe.Frame = newFrame;
 			}
