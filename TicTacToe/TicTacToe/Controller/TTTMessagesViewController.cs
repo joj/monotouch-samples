@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 using System.Collections.Generic;
 
 namespace TicTacToe
@@ -19,7 +19,7 @@ namespace TicTacToe
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem (
 				UIBarButtonSystemItem.Compose, newMessage);
-			NSNotificationCenter.DefaultCenter.AddObserver (TTTMessageServer.DidAddMessagesNotification,
+			NSNotificationCenter.DefaultCenter.AddObserver ((NSString)TTTMessageServer.DidAddMessagesNotification,
 			                                                didAddMessages);
 
 			NavigationItem.LeftBarButtonItem = 
@@ -57,7 +57,7 @@ namespace TicTacToe
 
 			for (uint i = 0; i < addedIndexes.Count; i++) {
 				NSNumber indexValue = new NSNumber (addedIndexes.ValueAt (i));
-				NSIndexPath indexPath = NSIndexPath.FromRowSection (indexValue.IntValue, 0);
+				NSIndexPath indexPath = NSIndexPath.FromRowSection ((int)indexValue, 0);
 				addedIndexPaths.Add (indexPath);
 			}
 			TableView.InsertRows (addedIndexPaths.ToArray (), UITableViewRowAnimation.Automatic);
@@ -87,7 +87,7 @@ namespace TicTacToe
 		}
 
 		#region Table View
-		public override int RowsInSection (UITableView tableview, int section)
+		public override nint RowsInSection (UITableView tableview, nint section)
 		{
 			return TTTMessageServer.SharedMessageServer.NumberOfMessages;
 		}
@@ -100,7 +100,7 @@ namespace TicTacToe
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
 			TTTMessageTableViewCell messageCell = (TTTMessageTableViewCell)cell;
-			TTTMessage message = TTTMessageServer.SharedMessageServer.MessageAtIndex (indexPath.Row);
+			TTTMessage message = TTTMessageServer.SharedMessageServer.MessageAtIndex ((int)indexPath.Row);
 			cell.TextLabel.Text = message.Text;
 			cell.ImageView.Image = TTTProfile.SmallImageForIcon (message.Icon);
 
@@ -125,7 +125,7 @@ namespace TicTacToe
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			TTTMessage message = TTTMessageServer.SharedMessageServer.MessageAtIndex (indexPath.Row);
+			TTTMessage message = TTTMessageServer.SharedMessageServer.MessageAtIndex ((int)indexPath.Row);
 			TTTMessageTableViewCell cell = (TTTMessageTableViewCell)tableView.CellAt (indexPath);
 
 			if (selectedMessage == message) {

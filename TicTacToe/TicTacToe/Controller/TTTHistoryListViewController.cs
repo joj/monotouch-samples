@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace TicTacToe
 {
@@ -21,7 +21,7 @@ namespace TicTacToe
 		}
 
 		#region Table View
-		public override int RowsInSection (UITableView tableview, int section)
+		public override nint RowsInSection (UITableView tableview, nint section)
 		{
 			return Profile.Games.Count;
 		}
@@ -38,7 +38,7 @@ namespace TicTacToe
 
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
-			TTTGame game = Profile.Games [indexPath.Row];
+			TTTGame game = Profile.Games [(int)indexPath.Row];
 			cell.TextLabel.Text = game.Date.ToString ();
 			TTTGameResult result = game.Result;
 			if (result == TTTGameResult.Victory)
@@ -55,7 +55,7 @@ namespace TicTacToe
 		{
 			TTTGameHistoryViewController controller = new TTTGameHistoryViewController ();
 			controller.Profile = Profile;
-			controller.Game = Profile.Games [indexPath.Row];
+			controller.Game = Profile.Games [(int)indexPath.Row];
 			NavigationController.PushViewController (controller, true);
 		}
 		#endregion

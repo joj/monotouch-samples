@@ -1,5 +1,5 @@
 using System;
-using MonoTouch.Foundation;
+using Foundation;
 using System.Collections.Generic;
 
 namespace TicTacToe
@@ -21,7 +21,7 @@ namespace TicTacToe
 		const string EncodingKeyMoves = "moves";
 		const string EncodingKeyCurrentPlayer = "currentPlayer";
 		public TTTGameResult Result;
-		public int Rating;
+		public nint Rating;
 		public List<TTTMove> Moves;
 		TTTMovePlayer currentPlayer;
 		public DateTime Date;

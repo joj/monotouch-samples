@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.UIKit;
-using System.Drawing;
+using UIKit;
+using CoreGraphics;
 using System.Collections.Generic;
 
 namespace TicTacToe
@@ -9,9 +9,9 @@ namespace TicTacToe
 	{
 		const int MinimumRating = 0;
 		const int MaximumRating = 4;
-		int rating;
+		nint rating;
 
-		public int Rating {
+		public nint Rating {
 			get { return rating; }
 			set {	
 				rating = value;
@@ -27,7 +27,7 @@ namespace TicTacToe
 			Rating = MinimumRating;
 		}
 
-		public TTTRatingControl (RectangleF frame) : base (frame)
+		public TTTRatingControl (CGRect frame) : base (frame)
 		{
 			Rating = MinimumRating;
 		}
@@ -40,7 +40,7 @@ namespace TicTacToe
 					float cornerRadius = 4f;
 					float capSize = 2f * cornerRadius;
 					float rectSize = 2f * capSize + 1f;
-					RectangleF rect = new RectangleF (0f, 0f, rectSize, rectSize);
+					CGRect rect = new CGRect (0f, 0f, rectSize, rectSize);
 					UIGraphics.BeginImageContextWithOptions (rect.Size, false, 0f);
 
 					UIColor.FromWhiteAlpha (0f, 0.2f).SetColor ();
@@ -94,8 +94,8 @@ namespace TicTacToe
 				updateButtonImages ();
 			}
 
-			RectangleF buttonFrame = Bounds;
-			float width = buttonFrame.Size.Width / (MaximumRating - MinimumRating + 1);
+			CGRect buttonFrame = Bounds;
+			nfloat width = buttonFrame.Size.Width / (MaximumRating - MinimumRating + 1);
 			for (int index = 0; index < buttons.Count; index++) {
 				UIButton button = buttons [index];
 				buttonFrame.Width = (float)Math.Round (width * (index + 1) - buttonFrame.X);
