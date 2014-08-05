@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace WorldCities
 {
@@ -55,7 +55,7 @@ namespace WorldCities
 				this.controller = controller;
 			}
 			
-			public override int RowsInSection (UITableView tableview, int section)
+			public override nint RowsInSection (UITableView tableview, nint section)
 			{
 				return controller.cityList.Count; 
 			}
@@ -68,7 +68,7 @@ namespace WorldCities
 					cell = new UITableViewCell (UITableViewCellStyle.Subtitle, cellName);
 					cell.EditingAccessory = UITableViewCellAccessory.DetailDisclosureButton;
 				}
-				var city = controller.cityList [indexPath.Row];
+				var city = controller.cityList [(int)indexPath.Row];
 				cell.TextLabel.Text = city.Name;
 				cell.DetailTextLabel.Text = string.Format ("{0} {1}", city.Latitude, city.Longitude);
 				return cell;
@@ -76,7 +76,7 @@ namespace WorldCities
 			
 			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 			{
-				controller.SelectedCity = controller.cityList [indexPath.Row];
+				controller.SelectedCity = controller.cityList [(int)indexPath.Row];
 				controller.PerformSegue (MoveToMapSegueName, controller);
 			}
 		}
