@@ -83,7 +83,7 @@ namespace WeatherMap
 				
 				// Get and set our new list of WeatherForecastAnnotations
 				annotations = weatherServer.GetForecastAnnotations (mapView.Region, 4);
-				mapView.AddAnnotation (annotations);
+				mapView.AddAnnotations (annotations);
 			};
 			
 			mapView.GetViewForAnnotation += GetWeatherAnnotationView;
