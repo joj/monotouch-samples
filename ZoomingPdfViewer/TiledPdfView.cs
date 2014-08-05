@@ -1,22 +1,22 @@
 using System;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.UIKit;
-using System.Drawing;
+using CoreAnimation;
+
+using Foundation;
+using ObjCRuntime;
+using UIKit;
+using CoreGraphics;
 
 namespace ZoomingPdfViewer {
 	
 	public class TiledPdfView : UIView {
 		
-		public TiledPdfView (RectangleF frame, float scale)
+		public TiledPdfView (CGRect frame, nfloat scale)
 			: base (frame)
 		{
 			CATiledLayer tiledLayer = Layer as CATiledLayer;
 			tiledLayer.LevelsOfDetail = 4;
 			tiledLayer.LevelsOfDetailBias = 4;
-			tiledLayer.TileSize = new SizeF (512, 512);
+			tiledLayer.TileSize = new CGSize (512, 512);
 			// here we still need to implement the delegate
 			tiledLayer.Delegate = new TiledLayerDelegate (this);
 			Scale = scale;
@@ -24,9 +24,9 @@ namespace ZoomingPdfViewer {
 		
 		public CGPDFPage Page { get; set; }
 		
-		public float Scale { get; set; }
+		public nfloat Scale { get; set; }
 		
-		public override void Draw (RectangleF rect)
+		public override void Draw (CGRect rect)
 		{
 			// empty (on purpose so the delegate will draw)
 		}
@@ -42,7 +42,7 @@ namespace ZoomingPdfViewer {
 	class TiledLayerDelegate : CALayerDelegate {
 		
 		TiledPdfView view;
-		RectangleF bounds;
+		CGRect bounds;
 		
 		public TiledLayerDelegate (TiledPdfView view)
 		{

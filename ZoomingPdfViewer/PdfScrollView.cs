@@ -1,10 +1,10 @@
 using System;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.UIKit;
-using System.Drawing;
+using CoreAnimation;
+
+using Foundation;
+using ObjCRuntime;
+using UIKit;
+using CoreGraphics;
 
 namespace ZoomingPdfViewer {
 	
@@ -21,9 +21,9 @@ namespace ZoomingPdfViewer {
 		CGPDFDocument pdf;
 		CGPDFPage page;
 		
-		float scale;
+		nfloat scale;
 		
-		public PdfScrollView (RectangleF frame)
+		public PdfScrollView (CGRect frame)
 			: base (frame)
 		{
 			ShowsVerticalScrollIndicator = false;
@@ -40,9 +40,9 @@ namespace ZoomingPdfViewer {
 			page = pdf.GetPage (1);
 			
 			// make the initial view 'fit to width'
-			RectangleF pageRect = page.GetBoxRect (CGPDFBox.Media);
+			CGRect pageRect = page.GetBoxRect (CGPDFBox.Media);
 			scale = Frame.Width / pageRect.Width;
-			pageRect.Size = new SizeF (pageRect.Width * scale, pageRect.Height * scale);
+			pageRect.Size = new CGSize (pageRect.Width * scale, pageRect.Height * scale);
 			
 			// create bitmap version of the PDF page, to be used (scaled)
 			// when no other (tiled) view are visible
@@ -101,8 +101,8 @@ namespace ZoomingPdfViewer {
 			ZoomingEnded += delegate (object sender, ZoomingEndedEventArgs e) {
 				scale *= e.AtScale;
 
-				RectangleF rect = page.GetBoxRect (CGPDFBox.Media);
-				rect.Size = new SizeF (rect.Width * scale, rect.Height * scale);
+				CGRect rect = page.GetBoxRect (CGPDFBox.Media);
+				rect.Size = new CGSize (rect.Width * scale, rect.Height * scale);
 				
 				pdfView = new TiledPdfView (rect, scale);
 				pdfView.Page = page;
@@ -116,8 +116,8 @@ namespace ZoomingPdfViewer {
 			
 			// if the page becomes smaller than the view's bounds then we
 			// center it in the screen
-			SizeF boundsSize = Bounds.Size;
-			RectangleF frameToCenter = pdfView.Frame;
+			CGSize boundsSize = Bounds.Size;
+			CGRect frameToCenter = pdfView.Frame;
 
 			if (frameToCenter.Width < boundsSize.Width)
 				frameToCenter.X = (boundsSize.Width - frameToCenter.Width) / 2;
