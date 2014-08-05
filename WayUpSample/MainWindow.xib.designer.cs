@@ -11,19 +11,19 @@
 namespace WayUp {
 	
 	
-	// Base type probably should be MonoTouch.Foundation.NSObject or subclass
-	[MonoTouch.Foundation.Register("WhichWayIsUpAppDelegate")]
+	// Base type probably should be Foundation.NSObject or subclass
+	[Foundation.Register("WhichWayIsUpAppDelegate")]
 	public partial class WhichWayIsUpAppDelegate {
 		
-		private MonoTouch.UIKit.UIWindow __mt_window;
+		private UIKit.UIWindow __mt_window;
 		
 		private CrateViewController __mt_crateViewController;
 		
 		#pragma warning disable 0169
-		[MonoTouch.Foundation.Connect("window")]
-		private MonoTouch.UIKit.UIWindow window {
+		[Foundation.Connect("window")]
+		private UIKit.UIWindow window {
 			get {
-				this.__mt_window = ((MonoTouch.UIKit.UIWindow)(this.GetNativeField("window")));
+				this.__mt_window = ((UIKit.UIWindow)(this.GetNativeField("window")));
 				return this.__mt_window;
 			}
 			set {
@@ -32,7 +32,7 @@ namespace WayUp {
 			}
 		}
 		
-		[MonoTouch.Foundation.Connect("crateViewController")]
+		[Foundation.Connect("crateViewController")]
 		private CrateViewController crateViewController {
 			get {
 				this.__mt_crateViewController = ((CrateViewController)(this.GetNativeField("crateViewController")));
@@ -45,8 +45,8 @@ namespace WayUp {
 		}
 	}
 	
-	// Base type probably should be MonoTouch.UIKit.UIViewController or subclass
-	[MonoTouch.Foundation.Register("CrateViewController")]
+	// Base type probably should be UIKit.UIViewController or subclass
+	[Foundation.Register("CrateViewController")]
 	public partial class CrateViewController {
 	}
 }
