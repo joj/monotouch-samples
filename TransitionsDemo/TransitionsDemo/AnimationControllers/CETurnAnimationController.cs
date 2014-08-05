@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using MonoTouch.UIKit;
-using MonoTouch.CoreAnimation;
-using MonoTouch.Foundation;
+using CoreGraphics;
+using UIKit;
+using CoreAnimation;
+using Foundation;
 
 namespace TransitionsDemo.AnimationControllers
 {
@@ -34,7 +34,7 @@ namespace TransitionsDemo.AnimationControllers
 			containerView.Layer.SublayerTransform = transform;
 
 			// Give both VCs the same start frame
-			RectangleF initialFrame = transitionContext.GetInitialFrameForViewController (fromViewController);
+			CGRect initialFrame = transitionContext.GetInitialFrameForViewController (fromViewController);
 			fromView.Frame = initialFrame;
 			toView.Frame = initialFrame;
 

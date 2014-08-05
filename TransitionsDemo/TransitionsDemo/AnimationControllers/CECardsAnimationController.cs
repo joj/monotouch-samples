@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using MonoTouch.CoreAnimation;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreAnimation;
+using Foundation;
+using UIKit;
 
 namespace TransitionsDemo.AnimationControllers
 {
@@ -33,7 +33,7 @@ namespace TransitionsDemo.AnimationControllers
 
 			containerView.InsertSubviewAbove (toView, fromView);
 
-			RectangleF frameOffScreen = containerView.Frame;
+			CGRect frameOffScreen = containerView.Frame;
 			frameOffScreen.Y = containerView.Frame.Height;
 
 			CATransform3D transform = GetFirstTransform ();
@@ -73,7 +73,7 @@ namespace TransitionsDemo.AnimationControllers
 			UIView containerView = transitionContext.ContainerView;
 
 			// positions the to- view off the bottom of the sceen
-			RectangleF offScreenFrame = containerView.Frame;
+			CGRect offScreenFrame = containerView.Frame;
 			offScreenFrame.Y = containerView.Frame.Height;
 			toView.Frame = offScreenFrame;
 
@@ -93,7 +93,7 @@ namespace TransitionsDemo.AnimationControllers
 				});
 
 				UIView.AddKeyframeWithRelativeStartTime (0.6, 0.2, () => {
-					toView.Frame = new RectangleF (toView.Frame.X, containerView.Frame.Y - 30f, 
+					toView.Frame = new CGRect (toView.Frame.X, containerView.Frame.Y - 30f, 
 					                               toView.Frame.Width, toView.Frame.Height);
 				});
 

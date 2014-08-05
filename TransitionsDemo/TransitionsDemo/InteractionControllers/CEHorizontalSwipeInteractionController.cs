@@ -1,20 +1,20 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using ObjCRuntime;
+using UIKit;
 
 namespace TransitionsDemo.InteractionControllers
 {
 	public class CEHorizontalSwipeInteractionController : CEBaseInteractionController
 	{
-		public override float CompletionSpeed {
+		public override nfloat CompletionSpeed {
 			get {
 				return 1 - PercentComplete;
 			}
 		}
 
-		public override void WireToViewController (MonoTouch.UIKit.UIViewController viewController, 
+		public override void WireToViewController (UIKit.UIViewController viewController, 
 		                                           CEInteractionOperation operation)
 		{
 			this.operation = operation;
@@ -28,10 +28,10 @@ namespace TransitionsDemo.InteractionControllers
 			view.AddGestureRecognizer (gestureRecognizer);
 		}
 
-		[Export("HandleGesture")]
+		[Export("HandleGesture:")]
 		public void HandleGesture (UIPanGestureRecognizer panGestureRecognizer)
 		{
-			PointF translation = panGestureRecognizer.TranslationInView (panGestureRecognizer.View.Superview);
+			CGPoint translation = panGestureRecognizer.TranslationInView (panGestureRecognizer.View.Superview);
 
 			switch (gestureRecognizer.State) {
 			case UIGestureRecognizerState.Began:
@@ -47,13 +47,13 @@ namespace TransitionsDemo.InteractionControllers
 			}
 		}
 
-		private void TrackGestureBegan (PointF translation)
+		private void TrackGestureBegan (CGPoint translation)
 		{
 			bool rightToLeftSwipe = translation.X < 0;
 
 			if (operation == CEInteractionOperation.Pop && rightToLeftSwipe) {
 				InteractionInProgress = true;
-				viewController.NavigationController.PopViewControllerAnimated (true);
+				viewController.NavigationController.PopViewController (true);
 			} else if (operation == CEInteractionOperation.Tab) {
 				if (rightToLeftSwipe && 
 					viewController.TabBarController.SelectedIndex < viewController.TabBarController.ViewControllers.Length - 1) {
@@ -69,11 +69,11 @@ namespace TransitionsDemo.InteractionControllers
 			}
 		}
 
-		private void TrackGestureChaged (PointF translation)
+		private void TrackGestureChaged (CGPoint translation)
 		{
 			if (InteractionInProgress) {
-				float fraction = translation.X / 200f;
-				fraction = Math.Min (Math.Max (fraction, 0f), 1f);
+				nfloat fraction = translation.X / 200f;
+				fraction = (nfloat)Math.Min (Math.Max (fraction, 0f), 1f);
 				shouldCompleteTransition = (fraction > 0.5f);
 
 				UpdateInteractiveTransition (fraction);
