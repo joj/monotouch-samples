@@ -60,12 +60,11 @@ namespace Example_Touch.Screens.iPhone.GestureRecognizers
 		{
 			// create a new tap gesture
 			UITapGestureRecognizer tapGesture = null;
+
 			
-			NSAction action = () => {
-				lblGestureStatus.Text = "tap me image tapped @" + tapGesture.LocationOfTouch (0, imgTapMe).ToString ();
-			};
-			
-			tapGesture = new UITapGestureRecognizer (action);
+				tapGesture = new UITapGestureRecognizer (() => {
+					lblGestureStatus.Text = "tap me image tapped @" + tapGesture.LocationOfTouch (0, imgTapMe).ToString ();
+				});
 			// configure it
 			tapGesture.NumberOfTapsRequired = 2;
 			// add the gesture recognizer to the view
