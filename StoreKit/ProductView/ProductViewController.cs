@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.StoreKit;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using StoreKit;
+using Foundation;
+using UIKit;
 using System.Drawing;
 
 // Helpful devforums post
@@ -140,13 +140,13 @@ namespace ProductView {
 				Console.WriteLine ("ProductViewDelegate Finished");
 				
 				// Apple's docs says to use this
-				this.DismissModalViewControllerAnimated (true);
+				this.DismissViewController(true, () => {});
 			};
 
 			productViewController.LoadProduct (spp, (ok, err) => {
 				Console.WriteLine ("load product");
 				if (ok) {
-					PresentModalViewController (productViewController, true);
+					PresentViewController (productViewController, true, () => {});
 				} else {
 					Console.WriteLine (" failed ");
 					if (err != null) 
