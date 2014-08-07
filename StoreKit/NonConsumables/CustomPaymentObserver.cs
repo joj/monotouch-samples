@@ -1,6 +1,8 @@
 using System;
-using MonoTouch.StoreKit;
-using MonoTouch.Foundation;
+using System.Linq;
+using StoreKit;
+using Foundation;
+using UIKit;
 
 
 namespace NonConsumables

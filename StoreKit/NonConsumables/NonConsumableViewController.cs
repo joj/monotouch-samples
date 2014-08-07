@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.StoreKit;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using StoreKit;
+using Foundation;
+using UIKit;
 using System.Drawing;
 
 namespace NonConsumables {
