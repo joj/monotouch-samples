@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.StoreKit;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using StoreKit;
+using Foundation;
+using UIKit;
 using System.Drawing;
 
 namespace Consumables {
@@ -24,19 +24,19 @@ namespace Consumables {
 		/// String.Format(Buy, "price"); // "Buy {0}"
 		/// </summary>
 		string Buy {
-			get {return MonoTouch.Foundation.NSBundle.MainBundle.LocalizedString ("Buy {0}", "Buy {0}");}
+			get {return Foundation.NSBundle.MainBundle.LocalizedString ("Buy {0}", "Buy {0}");}
 		}
 		/// <summary>
 		/// String.Format(Balance, "balance"); // "{0} monkey credits"
 		/// </summary>
 		string Balance {
-			get {return MonoTouch.Foundation.NSBundle.MainBundle.LocalizedString ("{0} monkey credits", "{0} monkey credits");}
+			get {return Foundation.NSBundle.MainBundle.LocalizedString ("{0} monkey credits", "{0} monkey credits");}
 		}
 		/// <summary>
 		/// No placeholders
 		/// </summary>
 		string Footer {
-			get {return MonoTouch.Foundation.NSBundle.MainBundle.LocalizedString ("Notice how you can keep buying the same items over and over. That's what makes these products 'consumable'.", "Notice how you can keep buying the same items over and over. That's what makes these products 'consumable'.");}
+			get {return Foundation.NSBundle.MainBundle.LocalizedString ("Notice how you can keep buying the same items over and over. That's what makes these products 'consumable'.", "Notice how you can keep buying the same items over and over. That's what makes these products 'consumable'.");}
 		}
 		#endregion
 

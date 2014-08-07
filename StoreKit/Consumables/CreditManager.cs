@@ -1,5 +1,5 @@
 using System;
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Consumables {
 	// WARNING: this is a trivial example of tracking a
@@ -14,13 +14,13 @@ namespace Consumables {
 	// NOT how you should build a credits system for iOS.
 	public static class CreditManager {
 		static NSString defaultKey = new NSString("monkeyDollarsBalance");
-		static int monkeyCredits = 0;
+		static nint monkeyCredits = 0;
 		static CreditManager ()
 		{
 			monkeyCredits = NSUserDefaults.StandardUserDefaults.IntForKey(defaultKey);
 		}
 		
-		public static int Balance() {
+		public static nint Balance() {
 			NSUserDefaults.StandardUserDefaults.Synchronize ();
 			return NSUserDefaults.StandardUserDefaults.IntForKey(defaultKey);
 		}
