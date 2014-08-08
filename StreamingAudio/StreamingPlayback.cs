@@ -3,6 +3,8 @@ using AudioToolbox;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using ObjCRuntime;
 
 namespace StreamingAudio
 {
@@ -197,8 +199,9 @@ namespace StreamingAudio
 					EnqueueBuffer ();
 					WaitForBuffer ();
 				}
+				AudioQueue.FillAudioData (currentBuffer.Buffer, currentBuffer.CurrentOffset, args.InputData, (int)pd.StartOffset, (nint)pd.DataByteSize);
 
-				AudioQueue.FillAudioData (currentBuffer.Buffer, currentBuffer.CurrentOffset, args.InputData, (int)pd.StartOffset, pd.DataByteSize);
+
 				// Set new offset for this packet
 				pd.StartOffset = currentBuffer.CurrentOffset;
 				// Add the packet to our Buffer

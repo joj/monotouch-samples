@@ -157,7 +157,7 @@ namespace StreamingAudio
                         if (updatingTimer != null)
                             updatingTimer.Invalidate();
 
-                        updatingTimer = NSTimer.CreateRepeatingScheduledTimer(0.5, (x) => RepeatingAction(timeline, sampleRate));
+                        updatingTimer = NSTimer.CreateRepeatingScheduledTimer(0.5, (t) => RepeatingAction(timeline, sampleRate));
                     });
 
                     while ((inputStreamLength = inputStream.Read(buffer, 0, buffer.Length)) != 0 && player != null)
