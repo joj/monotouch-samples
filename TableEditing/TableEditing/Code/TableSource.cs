@@ -59,7 +59,7 @@ namespace TableEditing.Code {
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			new UIAlertView("Row Selected"
-				, tableItems[(int)indexPath.Section].Items[(int)indexPath.Row].Heading, null, "OK", null).Show();
+				, tableItems[indexPath.Section].Items[indexPath.Row].Heading, null, "OK", null).Show();
 		}
 		
 		public override void RowDeselected (UITableView tableView, NSIndexPath indexPath)
@@ -126,14 +126,14 @@ namespace TableEditing.Code {
 			{
 				case UITableViewCellEditingStyle.Delete:
 					//---- remove the item from the underlying data source
-					tableItems[(int)indexPath.Section].Items.RemoveAt ((int)indexPath.Row);
+					tableItems[indexPath.Section].Items.RemoveAt (indexPath.Row);
 					//---- delete the row from the table
 					tableView.DeleteRows (new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
 					break;
 				
 				case UITableViewCellEditingStyle.Insert:
 					//---- create a new item and add it to our underlying data
-					tableItems[(int)indexPath.Section].Items.Insert ((int)indexPath.Row, new TableItem ("(inserted)"));
+					tableItems[indexPath.Section].Items.Insert (indexPath.Row, new TableItem ("(inserted)"));
 					//---- insert a new row in the table
 					tableView.InsertRows (new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
 					break;
@@ -211,14 +211,14 @@ namespace TableEditing.Code {
 		{
 			//---- declare vars
 			UITableViewCell cell = tableView.DequeueReusableCell (cellIdentifier);
-			TableItem item = tableItems[(int)indexPath.Section].Items[(int)indexPath.Row];
+			TableItem item = tableItems[indexPath.Section].Items[indexPath.Row];
 			
 			//---- if there are no cells to reuse, create a new one
 			if (cell == null)
 				cell = new UITableViewCell (item.CellStyle, cellIdentifier); 
 			
 			//---- set the item text
-			cell.TextLabel.Text = tableItems[(int)indexPath.Section].Items[(int)indexPath.Row].Heading;
+			cell.TextLabel.Text = tableItems[indexPath.Section].Items[indexPath.Row].Heading;
 			
 			//---- if it's a cell style that supports a subheading, set it
 			if(item.CellStyle == UITableViewCellStyle.Subtitle 
