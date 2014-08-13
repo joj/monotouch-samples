@@ -7,11 +7,11 @@ namespace SimpleBackgroundTransfer {
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate {
 	
-		public NSAction BackgroundSessionCompletionHandler { get; set; }
+		public Action BackgroundSessionCompletionHandler { get; set; }
 
 		public override UIWindow Window { get; set; }
 
-		public override void HandleEventsForBackgroundUrl (UIApplication application, string sessionIdentifier, NSAction completionHandler)
+		public override void HandleEventsForBackgroundUrl (UIApplication application, string sessionIdentifier, Action completionHandler)
 		{
 			Console.WriteLine ("HandleEventsForBackgroundUrl");
 			BackgroundSessionCompletionHandler = completionHandler;
