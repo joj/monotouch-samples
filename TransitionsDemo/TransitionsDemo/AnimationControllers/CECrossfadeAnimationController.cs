@@ -19,7 +19,7 @@ namespace TransitionsDemo.AnimationControllers
 			containerView.SendSubviewToBack (toView);
 
 			double duration = TransitionDuration (transitionContext);
-			NSAction animation = () => {
+			Action animation = () => {
 				fromView.Alpha = 0f;
 			};
 

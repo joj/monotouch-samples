@@ -44,7 +44,7 @@ namespace TransitionsDemo.AnimationControllers
 			toView.Layer.Transform = Rotate (factor * -(float)Math.PI / 2);
 			double duration = TransitionDuration (transitionContext);
 
-			NSAction animations = () => {
+			Action animations = () => {
 				UIView.AddKeyframeWithRelativeStartTime (0.0, 0.5, () => {
 					fromView.Layer.Transform = Rotate (factor * (float)Math.PI / 2);
 				});

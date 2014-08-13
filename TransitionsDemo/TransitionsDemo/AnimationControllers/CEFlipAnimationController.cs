@@ -51,7 +51,7 @@ namespace TransitionsDemo.AnimationControllers
 			flippedSectionOfToView.Layer.Transform = Rotate (Reverse ? (float)Math.PI / 2 : -(float)Math.PI / 2);
 			double duration = TransitionDuration (transitionContext);
 
-			NSAction animations = () => {
+			Action animations = () => {
 				UIView.AddKeyframeWithRelativeStartTime (0.0, 0.5, () => {
 					flippedSectionOfFromView.Layer.Transform = Rotate (Reverse ? -(float)Math.PI / 2 : (float)Math.PI / 2);
 					flippedSectionOfFromViewShadow.Alpha = 1f;

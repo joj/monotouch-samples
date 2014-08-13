@@ -42,7 +42,7 @@ namespace TransitionsDemo.AnimationControllers
 
 			var rnd = new Random ();
 			double duration = TransitionDuration (transitionContext);
-			NSAction action = () => {
+			Action action = () => {
 				foreach (UIView view in snapshots) {
 					float xOffset = rnd.Next (-100, 100);
 					float yOffset = rnd.Next (-100, 100);

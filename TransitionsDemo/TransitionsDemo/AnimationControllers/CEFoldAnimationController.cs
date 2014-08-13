@@ -74,7 +74,7 @@ namespace TransitionsDemo.AnimationControllers
 			// create the animation
 			double duration = TransitionDuration (transitionContext);
 
-			NSAction animation = () => {
+			Action animation = () => {
 				for (int i = 0; i < Folds; i++) {
 
 					nfloat offset = i * foldWidth * 2;

@@ -38,7 +38,7 @@ namespace TransitionsDemo.AnimationControllers
 
 			CATransform3D transform = GetFirstTransform ();
 
-			NSAction animations = () => {
+			Action animations = () => {
 
 				// push the from- view off the bottom of the screen
 				UIView.AddKeyframeWithRelativeStartTime (0.0, 0.5, () => {
@@ -82,7 +82,7 @@ namespace TransitionsDemo.AnimationControllers
 			CATransform3D firstTransform = GetFirstTransform ();
 			CATransform3D secondTrsnaform = GetSecondTransform (fromView);
 
-			NSAction animations = () => {
+			Action animations = () => {
 				UIView.AddKeyframeWithRelativeStartTime (0.0, 0.4, () => {
 					fromView.Layer.Transform = firstTransform;
 					fromView.Alpha = 0.6f;
