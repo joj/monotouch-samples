@@ -83,14 +83,14 @@ namespace SearchDemo
                         cellId
                     );
                 
-				cell.TextLabel.Text = controller.searchResults [(int)indexPath.Row].Title;
+				cell.TextLabel.Text = controller.searchResults [indexPath.Row].Title;
                 
                 return cell;
             }
 
             public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
             {
-				var vc = new SearchItemViewController (){Item = controller.searchResults [(int)indexPath.Row]};
+				var vc = new SearchItemViewController (){Item = controller.searchResults [indexPath.Row]};
                 controller.NavigationController.PushViewController (vc, true);
             }
         }
