@@ -37,7 +37,7 @@ namespace TransitionsDemo
 		{
 			if (indexPath.Section < 2) {
 
-				Type transitionType = animationControllers [(int)indexPath.Row].Value;
+				Type transitionType = animationControllers [indexPath.Row].Value;
 				CEReversibleAnimationController transitionInstance = null;
 
 				if (transitionType != null)
@@ -50,7 +50,7 @@ namespace TransitionsDemo
 				}
 			} else {
 
-				Type interactionType = interactionControllers [(int)indexPath.Row].Value;
+				Type interactionType = interactionControllers [indexPath.Row].Value;
 				CEBaseInteractionController transitionInstance = null;
 
 				if (interactionType != null)
@@ -89,9 +89,9 @@ namespace TransitionsDemo
 			UITableViewCell cell = TableView.DequeueReusableCell ("cell");
 
 			if (indexPath.Section < 2) {
-				cell.TextLabel.Text = animationControllers [(int)indexPath.Row].Key;
+				cell.TextLabel.Text = animationControllers [indexPath.Row].Key;
 			} else {
-				cell.TextLabel.Text = interactionControllers [(int)indexPath.Row].Key;
+				cell.TextLabel.Text = interactionControllers [indexPath.Row].Key;
 			}
 			return cell;
 		}
