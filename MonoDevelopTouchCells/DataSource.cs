@@ -34,7 +34,7 @@ namespace MonoDevelopTouchCells
 			{
 				cell = new CustomCell(UITableViewCellStyle.Default, customCellID);
 				
-				Item item = this.Data[(int)indexPath.Row];
+				Item item = this.Data[indexPath.Row];
 				cell.Title = item.Title;
 				cell.Checked = item.Checked;
 			}
