@@ -79,10 +79,10 @@ namespace AirLocate {
 				ProgressHandler = handler;
 
 				locationManager.StartRangingBeacons (region);
-				timer = NSTimer.CreateTimer (20.0f, new NSAction (delegate {
+				timer = NSTimer.CreateTimer (20.0f, (r) => {
 					locationManager.StopRangingBeacons (region);
 
-					DispatchQueue.DefaultGlobalQueue.DispatchAsync (new NSAction (delegate {
+					DispatchQueue.DefaultGlobalQueue.DispatchAsync (new Action (delegate {
 						NSError error = null;
 						List<CLBeacon> allBeacons = new List<CLBeacon> ();
 						int measuredPower = 0;
@@ -125,7 +125,7 @@ namespace AirLocate {
 						isCalibrating = false;
 						rangedBeacons.Clear ();
 					}));
-				}));
+				});
 				NSRunLoop.Current.AddTimer (timer, NSRunLoopMode.Default);
 			}
 		}
