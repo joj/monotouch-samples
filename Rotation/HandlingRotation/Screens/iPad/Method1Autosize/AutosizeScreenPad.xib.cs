@@ -104,7 +104,7 @@ namespace HandlingRotation.Screens.iPad.Method1Autosize {
 			}
 			
 			// set the cell properties
-			cell.TextLabel.Text = this.tableItems[(int)indexPath.Row];
+			cell.TextLabel.Text = this.tableItems[indexPath.Row];
 			
 			// return the cell
 			return cell;
