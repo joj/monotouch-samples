@@ -14,7 +14,7 @@ namespace NonConsumables {
 		SKProductsRequest productsRequest;
 		CustomPaymentObserver theObserver;
 
-		public static NSAction Done {get;set;}
+		public static Action Done {get;set;}
 
 		public InAppPurchaseManager ()
 		{
