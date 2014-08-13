@@ -130,7 +130,7 @@ namespace LazyTableImages {
 				// Set the tag of each cell to the index of the App that
 				// it's displaying. This allows us to directly match a cell
 				// with an item when we're updating the Image
-				var app = Controller.Apps [(int)indexPath.Row];
+				var app = Controller.Apps [indexPath.Row];
 				cell.Tag = indexPath.Row;
 				cell.TextLabel.Text = app.Name;
 				cell.DetailTextLabel.Text = app.Artist;
