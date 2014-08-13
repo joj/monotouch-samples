@@ -68,7 +68,7 @@ namespace WorldCities
 					cell = new UITableViewCell (UITableViewCellStyle.Subtitle, cellName);
 					cell.EditingAccessory = UITableViewCellAccessory.DetailDisclosureButton;
 				}
-				var city = controller.cityList [(int)indexPath.Row];
+				var city = controller.cityList [indexPath.Row];
 				cell.TextLabel.Text = city.Name;
 				cell.DetailTextLabel.Text = string.Format ("{0} {1}", city.Latitude, city.Longitude);
 				return cell;
@@ -76,7 +76,7 @@ namespace WorldCities
 			
 			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 			{
-				controller.SelectedCity = controller.cityList [(int)indexPath.Row];
+				controller.SelectedCity = controller.cityList [indexPath.Row];
 				controller.PerformSegue (MoveToMapSegueName, controller);
 			}
 		}
