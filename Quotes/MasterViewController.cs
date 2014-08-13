@@ -79,7 +79,7 @@ namespace Quotes
 		{
 			var cell = (PagePreview)collectionView.DequeueReusableCell (cellName, indexPath);
 
-			cell.Page = pages.ElementAt ((int)indexPath.Row);
+			cell.Page = pages.ElementAt (indexPath.Row);
 
 			return cell;
 		}
@@ -88,7 +88,7 @@ namespace Quotes
 		{
 			var pvc = new PageViewController ();
 
-			pvc.controllerPage = pages.ElementAt ((int)indexPath.Row);
+			pvc.controllerPage = pages.ElementAt (indexPath.Row);
 	
 			NavigationController.PushViewController (pvc, true);
 		}
