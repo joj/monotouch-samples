@@ -38,7 +38,7 @@ namespace TicTacToe
 
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
-			TTTGame game = Profile.Games [(int)indexPath.Row];
+			TTTGame game = Profile.Games [indexPath.Row];
 			cell.TextLabel.Text = game.Date.ToString ();
 			TTTGameResult result = game.Result;
 			if (result == TTTGameResult.Victory)
@@ -55,7 +55,7 @@ namespace TicTacToe
 		{
 			TTTGameHistoryViewController controller = new TTTGameHistoryViewController ();
 			controller.Profile = Profile;
-			controller.Game = Profile.Games [(int)indexPath.Row];
+			controller.Game = Profile.Games [indexPath.Row];
 			NavigationController.PushViewController (controller, true);
 		}
 		#endregion
