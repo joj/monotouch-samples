@@ -53,10 +53,10 @@ namespace PokerNightVoting
 		public EKEvent EventAtIndexPath (NSIndexPath indexPath)
 		{
 			// Given an index path from our table view, figure out which event is at that path
-			var date = model.EventDates.ElementAt ((int)indexPath.Section);
+			var date = model.EventDates.ElementAt (indexPath.Section);
 			var eventsWithStartDate = model.eventDateToEventsDictionary [date];
 
-			return eventsWithStartDate.ElementAt ((int)indexPath.Row);
+			return eventsWithStartDate.ElementAt (indexPath.Row);
 		}
 
 		string GetCaption (int section)
