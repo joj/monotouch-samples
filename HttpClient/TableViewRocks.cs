@@ -63,7 +63,7 @@ namespace HttpClient
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			tableView.CellAt (NSIndexPath.FromRowSection (selected, 0)).Accessory = UITableViewCellAccessory.None;
-			selected = (int)indexPath.Row;
+			selected = indexPath.Row;
 			tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.Checkmark;
 			tableView.DeselectRow (indexPath, true);
 		}
