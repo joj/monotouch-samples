@@ -107,7 +107,7 @@ namespace AirLocate {
 			}
 
 			// Display the UUID, major, minor and accuracy for each beacon.
-			CLBeacon beacon = beacons [GetNonEmptySection ((int)indexPath.Section)] [(int)indexPath.Row];
+			CLBeacon beacon = beacons [GetNonEmptySection (indexPath.Section)] [indexPath.Row];
 
 			cell.TextLabel.Text = beacon.ProximityUuid.AsString ();
 			cell.DetailTextLabel.Text = String.Format ("Major: {0}  Minor: {1}  Acc: {2:0.00}m",

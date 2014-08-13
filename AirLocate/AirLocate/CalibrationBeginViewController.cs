@@ -117,7 +117,7 @@ namespace AirLocate {
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			int i = (int)indexPath.Section;
+			int i = indexPath.Section;
 			string identifier = inProgress && i == 0 ? "ProgressCell" : "BeaconCell";
 
 			UITableViewCell cell = tableView.DequeueReusableCell (identifier);
@@ -149,7 +149,7 @@ namespace AirLocate {
 			if (identifier == "ProgressCell")
 				return cell;
 
-			CLBeacon beacon = beacons [GetNonEmptySection ((int)indexPath.Section)] [(int)indexPath.Row];
+			CLBeacon beacon = beacons [GetNonEmptySection (indexPath.Section)] [indexPath.Row];
 
 			cell.TextLabel.Text = beacon.ProximityUuid.AsString ();
 			cell.TextLabel.Font = UIFont.SystemFontOfSize (20.0f);
@@ -164,7 +164,7 @@ namespace AirLocate {
 			if (inProgress)
 				return;
 
-			CLBeacon beacon = beacons [GetNonEmptySection ((int)indexPath.Section)] [(int)indexPath.Row];
+			CLBeacon beacon = beacons [GetNonEmptySection (indexPath.Section)] [indexPath.Row];
 			CLBeaconRegion region = Helpers.CreateRegion (beacon.ProximityUuid, beacon.Major, beacon.Minor);
 			if (region == null)
 				return;
