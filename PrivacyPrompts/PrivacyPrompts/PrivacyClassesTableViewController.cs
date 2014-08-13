@@ -115,7 +115,7 @@ namespace PrivacyPrompts {
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 			UITableViewCell cell = tableView.DequeueReusableCell ("BasicCell");
-			cell.TextLabel.Text = ((DataClass) (int)indexPath.Row).ToString ();
+			cell.TextLabel.Text = ((DataClass) indexPath.Row).ToString ();
 			return cell;
 		}
 
