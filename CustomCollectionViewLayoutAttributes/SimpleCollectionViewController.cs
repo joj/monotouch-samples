@@ -63,7 +63,7 @@ namespace SimpleCollectionView
         {
             var animalCell = (AnimalCell) collectionView.DequeueReusableCell (animalCellId, indexPath);
 
-			var animal = animals [(int)indexPath.Row];
+			var animal = animals [indexPath.Row];
             animalCell.Image = animal.Image;
 
             return animalCell;
