@@ -147,7 +147,7 @@ namespace Xamarin.Screens.ADONET
 				cell = tableView.DequeueReusableCell("item");
 				if(cell == null) 
 					cell = new UITableViewCell(UITableViewCellStyle.Default, "item");
-				cell.TextLabel.Text = this.items[(int)indexPath.Row];
+				cell.TextLabel.Text = this.items[indexPath.Row];
 				return cell;
 			}
 			

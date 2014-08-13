@@ -60,7 +60,7 @@ namespace Xamarin.Code
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 			// declare vars
-			NavItem navItem = navItems[(int)indexPath.Section].Items[(int)indexPath.Row];
+			NavItem navItem = navItems[indexPath.Section].Items[indexPath.Row];
 			UIImage navIcon = null;
 			
 			var cell = tableView.DequeueReusableCell (this.cellIdentifier);
@@ -70,7 +70,7 @@ namespace Xamarin.Code
 			}
 			
 			// set the cell properties
-			cell.TextLabel.Text = navItems[(int)indexPath.Section].Items[(int)indexPath.Row].Name;
+			cell.TextLabel.Text = navItems[indexPath.Section].Items[indexPath.Row].Name;
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			
 			// return the cell
@@ -84,7 +84,7 @@ namespace Xamarin.Code
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			// get a reference to the nav item
-			NavItem navItem = navItems[(int)indexPath.Section].Items[(int)indexPath.Row];
+			NavItem navItem = navItems[indexPath.Section].Items[indexPath.Row];
 			
 			// if the nav item has a proper controller, push it on to the NavigationController
 			// NOTE: we could also raise an event here, to loosely couple this, but isn't neccessary,

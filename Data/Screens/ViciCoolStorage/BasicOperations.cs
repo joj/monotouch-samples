@@ -118,7 +118,7 @@ namespace Xamarin.Screens.ViciCoolStorage
 				cell = tableView.DequeueReusableCell ("item");
 				if (cell == null)
 					cell = new UITableViewCell (UITableViewCellStyle.Default, "item");
-				cell.TextLabel.Text = this.items[(int)indexPath.Row].FirstName + " " + this.items[(int)indexPath.Row].LastName;
+				cell.TextLabel.Text = this.items[indexPath.Row].FirstName + " " + this.items[indexPath.Row].LastName;
 				return cell;
 			}
 			
