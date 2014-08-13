@@ -35,7 +35,7 @@ namespace TextKitDemo
 
 		public static DemoModel GetDemo (NSIndexPath indexPath)
 		{
-			return Demos[(int)indexPath.Row];
+			return Demos[indexPath.Row];
 		}
 
 		public NSAttributedString GetAttributedText ()
