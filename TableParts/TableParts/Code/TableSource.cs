@@ -60,7 +60,7 @@ namespace Example_TableParts
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			new UIAlertView ("Row Selected"
-				, tableItems[(int)indexPath.Section].Items[(int)indexPath.Row], null, "OK", null).Show ();
+				, tableItems[indexPath.Section].Items[indexPath.Row], null, "OK", null).Show ();
 		}
 		
 		public override void RowDeselected (UITableView tableView, NSIndexPath indexPath)
@@ -85,7 +85,7 @@ namespace Example_TableParts
 				cell = new UITableViewCell (UITableViewCellStyle.Default, cellIdentifier);
 			
 			//---- set the item text
-			cell.TextLabel.Text = tableItems[(int)indexPath.Section].Items[(int)indexPath.Row];
+			cell.TextLabel.Text = tableItems[indexPath.Section].Items[indexPath.Row];
 			
 			return cell;
 		}
