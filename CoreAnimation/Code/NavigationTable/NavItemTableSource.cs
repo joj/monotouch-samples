@@ -61,7 +61,7 @@ namespace Example_CoreAnimation.Code.NavigationTable
 		{
 			// declare vars
 
-			NavItem navItem = navItems [(int)indexPath.Section].Items [(int)indexPath.Row];
+			NavItem navItem = navItems [indexPath.Section].Items [indexPath.Row];
 			UIImage navIcon = null;
 			
 			var cell = tableView.DequeueReusableCell (cellIdentifier);
@@ -71,7 +71,7 @@ namespace Example_CoreAnimation.Code.NavigationTable
 			}
 			
 			// set the cell properties
-			cell.TextLabel.Text = navItems [(int)indexPath.Section].Items [(int)indexPath.Row].Name;
+			cell.TextLabel.Text = navItems [indexPath.Section].Items [indexPath.Row].Name;
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 						
 			// return the cell
@@ -84,7 +84,7 @@ namespace Example_CoreAnimation.Code.NavigationTable
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			// get a reference to the nav item
-			NavItem navItem = navItems [(int)indexPath.Section].Items [(int)indexPath.Row];
+			NavItem navItem = navItems [indexPath.Section].Items [indexPath.Row];
 			
 			if (RowClicked != null)
 				RowClicked (this, new RowClickedEventArgs (navItem));
