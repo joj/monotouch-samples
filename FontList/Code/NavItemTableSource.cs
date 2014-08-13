@@ -57,7 +57,7 @@ namespace FontList.Code {
 		/// </summary>
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			NavItem navItem = this.navItems[(int)indexPath.Section].Items[(int)indexPath.Row];
+			NavItem navItem = this.navItems[indexPath.Section].Items[indexPath.Row];
 			
 			var cell = tableView.DequeueReusableCell (this.cellIdentifier);
 			if (cell == null) {
@@ -66,7 +66,7 @@ namespace FontList.Code {
 			}
 			
 			//---- set the cell properties
-			cell.TextLabel.Text = this.navItems[(int)indexPath.Section].Items[(int)indexPath.Row].Name;
+			cell.TextLabel.Text = this.navItems[indexPath.Section].Items[indexPath.Row].Name;
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			
 			if (navItem.Font != null)
@@ -83,7 +83,7 @@ namespace FontList.Code {
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			//---- get a reference to the nav item
-			NavItem navItem = navItems[(int)indexPath.Section].Items[(int)indexPath.Row];
+			NavItem navItem = navItems[indexPath.Section].Items[indexPath.Row];
 			
 			// if the nav item has a proper controller, push it on to the NavigationController
 			// NOTE: we could also raise an event here, to loosely couple this, but isn't neccessary,
