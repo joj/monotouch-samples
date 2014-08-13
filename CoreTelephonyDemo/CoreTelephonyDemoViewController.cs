@@ -142,7 +142,7 @@ namespace CoreTelephonyDemo
 					table_cells.Add (cell);
 				}
 				
-				switch ((SectionIndex) (int)indexPath.Section) {
+				switch ((SectionIndex) indexPath.Section) {
 				case SectionIndex.CurrentCall:
 					if (controller.calls.Length > 0) {
 						cellText = string.Format ("Call {0}: {1}", indexPath.Row + 1, GetCallState (controller.calls [indexPath.Row].CallState));
