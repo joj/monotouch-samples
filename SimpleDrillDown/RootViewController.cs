@@ -88,14 +88,14 @@ namespace SimpleDrillDown {
 				}
 				
 				// Set the title of the play as the text.
-				cell.TextLabel.Text = Plays [(int)indexPath.Row].Title;
+				cell.TextLabel.Text = Plays [indexPath.Row].Title;
 				return cell;
 			}
 
 			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 			{
 				// Update the PlayView with the information from the selected play
-				PlayView.Play = Plays [(int)indexPath.Row];
+				PlayView.Play = Plays [indexPath.Row];
 				
 				// Make the PlayView the active View.
 				controller.NavigationController.PushViewController (PlayView, true);

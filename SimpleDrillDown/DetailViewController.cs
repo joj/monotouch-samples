@@ -102,7 +102,7 @@ namespace SimpleDrillDown {
 				} else if (indexPath.Section == 1) {
 					cell.TextLabel.Text = controller.Play.Genre;
 				} else {
-					cell.TextLabel.Text = controller.Play.Characters [(int)indexPath.Row];
+					cell.TextLabel.Text = controller.Play.Characters [indexPath.Row];
 				}
 				
 				return cell;
