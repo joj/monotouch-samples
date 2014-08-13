@@ -74,7 +74,7 @@ namespace Example_SplitView.Screens.MasterView
 				if (cell == null)
 					cell = new UITableViewCell (UITableViewCellStyle.Default, cellIdentifier);
 				// set the item text 
-				cell.TextLabel.Text = Items[(int)indexPath.Row];
+				cell.TextLabel.Text = Items[indexPath.Row];
 				
 				return cell;
 			}
@@ -82,7 +82,7 @@ namespace Example_SplitView.Screens.MasterView
 			public override void RowSelected (UITableView tableView, Foundation.NSIndexPath indexPath)
 			{
 				if (parentController.RowClicked != null)
-					parentController.RowClicked (this, new RowClickedEventArgs(Items[(int)indexPath.Row]));
+					parentController.RowClicked (this, new RowClickedEventArgs(Items[indexPath.Row]));
 			}
 		}
 	}
