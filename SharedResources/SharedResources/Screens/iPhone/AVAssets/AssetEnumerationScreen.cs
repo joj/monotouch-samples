@@ -56,11 +56,11 @@ namespace Example_SharedResources.Screens.iPhone.AVAssets
 					cell = new UITableViewCell (UITableViewCellStyle.Subtitle, "AssetCell");
 				
 				// set the text
-				cell.TextLabel.Text = items[(int)indexPath.Row].AssetType.ToString ();
-				cell.DetailTextLabel.Text = items[(int)indexPath.Row].Date.ToString ();
+				cell.TextLabel.Text = items[indexPath.Row].AssetType.ToString ();
+				cell.DetailTextLabel.Text = items[indexPath.Row].Date.ToString ();
 				// set the image
-				if(items[(int)indexPath.Row].Thumbnail != null)
-					cell.ImageView.Image = UIImage.FromImage(items[(int)indexPath.Row].Thumbnail);
+				if(items[indexPath.Row].Thumbnail != null)
+					cell.ImageView.Image = UIImage.FromImage(items[indexPath.Row].Thumbnail);
 				
 				return cell;
 			}

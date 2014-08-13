@@ -401,8 +401,8 @@ namespace Example_SharedResources.Screens.iPhone.Photos
 				if (cell == null)
 					cell = new UITableViewCell (UITableViewCellStyle.Value1, "FeatureCell");
 				
-				cell.TextLabel.Text = features [(int)indexPath.Section].Features [(int)indexPath.Row].Name;
-				cell.DetailTextLabel.Text = features [(int)indexPath.Section].Features [(int)indexPath.Row].IsAvailable.ToString ();
+				cell.TextLabel.Text = features [indexPath.Section].Features [indexPath.Row].Name;
+				cell.DetailTextLabel.Text = features [indexPath.Section].Features [indexPath.Row].IsAvailable.ToString ();
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 				return cell;
 			}

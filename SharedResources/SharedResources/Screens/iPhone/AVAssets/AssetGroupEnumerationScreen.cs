@@ -109,7 +109,7 @@ namespace Example_SharedResources.Screens.iPhone.AVAssets
 				UITableViewCell cell = tableView.DequeueReusableCell ("AlbumCell");
 				if(cell == null)
 					cell = new UITableViewCell (UITableViewCellStyle.Default, "AlbumCell");
-				cell.TextLabel.Text = groups[(int)indexPath.Row].Name;
+				cell.TextLabel.Text = groups[indexPath.Row].Name;
 				return cell;
 			}
 			
@@ -118,7 +118,7 @@ namespace Example_SharedResources.Screens.iPhone.AVAssets
 				// raise our event
 				var handler = GroupSelected;
 				if (handler != null)
-					handler (this, new GroupSelectedEventArgs (groups[(int)indexPath.Row]));
+					handler (this, new GroupSelectedEventArgs (groups[indexPath.Row]));
 			}
 		
 			public class GroupSelectedEventArgs : EventArgs

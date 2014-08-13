@@ -30,24 +30,24 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 		CGRect contentViewSize = CGRect.Empty;
 
 		ABAddressBook addressBook;
-
+		
 		#region Constructors
 
-		// The IntPtr and initWithCoder constructors are required for items that need
+		// The IntPtr and initWithCoder constructors are required for items that need 
 		// to be able to be created from a xib rather than from managed code
 
-		public AddressBookScreen (IntPtr handle) : base (handle)
+		public AddressBookScreen (IntPtr handle) : base(handle)
 		{
 			Initialize ();
 		}
 
-		[Export ("initWithCoder:")]
-		public AddressBookScreen (NSCoder coder) : base (coder)
+		[Export("initWithCoder:")]
+		public AddressBookScreen (NSCoder coder) : base(coder)
 		{
 			Initialize ();
 		}
 
-		public AddressBookScreen () : base ("AddressBookScreen", null)
+		public AddressBookScreen () : base("AddressBookScreen", null)
 		{
 			Initialize ();
 		}
@@ -57,7 +57,7 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			contentViewSize = View.Frame;
 			scrlMain.ContentSize = contentViewSize.Size;
 		}
-
+		
 		#endregion
 
 		public override void ViewDidLoad ()
@@ -69,28 +69,13 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			// add a button to the nav bar that will select a contact to edit
 			UIButton btnSelectContact = UIButton.FromType (UIButtonType.RoundedRect);
 			btnSelectContact.SetTitle ("Select Contact", UIControlState.Normal);
-			NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Action, SelectContact), false);
-
-			// disable first two fields until the user select a contact
-			EnableTextFields (false);
-
+			NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Action,  SelectContact), false);
+			
 			// wire up keyboard hiding
-			txtPhoneLabel.ShouldReturn += (t) => {
-				t.ResignFirstResponder ();
-				return true;
-			};
-			txtPhoneNumber.ShouldReturn += (t) => {
-				t.ResignFirstResponder ();
-				return true;
-			};
-			txtFirstName.ShouldReturn += (t) => {
-				t.ResignFirstResponder ();
-				return true;
-			};
-			txtLastName.ShouldReturn += (t) => {
-				t.ResignFirstResponder ();
-				return true;
-			};
+			txtPhoneLabel.ShouldReturn += (t) => { t.ResignFirstResponder (); return true; };
+			txtPhoneNumber.ShouldReturn += (t) => { t.ResignFirstResponder (); return true; };
+			txtFirstName.ShouldReturn += (t) => { t.ResignFirstResponder (); return true; };
+			txtLastName.ShouldReturn += (t) => { t.ResignFirstResponder (); return true; };
 			
 			// wire up event handlers
 			btnSaveChanges.TouchUpInside += BtnSaveChangesTouchUpInside;
@@ -118,9 +103,9 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 					return;
 					
 				// for each record
-				foreach (ABRecord item in addressBook) {
+				foreach(ABRecord item in addressBook) {
 					
-					Console.WriteLine (item.Type.ToString () + " " + item.Id);
+					Console.WriteLine(item.Type.ToString () + " " + item.Id);
 					// there are two possible record types, person and group
 					if (item.Type == ABRecordType.Person) {
 						// since we've already tested it to be a person, just create a shortcut to that
@@ -130,8 +115,8 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 
 						// get the phone numbers
 						ABMultiValue<string> phones = person.GetPhones ();
-						foreach (ABMultiValueEntry<string> val in phones) {
-							Console.Write (val.Label + ": " + val.Value);
+						foreach(ABMultiValueEntry<string> val in phones) {
+							Console.Write(val.Label + ": " + val.Value);
 						}
 					}
 				}
@@ -148,13 +133,9 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			
 			// wire up our keyboard events
 			NSNotificationCenter.DefaultCenter.AddObserver (
-				UIKeyboard.WillShowNotification, delegate (NSNotification n) {
-				KeyboardOpenedOrClosed (n, "Open");
-			}); 
+				UIKeyboard.WillShowNotification, delegate (NSNotification n) { KeyboardOpenedOrClosed (n, "Open"); }); 
 			NSNotificationCenter.DefaultCenter.AddObserver (
-				UIKeyboard.WillHideNotification, delegate (NSNotification n) {
-				KeyboardOpenedOrClosed (n, "Close");
-			});
+				UIKeyboard.WillHideNotification, delegate (NSNotification n) { KeyboardOpenedOrClosed (n, "Close"); });
 			
 			#endregion
 		}
@@ -162,54 +143,47 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 		protected void BtnAddPhoneNumberTouchUpInside (object sender, EventArgs e)
 		{			
 			// get a reference to the contact
-			using (ABAddressBook addressBook = new ABAddressBook ()) {
+			using(ABAddressBook addressBook = new ABAddressBook ())
+			{
 				ABPerson contact = addressBook.GetPerson (contactID);
-				if (contact != null) {
-					// get the phones and copy them to a mutable set of multivalues (so we can edit)
-					ABMutableMultiValue<string> phones = contact.GetPhones ().ToMutableMultiValue ();
-
-					// add the phone number to the phones via the multivalue.Add method
-					if (txtPhoneNumber.Text != null || txtPhoneLabel.Text != null) {
-						phones.Add (new NSString (txtPhoneNumber.Text), new NSString (txtPhoneLabel.Text));
-
-						// attach the phones back to the contact
-						contact.SetPhones (phones);
-
-						// save the address book changes
-						addressBook.Save ();
-
-						// show an alert, letting the user know the number addition was successful
-						new UIAlertView ("Alert", "Phone Number Added", null, "OK", null).Show ();
-
-						// update the page
-						PopulatePage (contact);
-
-						// we have to call reload to refresh the table because the action didn't originate
-						// from the table.
-						tblPhoneNumbers.ReloadData ();
-					} else {
-						// show an alert, letting the user know he has to fill the phone label and phone number
-						new UIAlertView ("Alert", "You have to fill a label and a phone number", null, "OK", null).Show ();
-					}
-				} else {
-					new UIAlertView ("Alert", "Please select a contact using the top right button", null, "OK", null).Show ();
-				}
+				
+				// get the phones and copy them to a mutable set of multivalues (so we can edit)
+				ABMutableMultiValue<string> phones = contact.GetPhones ().ToMutableMultiValue ();
+				
+				// add the phone number to the phones via the multivalue.Add method
+				phones.Add (new NSString (txtPhoneNumber.Text), new NSString (txtPhoneLabel.Text));
+				
+				// attach the phones back to the contact
+				contact.SetPhones (phones);
+				
+				// save the address book changes
+				addressBook.Save ();
+				
+				// show an alert, letting the user know the number addition was successful
+				new UIAlertView ("Alert", "Phone Number Added", null, "OK", null).Show();
+				
+				// update the page
+				PopulatePage (contact);
+				
+				// we have to call reload to refresh the table because the action didn't originate
+				// from the table.
+				tblPhoneNumbers.ReloadData ();
 			}
 		}
 
 		// Called when a phone number is swiped for deletion. Illustrates how to delete a multivalue property
 		protected void DeletePhoneNumber (int phoneNumberID)
 		{
-			using (ABAddressBook addressBook = new ABAddressBook ()) {
+			using(ABAddressBook addressBook = new ABAddressBook ()) {
 				ABPerson contact = addressBook.GetPerson (contactID);
 				
 				// get the phones and copy them to a mutable set of multivalues (so we can edit)
 				ABMutableMultiValue<string> phones = contact.GetPhones ().ToMutableMultiValue ();
 				
 				// loop backwards and delete the phone number
-				for (int i = phones.Count - 1; i >= 0; i--) {
-					if (phones [i].Identifier == phoneNumberID)
-						phones.RemoveAt (i);
+				for (nint i = phones.Count - 1; i >= 0 ; i--) {
+					if (phones[i].Identifier == phoneNumberID)
+						phones.RemoveAt(i);
 				}
 				
 				// attach the phones back to the contact
@@ -225,58 +199,49 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 				PopulatePage (contact);
 			}
 		}
-
+		
 		protected void BtnSaveChangesTouchUpInside (object sender, EventArgs e)
 		{
-			using (ABAddressBook addressBook = new ABAddressBook ()) {
+			using(ABAddressBook addressBook = new ABAddressBook ())
+			{
 				ABPerson contact = addressBook.GetPerson (contactID);
 
-				if (contact != null) {
-					// save contact name information
-					contact.FirstName = txtFirstName.Text;
-					contact.LastName = txtLastName.Text;
+				// save contact name information
+				contact.FirstName = txtFirstName.Text;
+				contact.LastName = txtLastName.Text;
 
-					// get the phones and copy them to a mutable set of multivalues (so we can edit)
-					ABMutableMultiValue<string> phones = contact.GetPhones ().ToMutableMultiValue ();
+				// get the phones and copy them to a mutable set of multivalues (so we can edit)
+				ABMutableMultiValue<string> phones = contact.GetPhones ().ToMutableMultiValue ();
 
-<<<<<<< HEAD
-					// remove all phones data
-					for (int i = phones.Count - 1; i >= 0; i--) {
-						phones.RemoveAt (i);
-					}
-=======
 				// remove all phones data
 				for (nint i = phones.Count - 1; i >= 0 ; i--) {
 					phones.RemoveAt(i);
 				}
->>>>>>> SharedResources sample ported to 64-bits
 
-					// add the phone number to the phones from the table data source
-					for (int i = 0; i < PhoneNumberTableSource.labels.Count; i++) {
-						phones.Add (new NSString (PhoneNumberTableSource.numbers [i]), new NSString (PhoneNumberTableSource.labels [i]));
-					}
-
-					// attach the phones back to the contact
-					contact.SetPhones (phones);
-
-					// save the address book changes
-					addressBook.Save ();
-
-					// show an alert, letting the user know information saved successfully
-					new UIAlertView ("Alert", "Contact Information Saved!", null, "OK", null).Show ();
-
-					// update the page
-					PopulatePage (contact);
-
-					// we have to call reload to refresh the table because the action didn't originate
-					// from the table.
-					tblPhoneNumbers.ReloadData ();
-				} else {
-					new UIAlertView ("Alert", "Please select a contact using the top right button", null, "OK", null).Show ();
+				// add the phone number to the phones from the table data source
+				for(int i=0; i<PhoneNumberTableSource.labels.Count; i++)
+				{
+					phones.Add (new NSString (PhoneNumberTableSource.numbers[i]), new NSString (PhoneNumberTableSource.labels[i]));
 				}
+
+				// attach the phones back to the contact
+				contact.SetPhones (phones);
+
+				// save the address book changes
+				addressBook.Save ();
+
+				// show an alert, letting the user know information saved successfully
+				new UIAlertView ("Alert", "Contact Information Saved!", null, "OK", null).Show();
+
+				// update the page
+				PopulatePage (contact);
+
+				// we have to call reload to refresh the table because the action didn't originate
+				// from the table.
+				tblPhoneNumbers.ReloadData ();
 			}
 		}
-
+		
 		protected void PopulatePage (ABPerson contact)
 		{
 			// save the ID of our person
@@ -291,9 +256,7 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			
 			// wire up our delete clicked handler
 			tableDataSource.DeleteClicked += 
-				(object sender, PhoneNumberTableSource.PhoneNumberClickedEventArgs e) => {
-				DeletePhoneNumber (e.PhoneNumberID);
-			};
+				(object sender, PhoneNumberTableSource.PhoneNumberClickedEventArgs e) => { DeletePhoneNumber (e.PhoneNumberID); };
 		}
 
 		// Opens up a contact picker and then populates the screen, based on the contact chosen
@@ -305,95 +268,51 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			NavigationController.PresentModalViewController (addressBookPicker, true);
 			
 			// wire up the cancelled event to dismiss the picker
-<<<<<<< HEAD
-			addressBookPicker.Cancelled += (sender, eventArgs) => {
-				NavigationController.DismissModalViewControllerAnimated (true);
-			};
-=======
 			addressBookPicker.Cancelled += (sender, eventArgs) => { NavigationController.DismissModalViewController (true); };
->>>>>>> SharedResources sample ported to 64-bits
 			
 			// when a contact is chosen, populate the page and then dismiss the picker
 			addressBookPicker.SelectPerson += (object sender, ABPeoplePickerSelectPersonEventArgs args) => {
 				PopulatePage (args.Person);				
-<<<<<<< HEAD
-				EnableTextFields (true);
-				NavigationController.DismissModalViewControllerAnimated (true);			
-=======
 				NavigationController.DismissModalViewController (true);			
->>>>>>> SharedResources sample ported to 64-bits
 			};
 		}
 
-		private void EnableTextFields (bool enable)
-		{
-			if (enable) {
-				txtFirstName.BackgroundColor = UIColor.Clear;
-				txtLastName.BackgroundColor = UIColor.Clear;
-				txtPhoneLabel.BackgroundColor = UIColor.Clear;
-				txtPhoneNumber.BackgroundColor = UIColor.Clear;
-			} else {
-				txtFirstName.BackgroundColor = UIColor.LightGray;
-				txtLastName.BackgroundColor = UIColor.LightGray;
-				txtPhoneLabel.BackgroundColor = UIColor.LightGray;
-				txtPhoneNumber.BackgroundColor = UIColor.LightGray;
-			}
-			txtFirstName.Enabled = enable;
-			txtLastName.Enabled = enable;
-			txtPhoneLabel.Enabled = enable;
-			txtPhoneNumber.Enabled = enable;
-		}
-
 		#region -= table binding stuff (not important to understanding the address API) =-
-
+		
 		/// <summary>
 		/// A simple table view source to bind our phone numbers to the table
 		/// </summary>
 		protected class PhoneNumberTableSource : UITableViewSource
-		{
+		{	
 			public event EventHandler<PhoneNumberClickedEventArgs> DeleteClicked;
-
+			
 			protected ABMultiValue<string> phoneNumbers { get; set; }
-
 			public static List<string> labels;
 			public static List<string> numbers;
 
 			
-			public PhoneNumberTableSource (ABMultiValue<string> phoneNumbers)
+			public PhoneNumberTableSource(ABMultiValue<string> phoneNumbers)
 			{ 
 				this.phoneNumbers = phoneNumbers;
-				if (labels == null)
-					labels = new List<string> ();
+				if(labels == null)
+					labels = new List<string>();
 				else
-					labels.Clear ();
-				if (numbers == null)
-					numbers = new List<string> ();
+					labels.Clear();
+				if(numbers == null)
+					numbers = new List<string>();
 				else
-					numbers.Clear ();
-				for (int i = 0; i < phoneNumbers.Count; i++) {
-					labels.Add (phoneNumbers [i].Label.Description);
-					numbers.Add (phoneNumbers [i].Value);
+					numbers.Clear();
+				for (int i=0; i<phoneNumbers.Count; i++)
+				{
+					labels.Add(phoneNumbers[i].Label.Description);
+					numbers.Add (phoneNumbers[i].Value);
 				}
 			}
-<<<<<<< HEAD
-
-			public override int NumberOfSections (UITableView tableView)
-			{
-				return 1;
-			}
-
-			public override int RowsInSection (UITableView tableview, int section)
-			{
-				return phoneNumbers.Count;
-			}
-
-=======
 			
 			public override nint NumberOfSections (UITableView tableView) { return 1; }
 			
 			public override nint RowsInSection (UITableView tableview, nint section) { return phoneNumbers.Count; }
 			
->>>>>>> SharedResources sample ported to 64-bits
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 			{
 				EditablePhoneTableCell cell = tableView.DequeueReusableCell ("PhoneCell") as EditablePhoneTableCell;
@@ -403,30 +322,17 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 					cell = new EditablePhoneTableCell ("PhoneCell");
 					cell.dataIndex = indexPath.Row;
 					cell.txtLabel.EditingDidEnd += (sender, e) => {
-<<<<<<< HEAD
-						labels [cell.dataIndex] = cell.PhoneLabel;
-
-					};
-					cell.txtPhoneNumber.EditingDidEnd += (sender, e) => {
-						numbers [cell.dataIndex] = cell.PhoneNumber;
-=======
 						labels[(int)cell.dataIndex] = cell.PhoneLabel;
 
 					};
 					cell.txtPhoneNumber.EditingDidEnd += (sender, e) => {
 						numbers[(int)cell.dataIndex] = cell.PhoneNumber;
->>>>>>> SharedResources sample ported to 64-bits
 					};
 				}
 //				cell.PhoneLabel = phoneNumbers[indexPath.Row].Label.ToString ().Replace ("_$!<", "").Replace (">!$_", "");
 //				cell.PhoneNumber = phoneNumbers[indexPath.Row].Value.ToString ();
-<<<<<<< HEAD
-				cell.PhoneLabel = labels [indexPath.Row].Replace ("_$!<", "").Replace (">!$_", "");
+				cell.PhoneLabel = labels[indexPath.Row].Replace ("_$!<", "").Replace (">!$_", "");
 				cell.PhoneNumber = numbers [indexPath.Row];
-=======
-				cell.PhoneLabel = labels[(int)indexPath.Row].Replace ("_$!<", "").Replace (">!$_", "");
-				cell.PhoneNumber = numbers [(int)indexPath.Row];
->>>>>>> SharedResources sample ported to 64-bits
 				cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 
 
@@ -434,22 +340,17 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 
 				return cell;
 			}
-
-			public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath)
-			{
-				return true;
-			}
-
+			
+			public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) { return true; }
+			
 			public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath)
-			{
-				return UITableViewCellEditingStyle.Delete;
-			}
-
+			{ return UITableViewCellEditingStyle.Delete; }
+			
 			public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
 			{
-				if (editingStyle == UITableViewCellEditingStyle.Delete) {
+				if(editingStyle == UITableViewCellEditingStyle.Delete) {
 					if (DeleteClicked != null)
-						DeleteClicked (this, new PhoneNumberClickedEventArgs (phoneNumbers [indexPath.Row].Identifier));
+						DeleteClicked (this, new PhoneNumberClickedEventArgs(phoneNumbers[indexPath.Row].Identifier));
 				}
 			}
 			
@@ -457,11 +358,8 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 			public class PhoneNumberClickedEventArgs : EventArgs
 			{
 				public int PhoneNumberID { get; set; }
-
-				public PhoneNumberClickedEventArgs (int phoneNumberID) : base ()
-				{
-					PhoneNumberID = phoneNumberID;
-				}
+				public PhoneNumberClickedEventArgs(int phoneNumberID) : base()
+				{ PhoneNumberID = phoneNumberID; }
 			}
 						                  
 		}
@@ -470,58 +368,47 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 		/// A simple, two text box cell, that will hold our phone label, and our phone number.
 		/// </summary>
 		protected class EditablePhoneTableCell : UITableViewCell
-		{
+		{	
 			// label and phone number text boxes
-<<<<<<< HEAD
-			public UITextField txtLabel = new UITextField (new RectangleF (10, 5, 110, 33));
-			public UITextField txtPhoneNumber = new UITextField (new RectangleF (130, 5, 140, 33));
-=======
 			public UITextField txtLabel = new UITextField(new CGRect(10, 5, 110, 33));
 			public UITextField txtPhoneNumber = new UITextField(new CGRect(130, 5, 140, 33));
->>>>>>> SharedResources sample ported to 64-bits
 
 			// properties
 			public string PhoneLabel { get { return txtLabel.Text; } set { txtLabel.Text = value; } }
-
 			public string PhoneNumber { get { return txtPhoneNumber.Text; } set { txtPhoneNumber.Text = value; } }
 
 			public nint dataIndex;
 
-			public EditablePhoneTableCell (string reuseIdentifier) : base (UITableViewCellStyle.Default, reuseIdentifier)
+			public EditablePhoneTableCell(string reuseIdentifier) : base(UITableViewCellStyle.Default, reuseIdentifier)
 			{
-				AddSubview (txtLabel);
-				AddSubview (txtPhoneNumber);
+				AddSubview(txtLabel);
+				AddSubview(txtPhoneNumber);
 				
 				txtLabel.ReturnKeyType = UIReturnKeyType.Done;
 				txtLabel.BorderStyle = UITextBorderStyle.Line;
-				txtLabel.ShouldReturn += (t) => {
-					t.ResignFirstResponder ();
-					return true;
-				};
-				txtPhoneNumber.ReturnKeyType = UIReturnKeyType.Done;
+				txtLabel.ShouldReturn += (t) => { t.ResignFirstResponder(); return true; };
+				txtPhoneNumber.ReturnKeyType= UIReturnKeyType.Done;
 				txtPhoneNumber.BorderStyle = UITextBorderStyle.Line;
-				txtPhoneNumber.ShouldReturn += (t) => {
-					t.ResignFirstResponder ();
-					return true;
-				};
+				txtPhoneNumber.ShouldReturn += (t) => { t.ResignFirstResponder(); return true; };
 
 
 			}
 
 
 		}
-
-		#endregion
+		
+		#endregion	                         
 
 		#region -= keyboard/screen resizing =-
-
+		
 		/// <summary>
 		/// resizes the view when the keyboard comes up or goes away, allows our scroll view to work 
 		/// </summary> 
-		protected void KeyboardOpenedOrClosed (NSNotification n, string openOrClose)
+		protected void KeyboardOpenedOrClosed (NSNotification n, string openOrClose) 
 		{
 			// if it's opening 
-			if (openOrClose == "Open") {
+			if (openOrClose == "Open")
+			{
 				Console.WriteLine ("Keyboard opening");
 				// declare vars
 				CGRect kbdFrame = UIKeyboard.BoundsFromNotification (n); 
@@ -534,7 +421,8 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 				UIView.SetAnimationDuration (animationDuration); 
 				scrlMain.Frame = newFrame; 
 				UIView.CommitAnimations ();
-			} else { // if it's closing, resize 
+			} else // if it's closing, resize 
+			{
 				// declare vars 
 				double animationDuration = UIKeyboard.AnimationDurationFromNotification (n);
 				// apply the size change 
@@ -544,7 +432,7 @@ namespace Example_SharedResources.Screens.iPhone.Contacts
 				UIView.CommitAnimations ();
 			}
 		}
-
+		
 		#endregion
 	}
 }
