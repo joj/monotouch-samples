@@ -25,7 +25,7 @@ namespace MTDJsonDemo
 			_rootElement = new RootElement ("Json Example"){
                 new Section ("Demo Json"){
                     (Element)JsonElement.FromFile ("sample.json"),
-                    (Element)new JsonElement ("Load from url", "http://localhost/sample.json")
+					(Element)new JsonElement ("Load from url", "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2")
                 },
 				new Section ("Tasks Sample")
             };

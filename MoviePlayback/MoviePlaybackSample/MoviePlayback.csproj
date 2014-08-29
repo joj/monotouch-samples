@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{822B0D9D-FA7C-4BC5-9DA9-D91B0AE2CB63}</ProjectGuid>
-    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>MoviePlaybackSample</RootNamespace>
     <AssemblyName>MoviePlaybackSample</AssemblyName>
@@ -23,9 +23,8 @@
     <MtouchDebug>True</MtouchDebug>
     <MtouchProfiling>True</MtouchProfiling>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n>
-    </MtouchI18n>
     <MtouchExtraArgs>--registrar:static --nofastsim --override-abi x86_64</MtouchExtraArgs>
+    <MtouchI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -67,9 +66,13 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+<<<<<<< HEAD
     <Reference Include="Xamarin.iOS">
       <HintPath>\Developer\MonoTouch\usr\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
     </Reference>
+=======
+    <Reference Include="Xamarin.iOS" />
+>>>>>>> Updating the .csproj files to use the unified api GUID
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -86,8 +89,12 @@
     <InterfaceDefinition Include="MoviePlaybackSampleViewController_iPhone.xib" />
     <InterfaceDefinition Include="MoviePlaybackSampleViewController_iPad.xib" />
   </ItemGroup>
+<<<<<<< HEAD
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+=======
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+>>>>>>> Updating the .csproj files to use the unified api GUID
   <ItemGroup>
     <Folder Include="Movies\" />
     <Folder Include="Resources\" />

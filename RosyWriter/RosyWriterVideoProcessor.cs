@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.IO;
 using System.Runtime.InteropServices;
 using MonoTouch;
-using MonoTouch.AVFoundation;
-using MonoTouch.AssetsLibrary;
-using MonoTouch.AudioToolbox;
-using MonoTouch.CoreFoundation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.CoreMedia;
-using MonoTouch.CoreVideo;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.UIKit;
+using AVFoundation;
+using AssetsLibrary;
+using AudioToolbox;
+using CoreFoundation;
+
+using CoreMedia;
+using CoreVideo;
+using Foundation;
+using ObjCRuntime;
+using UIKit;
+using System.Threading.Tasks;
 
 namespace RosyWriter
 {
@@ -22,16 +23,16 @@ namespace RosyWriter
 	public class RosyWriterVideoProcessor : NSObject, IAVCaptureVideoDataOutputSampleBufferDelegate, IAVCaptureAudioDataOutputSampleBufferDelegate
 	{
 		public double VideoFrameRate{ get; private set; }
-		public SizeF VideoDimensions { get; private set; }
+		public CGSize VideoDimensions { get; private set; }
 		public uint VideoType { get; private set; }
 		public AVCaptureVideoOrientation ReferenceOrientation { get; set; }
 		public bool IsRecording { get; private set; }
 	
-		public event NSAction RecordingDidStart;
-		public event NSAction RecordingWillStop;
-		public event NSAction RecordingDidStop;
+		public event Action RecordingDidStart;
+		public event Action RecordingWillStop;
+		public event Action RecordingDidStop;
 		public event Action<CVImageBuffer> PixelBufferReadyForDisplay;
-		public event NSAction RecordingWillStart;
+		public event Action RecordingWillStart;
 		
 		const int BYTES_PER_PIXEL = 4;
 		AVCaptureSession captureSession;
@@ -310,16 +311,14 @@ namespace RosyWriter
 			
 			if (captureSession.CanAddInput (videoIn))
 				captureSession.AddInput (videoIn);
-			
+
 			// RosyWriter prefers to discard late video frames early in the capture pipeline, since its
 			// processing can take longer than real-time on some platforms (such as iPhone 3GS).
 			// Clients whose image processing is faster than real-time should consider setting AVCaptureVideoDataOutput's
 			// alwaysDiscardsLateVideoFrames property to NO.
 			var videoOut = new AVCaptureVideoDataOutput {
-				AlwaysDiscardsLateVideoFrames = true,
-				VideoSettings = new AVVideoSettings (CVPixelFormatType.CV32BGRA)
+				AlwaysDiscardsLateVideoFrames = true
 			};
-			
 			// Create a DispatchQueue for the Video Processing
 			var videoCaptureQueue = new DispatchQueue ("Video Capture Queue");
 			videoOut.SetSampleBufferDelegateQueue (this, videoCaptureQueue);
@@ -332,11 +331,12 @@ namespace RosyWriter
 			videoOrientation = videoConnection.VideoOrientation;
 			
 			captureSession.CommitConfiguration ();
+
 			
 			return true;
 		}
 		
-		public void SetupAndStartCaptureSession ()
+		public async void SetupAndStartCaptureSession ()
 		{
 			//Console.WriteLine ("SetupAndStartCapture Session");
 			
@@ -347,8 +347,7 @@ namespace RosyWriter
 			movieWritingQueue = new DispatchQueue ("Movie Writing Queue");
 			
 			if (captureSession == null)
-				SetupCaptureSession ();
-			
+				await Task.Run (() => {SetupCaptureSession (); } );
 			NSNotificationCenter.DefaultCenter.AddObserver (AVCaptureSession.DidStopRunningNotification, CaptureSessionStoppedRunningNotification, captureSession);
 			
 			if (!captureSession.Running)
@@ -417,7 +416,7 @@ namespace RosyWriter
 		[Export ("captureOutput:didOutputSampleBuffer:fromConnection:")]
 		public virtual void DidOutputSampleBuffer (AVCaptureOutput captureOutput, CMSampleBuffer sampleBuffer, AVCaptureConnection connection)
 		{
-			CMFormatDescription formatDescription = sampleBuffer.GetFormatDescription ();
+			CMFormatDescription formatDescription =  sampleBuffer.GetVideoFormatDescription ();
 
 			if (connection == videoConnection) {
 				// Get framerate
@@ -425,8 +424,8 @@ namespace RosyWriter
 				CalculateFramerateAtTimestamp (timestamp);			
 					
 				// Get frame dimensions (for onscreen display)
-				if (VideoDimensions.IsEmpty)
-					VideoDimensions = formatDescription.GetVideoPresentationDimensions (true, false);
+				//if (VideoDimensions.IsEmpty)
+				//	VideoDimensions = formatDescription.GetVideoPresentationDimensions (true, false); 
 					
 				// Get the buffer type
 				if (VideoType == 0)

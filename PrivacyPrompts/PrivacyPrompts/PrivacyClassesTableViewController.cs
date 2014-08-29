@@ -19,9 +19,7 @@ namespace PrivacyPrompts {
 		{
 		}
 
-<<<<<<< HEAD
-		public override int RowsInSection (UITableView tableview, int section)
-=======
+
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
 			PrivacyDetailViewController viewController = 
@@ -107,7 +105,6 @@ namespace PrivacyPrompts {
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
->>>>>>> PrivacyPrompts ported to 64-bits
 		{
 			return 1 + (int) DataClass.Advertising;
 		}
@@ -121,9 +118,7 @@ namespace PrivacyPrompts {
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-<<<<<<< HEAD
 			PrivacyDetailViewController viewController = null;
-=======
 			PerformSegue ("serviceSegue", this);
 		}
 
@@ -374,15 +369,6 @@ namespace PrivacyPrompts {
 			accountStore.RequestAccess (twitterAccount, null, delegate (bool granted, NSError error) {
 				ShowAlert (DataClass.Twitter, granted ? "granted" : "denied");
 			});
-		}
->>>>>>> PrivacyPrompts ported to 64-bits
-
-			DataClass selected = (DataClass)TableView.IndexPathForSelectedRow.Row;
-
-			viewController = PrivacyDetailViewController.CreateFor (selected);
-			viewController.Title = selected.ToString ();
-
-			NavigationController.PushViewController (viewController, true);
 		}
 	}
 }

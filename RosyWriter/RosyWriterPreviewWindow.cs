@@ -1,11 +1,11 @@
 using System;
-using System.Drawing;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreVideo;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.OpenGLES;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreAnimation;
+using CoreVideo;
+using Foundation;
+using ObjCRuntime;
+using OpenGLES;
+using UIKit;
 using OpenTK.Graphics.ES20;
 
 namespace RosyWriter
@@ -27,7 +27,7 @@ namespace RosyWriter
 		int glProgram;
 		
 		[Export ("initWithFrame:")]
-		public RosyWriterPreviewWindow (RectangleF frame) : base(frame)
+		public RosyWriterPreviewWindow (CGRect frame) : base(frame)
 		{
 			// Use 2x scale factor on Retina dispalys.
 			ContentScaleFactor = UIScreen.MainScreen.Scale;
@@ -214,7 +214,7 @@ namespace RosyWriter
 				
 				// The texture verticies are setup such that we flip the texture vertically.
 				// This is so that our top left origin buffers match OpenGL's bottom left texture coordinate system.
-				var textureSamplingRect = TextureSamplingRectForCroppingTextureWithAspectRatio (new SizeF (frameWidth, frameHeight), Bounds.Size);
+				var textureSamplingRect = TextureSamplingRectForCroppingTextureWithAspectRatio (new CGSize (frameWidth, frameHeight), Bounds.Size);
 				var textureVertices = new float[,]
 				{
 					{textureSamplingRect.Left, textureSamplingRect.Bottom},
@@ -233,23 +233,23 @@ namespace RosyWriter
 			}
 		}
 		
-		static RectangleF TextureSamplingRectForCroppingTextureWithAspectRatio (SizeF textureAspectRatio, SizeF croppingAspectRatio)
+		static CGRect TextureSamplingRectForCroppingTextureWithAspectRatio (CGSize textureAspectRatio, CGSize croppingAspectRatio)
 		{
-			RectangleF normalizedSamplingRect;
-			var cropScaleAmount = new SizeF (croppingAspectRatio.Width / textureAspectRatio.Width, croppingAspectRatio.Height / textureAspectRatio.Height);
+			CGRect normalizedSamplingRect;
+			var cropScaleAmount = new CGSize (croppingAspectRatio.Width / textureAspectRatio.Width, croppingAspectRatio.Height / textureAspectRatio.Height);
 			var maxScale = Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
 			
-			var scaledTextureSize = new SizeF (textureAspectRatio.Width * maxScale, textureAspectRatio.Height * maxScale);
+			var scaledTextureSize = new CGSize (textureAspectRatio.Width * maxScale, textureAspectRatio.Height * maxScale);
 			
 			float width, height;
 			if (cropScaleAmount.Height > cropScaleAmount.Width) {
 				width = croppingAspectRatio.Width / scaledTextureSize.Width;
 				height = 1.0F;
-				normalizedSamplingRect = new RectangleF (0, 0, width, height);				
+				normalizedSamplingRect = new CGRect (0, 0, width, height);				
 			} else {
 				height = croppingAspectRatio.Height / scaledTextureSize.Height;
 				width = 1.0F;
-				normalizedSamplingRect = new RectangleF (0, 0, height, width);
+				normalizedSamplingRect = new CGRect (0, 0, height, width);
 			}
 			
 			// Center crop
