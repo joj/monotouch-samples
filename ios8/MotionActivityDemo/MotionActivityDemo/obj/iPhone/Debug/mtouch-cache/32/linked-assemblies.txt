@@ -1,0 +1,4 @@
+/Users/olegoid/Projects/monotouch-samples/ios8/MotionActivityDemo/MotionActivityDemo/obj/iPhone/Debug/mtouch-cache/32/Link/MotionActivityDemo.exe
+/Users/olegoid/Projects/monotouch-samples/ios8/MotionActivityDemo/MotionActivityDemo/obj/iPhone/Debug/mtouch-cache/32/Link/mscorlib.dll
+/Users/olegoid/Projects/monotouch-samples/ios8/MotionActivityDemo/MotionActivityDemo/obj/iPhone/Debug/mtouch-cache/32/Link/System.Core.dll
+/Users/olegoid/Projects/monotouch-samples/ios8/MotionActivityDemo/MotionActivityDemo/obj/iPhone/Debug/mtouch-cache/32/Link/Xamarin.iOS.dll
