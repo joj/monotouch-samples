@@ -7,9 +7,9 @@ namespace AdaptivePhotos
 {
 	public class ListTableViewController : CustomTableViewController
 	{
-		readonly NSString ListTableViewControllerCellIdentifier = new NSString ("Cell");
+		private readonly NSString AAPLListTableViewControllerCellIdentifier = new NSString ("Cell");
 
-		public User User { get; set; }
+		public User User { get; private set; }
 
 		public ListTableViewController (User user) : base (UITableViewStyle.Plain)
 		{
@@ -21,7 +21,7 @@ namespace AdaptivePhotos
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), ListTableViewControllerCellIdentifier);
+			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), AAPLListTableViewControllerCellIdentifier);
 			NSNotificationCenter.DefaultCenter.AddObserver (this, new Selector ("showDetailTargetDidChange:"), 
 				UIViewController.ShowDetailTargetDidChangeNotification, null);
 			ClearsSelectionOnViewWillAppear = false;
@@ -37,9 +37,9 @@ namespace AdaptivePhotos
 			foreach (var indexPath in TableView.IndexPathsForSelectedRows) {
 				bool pushes = false;
 				if (ShouldShowConversationViewForIndexPath (indexPath)) {
-					pushes = this.WillShowingViewControllerPushWithSender ();
+					pushes = this.Aapl_willShowingViewControllerPushWithSender ();
 				} else {
-					pushes = this.WillShowingDetailViewControllerPushWithSender ();
+					pushes = this.Aapl_willShowingDetailViewControllerPushWithSender ();
 				}
 
 				if (pushes)
@@ -47,7 +47,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		public override bool ContainsPhoto (Photo photo)
+		public override bool Aapl_containsPhoto (Photo photo)
 		{
 			return true;
 		}
@@ -68,16 +68,16 @@ namespace AdaptivePhotos
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			return TableView.DequeueReusableCell (ListTableViewControllerCellIdentifier, indexPath);
+			return TableView.DequeueReusableCell (AAPLListTableViewControllerCellIdentifier, indexPath);
 		}
 
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
 			bool pushes = false;
 			if (ShouldShowConversationViewForIndexPath (indexPath)) {
-				pushes = this.WillShowingViewControllerPushWithSender ();
+				pushes = this.Aapl_willShowingViewControllerPushWithSender ();
 			} else {
-				pushes = this.WillShowingDetailViewControllerPushWithSender ();
+				pushes = this.Aapl_willShowingDetailViewControllerPushWithSender ();
 			}
 
 			cell.Accessory = pushes ? UITableViewCellAccessory.DisclosureIndicator : UITableViewCellAccessory.None;
@@ -96,7 +96,7 @@ namespace AdaptivePhotos
 				controller.Title = conversation.Name;
 				ShowViewController (controller, this);
 			} else {
-				var photo = conversation.Photos.GetItem <Photo> ((nint)conversation.Photos.Count - 1);
+				var photo = conversation.Photos.GetItem <Photo> ((int)conversation.Photos.Count - 1);
 				var controller = new PhotoViewController {
 					Photo = photo,
 					Title = conversation.Name
@@ -106,7 +106,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		void ShowProfile (object sender, EventArgs e)
+		private void ShowProfile (object sender, EventArgs e)
 		{
 			var controller = new ProfileViewController {
 				User = User
@@ -120,18 +120,18 @@ namespace AdaptivePhotos
 			PresentViewController (navController, true, null);
 		}
 
-		void CloseProfile (object sender, EventArgs e)
+		private void CloseProfile (object sender, EventArgs e)
 		{
 			DismissViewControllerAsync (true);
 		}
 
-		bool ShouldShowConversationViewForIndexPath (NSIndexPath indexPath)
+		private bool ShouldShowConversationViewForIndexPath (NSIndexPath indexPath)
 		{
 			Conversation conversation = ConversationForIndexPath (indexPath);
 			return conversation.Photos.Count != 1;
 		}
 
-		Conversation ConversationForIndexPath (NSIndexPath indexPath)
+		private Conversation ConversationForIndexPath (NSIndexPath indexPath)
 		{
 			return User.Conversations.GetItem<Conversation> (indexPath.Item);
 		}

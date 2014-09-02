@@ -7,7 +7,7 @@ namespace AdaptivePhotos
 {
 	public class ConversationViewController : CustomTableViewController
 	{
-		readonly NSString ListTableViewControllerCellIdentifier = new NSString ("Cell");
+		private readonly NSString AAPLListTableViewControllerCellIdentifier = new NSString ("Cell");
 
 		public Conversation Conversation { get; set; }
 
@@ -19,7 +19,7 @@ namespace AdaptivePhotos
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), ListTableViewControllerCellIdentifier);
+			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), AAPLListTableViewControllerCellIdentifier);
 			NSNotificationCenter.DefaultCenter.AddObserver (this, new Selector ("showDetailTargetDidChange:"), 
 				UIViewController.ShowDetailTargetDidChangeNotification, null);
 		}
@@ -33,12 +33,12 @@ namespace AdaptivePhotos
 				return;
 
 			foreach (var indexPath in TableView.IndexPathsForSelectedRows) {
-				bool indexPathPushes = this.WillShowingDetailViewControllerPushWithSender ();
+				bool indexPathPushes = this.Aapl_willShowingDetailViewControllerPushWithSender ();
 				if (indexPathPushes)
 					TableView.DeselectRow (indexPath, true);
 			}
 
-			Photo visiblePhoto = this.CurrentVisibleDetailPhotoWithSender ();
+			Photo visiblePhoto = this.Aapl_currentVisibleDetailPhotoWithSender ();
 			if (visiblePhoto != null) {
 				foreach (var indexPath in TableView.IndexPathsForVisibleRows) {
 					Photo photo = PhotoForIndexPath (indexPath);
@@ -48,7 +48,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		public override bool ContainsPhoto (Photo photo)
+		public override bool Aapl_containsPhoto (Photo photo)
 		{
 			for (nint i = 0; i < (nint)Conversation.Photos.Count; i++) {
 				if (Conversation.Photos.GetItem<Photo> (i) == photo)
@@ -67,7 +67,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		Photo PhotoForIndexPath (NSIndexPath indexPath)
+		private Photo PhotoForIndexPath (NSIndexPath indexPath)
 		{
 			return Conversation.Photos.GetItem<Photo> (indexPath.Item);
 		}
@@ -79,12 +79,12 @@ namespace AdaptivePhotos
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			return TableView.DequeueReusableCell (ListTableViewControllerCellIdentifier, indexPath);
+			return TableView.DequeueReusableCell (AAPLListTableViewControllerCellIdentifier, indexPath);
 		}
 
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
-			bool pushes = this.WillShowingDetailViewControllerPushWithSender ();
+			bool pushes = this.Aapl_willShowingDetailViewControllerPushWithSender ();
 
 			if (pushes) {
 				cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
@@ -103,7 +103,7 @@ namespace AdaptivePhotos
 			controller.Photo = photo;
 
 			int photoNumber = indexPath.Row + 1;
-			nuint photoCount = Conversation.Photos.Count;
+			int photoCount = (int)Conversation.Photos.Count;
 			controller.Title = string.Format ("{0} of {1}", photoNumber, photoCount);
 			ShowDetailViewController (controller, this);
 		}

@@ -10,7 +10,7 @@ namespace AdaptivePhotos
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
-		UIWindow window;
+		private UIWindow window;
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
@@ -44,7 +44,7 @@ namespace AdaptivePhotos
 			public override bool CollapseSecondViewController (UISplitViewController splitViewController,
 			                                                   UIViewController secondaryViewController, UIViewController primaryViewController)
 			{
-				Photo photo = ((CustomViewController)secondaryViewController).ContainedPhoto (null);
+				Photo photo = ((CustomViewController)secondaryViewController).Aapl_containedPhoto (null);
 				if (photo == null) {
 					return true;
 				}
@@ -53,7 +53,7 @@ namespace AdaptivePhotos
 					var viewControllers = new List<UIViewController> ();
 					foreach (var controller in ((UINavigationController)primaryViewController).ViewControllers) {
 						var type = controller.GetType ();
-						MethodInfo method = type.GetMethod ("ContainsPhoto");
+						MethodInfo method = type.GetMethod ("Aapl_containsPhoto");
 
 						if ((bool)method.Invoke (controller, new object[] { null })) {
 							viewControllers.Add (controller);
@@ -72,7 +72,7 @@ namespace AdaptivePhotos
 				if (primaryViewController.GetType () == typeof(CustomNavigationController)) {
 					foreach (var controller in ((CustomNavigationController)primaryViewController).ViewControllers) {
 						var type = controller.GetType ();
-						MethodInfo method = type.GetMethod ("ContainedPhoto");
+						MethodInfo method = type.GetMethod ("Aapl_containedPhoto");
 
 						if (method.Invoke (controller, new object[] { null }) != null) {
 							return null;

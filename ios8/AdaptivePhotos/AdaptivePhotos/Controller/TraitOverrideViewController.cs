@@ -8,8 +8,8 @@ namespace AdaptivePhotos
 {
 	public class TraitOverrideViewController : CustomViewController
 	{
-		UITraitCollection forcedTraitCollection = new UITraitCollection ();
-		UIViewController viewController;
+		private UITraitCollection forcedTraitCollection = new UITraitCollection ();
+		private UIViewController viewController;
 
 		public UITraitCollection ForcedTraitCollection {
 			get {
@@ -55,10 +55,11 @@ namespace AdaptivePhotos
 						var view = viewController.View;
 						view.TranslatesAutoresizingMaskIntoConstraints = false;
 						View.Add (view);
+						NSDictionary views = NSDictionary.FromObjectAndKey (view, new NSString ("view"));
 						View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("|[view]|", 
-							NSLayoutFormatOptions.DirectionLeadingToTrailing, "view", view));
+							NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 						View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|[view]|", 
-							NSLayoutFormatOptions.DirectionLeadingToTrailing, "view", view));
+							NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 						viewController.DidMoveToParentViewController (this);
 
 						UpdateForcedTraitCollection ();

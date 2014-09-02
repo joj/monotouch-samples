@@ -7,38 +7,38 @@ namespace AdaptivePhotos
 {
 	public class ProfileViewController : CustomViewController
 	{
-		List<NSLayoutConstraint> constraints;
-		User user;
+		private List<NSLayoutConstraint> constraints;
+		private User user;
 
-		string NameText {
+		private string NameText {
 			get {
 				return User.Name;
 			}
 		}
 
-		string ConversationsText {
+		private string ConversationsText {
 			get {
 				return string.Format ("{0} conversations", User.Conversations.Count);
 			}
 		}
 
-		string PhotosText {
+		private string PhotosText {
 			get {
-				nuint photosCount = 0;
+				int photosCount = 0;
 				for (nint i = 0; i < (nint)User.Conversations.Count; i++)
-					photosCount += User.Conversations.GetItem <Conversation> (i).Photos.Count;
+					photosCount += (int)User.Conversations.GetItem <Conversation> (i).Photos.Count;
 
 				return string.Format ("{0} photos", photosCount);
 			}
 		}
 
-		UIImageView ImageView { get; set; }
+		private UIImageView ImageView { get; set; }
 
-		UILabel NameLabel { get; set; }
+		private UILabel NameLabel { get; set; }
 
-		UILabel ConversationsLabel { get; set; }
+		private UILabel ConversationsLabel { get; set; }
 
-		UILabel PhotosLabel { get; set; }
+		private UILabel PhotosLabel { get; set; }
 
 		public  User User { 
 			get {
@@ -95,61 +95,45 @@ namespace AdaptivePhotos
 
 		public void UpdateConstraintsForTraitCollection (UITraitCollection collection)
 		{
+			var views = NSDictionary.FromObjectsAndKeys (
+	            new object[] { TopLayoutGuide, ImageView, NameLabel, ConversationsLabel, PhotosLabel },
+	            new object[] { "topLayoutGuide", "imageView", "nameLabel", "conversationsLabel", "photosLabel" }
+            );
+
 			var newConstraints = new List<NSLayoutConstraint> ();
 			if (collection.VerticalSizeClass == UIUserInterfaceSizeClass.Compact) {
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|[imageView]-[nameLabel]-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"imageView", ImageView,
-					"nameLabel", NameLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("[imageView]-[conversationsLabel]-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"imageView", ImageView,
-					"conversationsLabel", ConversationsLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("[imageView]-[photosLabel]-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"imageView", ImageView,
-					"photosLabel", PhotosLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("V:|[topLayoutGuide]-[nameLabel]-[conversationsLabel]-[photosLabel]",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"topLayoutGuide", ObjCRuntime.Runtime.GetNSObject(TopLayoutGuide.Handle),
-					"nameLabel", NameLabel,
-					"conversationsLabel", ConversationsLabel,
-					"photosLabel", PhotosLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("V:|[topLayoutGuide][imageView]|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"topLayoutGuide", ObjCRuntime.Runtime.GetNSObject(TopLayoutGuide.Handle),
-					"imageView", ImageView));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.Add (NSLayoutConstraint.Create (ImageView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, 
 					View, NSLayoutAttribute.Width, 0.5f, 0.0f));
 			} else {
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|[imageView]|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"imageView", ImageView));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|-[nameLabel]-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"nameLabel", NameLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|-[conversationsLabel]-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"conversationsLabel", ConversationsLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|-[photosLabel]-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"photosLabel", PhotosLabel));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 				newConstraints.AddRange (NSLayoutConstraint.FromVisualFormat ("V:[topLayoutGuide]-[nameLabel]-[conversationsLabel]-[photosLabel]-20-[imageView]|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"topLayoutGuide", ObjCRuntime.Runtime.GetNSObject(TopLayoutGuide.Handle),
-					"nameLabel", NameLabel,
-					"conversationsLabel", ConversationsLabel,
-					"photosLabel", PhotosLabel,
-					"imageView", ImageView));
+					NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 			}
 
 			if (constraints != null)
@@ -169,7 +153,7 @@ namespace AdaptivePhotos
 			});
 		}
 
-		void UpdateUser ()
+		private void UpdateUser ()
 		{
 			NameLabel.Text = NameText;
 			ConversationsLabel.Text = ConversationsText;

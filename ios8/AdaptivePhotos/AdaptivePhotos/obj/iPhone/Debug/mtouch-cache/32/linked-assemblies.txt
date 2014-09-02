@@ -1,0 +1,5 @@
+/Users/olegoid/Projects/AdaptivePhotos/AdaptivePhotos/obj/iPhone/Debug/mtouch-cache/32/Link/System.dll
+/Users/olegoid/Projects/AdaptivePhotos/AdaptivePhotos/obj/iPhone/Debug/mtouch-cache/32/Link/mscorlib.dll
+/Users/olegoid/Projects/AdaptivePhotos/AdaptivePhotos/obj/iPhone/Debug/mtouch-cache/32/Link/AdaptivePhotos.exe
+/Users/olegoid/Projects/AdaptivePhotos/AdaptivePhotos/obj/iPhone/Debug/mtouch-cache/32/Link/System.Core.dll
+/Users/olegoid/Projects/AdaptivePhotos/AdaptivePhotos/obj/iPhone/Debug/mtouch-cache/32/Link/Xamarin.iOS.dll

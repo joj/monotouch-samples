@@ -7,7 +7,7 @@ namespace AdaptivePhotos
 {
 	public class PhotoViewController : CustomViewController
 	{
-		Photo photo;
+		private Photo photo;
 
 		public Photo Photo { 
 			get {
@@ -22,11 +22,11 @@ namespace AdaptivePhotos
 			}
 		}
 
-		UIImageView ImageView { get; set; }
+		private UIImageView ImageView { get; set; }
 
-		OverlayView OverlayButton { get; set; }
+		private OverlayView OverlayButton { get; set; }
 
-		RatingControl RatingControl { get; set; }
+		private RatingControl RatingControl { get; set; }
 
 		public PhotoViewController ()
 		{
@@ -56,36 +56,33 @@ namespace AdaptivePhotos
 
 			UpdatePhoto ();
 
+			var views = NSDictionary.FromObjectsAndKeys (
+	            new object[] { imageView, ratingControl, overlayButton },
+	            new object[] { "imageView", "ratingControl", "overlayButton" }
+            );
+
 			View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("|[imageView]|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"imageView", imageView));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|[imageView]|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"imageView", imageView));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("[ratingControl]-|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"ratingControl", ratingControl));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("[overlayButton]-|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"overlayButton", overlayButton));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			View.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:[overlayButton]-[ratingControl]-|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"overlayButton", overlayButton,
-				"ratingControl", ratingControl));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			var constraints = new List<NSLayoutConstraint> ();
 
 			constraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|-(>=20)-[ratingControl]",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"ratingControl", ratingControl));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			constraints.AddRange (NSLayoutConstraint.FromVisualFormat ("|-(>=20)-[overlayButton]",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"overlayButton", overlayButton));
+				NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views));
 
 			foreach (var constraint in constraints)
 				constraint.Priority = (int)UILayoutPriority.Required - 1;
@@ -93,17 +90,17 @@ namespace AdaptivePhotos
 			View.AddConstraints (constraints.ToArray ());
 		}
 
-		public override Photo ContainedPhoto (Photo photo)
+		public override Photo Aapl_containedPhoto (Photo photo)
 		{
 			return Photo;
 		}
 
-		void RatingChanges (object sender, EventArgs e)
+		private void RatingChanges (object sender, EventArgs e)
 		{
 			photo.Rating = ((RatingControl)sender).Rating;
 		}
 
-		void UpdatePhoto ()
+		private void UpdatePhoto ()
 		{
 			if (ImageView == null)
 				return;

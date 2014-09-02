@@ -8,13 +8,13 @@ namespace AdaptivePhotos
 {
 	public class RatingControl : UIControl
 	{
-		readonly nint ratingControlMinimumRating = 0;
-		readonly nint ratingControlMaximumRating = 4;
+		private readonly nint AAPLRatingControlMinimumRating = 0;
+		private readonly nint AAPLRatingControlMaximumRating = 4;
 
-		nint currentrating;
-		UIVisualEffectView backgroundView;
+		private nint currentrating;
+		private UIVisualEffectView backgroundView;
 
-		NSArray ImageViews { get; set; }
+		private NSArray ImageViews { get; set; }
 
 		public nint Rating {
 			get {
@@ -40,14 +40,14 @@ namespace AdaptivePhotos
 
 		public RatingControl ()
 		{
-			Rating = ratingControlMinimumRating;
+			Rating = AAPLRatingControlMinimumRating;
 			var blurredEffect = UIBlurEffect.FromStyle (UIBlurEffectStyle.Light);
 			backgroundView = new UIVisualEffectView (blurredEffect);
 			backgroundView.ContentView.BackgroundColor = UIColor.FromWhiteAlpha (0.7f, 0.3f);
 			Add (backgroundView);
 
 			var imageViews = new NSMutableArray ();
-			for (nint rating = ratingControlMinimumRating; rating <= ratingControlMaximumRating; rating++) {
+			for (nint rating = AAPLRatingControlMinimumRating; rating <= AAPLRatingControlMaximumRating; rating++) {
 				UIImageView imageView = new UIImageView ();
 				imageView.UserInteractionEnabled = true;
 
@@ -75,13 +75,13 @@ namespace AdaptivePhotos
 			UpdateRatingWithTouches (touches, evt);
 		}
 
-		void UpdateImageViews ()
+		private void UpdateImageViews ()
 		{
 			for (nint i = 0; i < (nint)ImageViews.Count; i++)
-				ImageViews.GetItem <UIImageView> (i).Highlighted = (i + ratingControlMinimumRating <= Rating);
+				ImageViews.GetItem <UIImageView> (i).Highlighted = (i + AAPLRatingControlMinimumRating <= Rating);
 		}
 
-		void UpdateRatingWithTouches (NSSet touches, UIEvent evt)
+		private void UpdateRatingWithTouches (NSSet touches, UIEvent evt)
 		{
 			UITouch touch = (UITouch)touches.AnyObject;
 			CGPoint position = touch.LocationInView (this);
@@ -89,53 +89,53 @@ namespace AdaptivePhotos
 
 			for (nint i = 0; i < (nint)ImageViews.Count; i++) {
 				if (ImageViews.GetItem<UIView> (i) == touchedView) {
-					Rating = ratingControlMinimumRating + i;
+					Rating = AAPLRatingControlMinimumRating + i;
 					SendActionForControlEvents (UIControlEvent.ValueChanged);
 				}
 			}
 		}
 
-		void SetupConstraints ()
+		private void SetupConstraints ()
 		{
 			backgroundView.TranslatesAutoresizingMaskIntoConstraints = false;
-
-			AddConstraints (NSLayoutConstraint.FromVisualFormat ("|[backgroundView]|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"backgroundView", backgroundView));
-
-			AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|[backgroundView]|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"backgroundView", backgroundView));
+			NSDictionary views = NSDictionary.FromObjectAndKey (backgroundView, new NSString ("backgroundView"));
+			var constraints = NSLayoutConstraint.FromVisualFormat ("|[backgroundView]|", NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views);
+			AddConstraints (constraints);
+			constraints = NSLayoutConstraint.FromVisualFormat ("V:|[backgroundView]|", NSLayoutFormatOptions.DirectionLeadingToTrailing, null, views);
+			AddConstraints (constraints);
 
 			UIImageView lastImageView = null;
 			for (nint i = 0; i < (nint)ImageViews.Count; i++) {
 				var imageView = ImageViews.GetItem <UIImageView> (i);
 				imageView.TranslatesAutoresizingMaskIntoConstraints = false;
 
-				AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|-4-[imageView]-4-|",
-					NSLayoutFormatOptions.DirectionLeadingToTrailing,
-					"imageView", imageView));
+				NSDictionary currentImageViews = null;
 
+				if (lastImageView != null) {
+					currentImageViews = NSDictionary.FromObjectsAndKeys (new object[] { imageView, lastImageView }, 
+						new string[] { "imageView", "lastImageView" });
+				} else {
+					currentImageViews = NSDictionary.FromObjectAndKey (imageView, new NSString ("imageView"));
+				}
+
+				constraints = NSLayoutConstraint.FromVisualFormat ("V:|-4-[imageView]-4-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, null, currentImageViews);
+				AddConstraints (constraints);
 				AddConstraint (NSLayoutConstraint.Create (imageView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, 
 					imageView, NSLayoutAttribute.Height, 1.0f, 0.0f));
 
 				if (lastImageView != null) {
-					AddConstraints (NSLayoutConstraint.FromVisualFormat ("[lastImageView][imageView(==lastImageView)]",
-						NSLayoutFormatOptions.DirectionLeadingToTrailing,
-						"lastImageView", lastImageView,
-						"imageView", imageView));
+					constraints = NSLayoutConstraint.FromVisualFormat ("[lastImageView][imageView(==lastImageView)]", NSLayoutFormatOptions.DirectionLeadingToTrailing, null, currentImageViews);
 				} else {
-					AddConstraints (NSLayoutConstraint.FromVisualFormat ("|-4-[imageView]",
-						NSLayoutFormatOptions.DirectionLeadingToTrailing,
-						"imageView", imageView));
+					constraints = NSLayoutConstraint.FromVisualFormat ("|-4-[imageView]", NSLayoutFormatOptions.DirectionLeadingToTrailing, null, currentImageViews);
 				}
 
+				AddConstraints (constraints);
 				lastImageView = imageView;
 			}
-
-			AddConstraints (NSLayoutConstraint.FromVisualFormat ("[lastImageView]-4-|",
-				NSLayoutFormatOptions.DirectionLeadingToTrailing,
-				"lastImageView", lastImageView));
+				
+			NSDictionary actualImageViews = NSDictionary.FromObjectAndKey (lastImageView, new NSString ("lastImageView"));
+			constraints = NSLayoutConstraint.FromVisualFormat ("[lastImageView]-4-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, null, actualImageViews);
+			AddConstraints (constraints);
 		}
 	}
 }
