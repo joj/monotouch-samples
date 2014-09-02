@@ -7,38 +7,38 @@ namespace AdaptivePhotos
 {
 	public class ProfileViewController : CustomViewController
 	{
-		private List<NSLayoutConstraint> constraints;
-		private User user;
+		List<NSLayoutConstraint> constraints;
+		User user;
 
-		private string NameText {
+		string NameText {
 			get {
 				return User.Name;
 			}
 		}
 
-		private string ConversationsText {
+		string ConversationsText {
 			get {
 				return string.Format ("{0} conversations", User.Conversations.Count);
 			}
 		}
 
-		private string PhotosText {
+		string PhotosText {
 			get {
-				int photosCount = 0;
+				nuint photosCount = 0;
 				for (nint i = 0; i < (nint)User.Conversations.Count; i++)
-					photosCount += (int)User.Conversations.GetItem <Conversation> (i).Photos.Count;
+					photosCount += User.Conversations.GetItem <Conversation> (i).Photos.Count;
 
 				return string.Format ("{0} photos", photosCount);
 			}
 		}
 
-		private UIImageView ImageView { get; set; }
+		UIImageView ImageView { get; set; }
 
-		private UILabel NameLabel { get; set; }
+		UILabel NameLabel { get; set; }
 
-		private UILabel ConversationsLabel { get; set; }
+		UILabel ConversationsLabel { get; set; }
 
-		private UILabel PhotosLabel { get; set; }
+		UILabel PhotosLabel { get; set; }
 
 		public  User User { 
 			get {
@@ -153,7 +153,7 @@ namespace AdaptivePhotos
 			});
 		}
 
-		private void UpdateUser ()
+		void UpdateUser ()
 		{
 			NameLabel.Text = NameText;
 			ConversationsLabel.Text = ConversationsText;

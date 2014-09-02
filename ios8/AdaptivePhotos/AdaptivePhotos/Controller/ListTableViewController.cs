@@ -7,9 +7,9 @@ namespace AdaptivePhotos
 {
 	public class ListTableViewController : CustomTableViewController
 	{
-		private readonly NSString AAPLListTableViewControllerCellIdentifier = new NSString ("Cell");
+		readonly NSString AAPLListTableViewControllerCellIdentifier = new NSString ("Cell");
 
-		public User User { get; private set; }
+		public User User { get; set; }
 
 		public ListTableViewController (User user) : base (UITableViewStyle.Plain)
 		{
@@ -96,7 +96,7 @@ namespace AdaptivePhotos
 				controller.Title = conversation.Name;
 				ShowViewController (controller, this);
 			} else {
-				var photo = conversation.Photos.GetItem <Photo> ((int)conversation.Photos.Count - 1);
+				var photo = conversation.Photos.GetItem <Photo> ((nint)conversation.Photos.Count - 1);
 				var controller = new PhotoViewController {
 					Photo = photo,
 					Title = conversation.Name
@@ -106,7 +106,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		private void ShowProfile (object sender, EventArgs e)
+		void ShowProfile (object sender, EventArgs e)
 		{
 			var controller = new ProfileViewController {
 				User = User
@@ -120,18 +120,18 @@ namespace AdaptivePhotos
 			PresentViewController (navController, true, null);
 		}
 
-		private void CloseProfile (object sender, EventArgs e)
+		void CloseProfile (object sender, EventArgs e)
 		{
 			DismissViewControllerAsync (true);
 		}
 
-		private bool ShouldShowConversationViewForIndexPath (NSIndexPath indexPath)
+		bool ShouldShowConversationViewForIndexPath (NSIndexPath indexPath)
 		{
 			Conversation conversation = ConversationForIndexPath (indexPath);
 			return conversation.Photos.Count != 1;
 		}
 
-		private Conversation ConversationForIndexPath (NSIndexPath indexPath)
+		Conversation ConversationForIndexPath (NSIndexPath indexPath)
 		{
 			return User.Conversations.GetItem<Conversation> (indexPath.Item);
 		}

@@ -10,7 +10,7 @@ namespace AdaptivePhotos
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
-		private UIWindow window;
+		UIWindow window;
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{

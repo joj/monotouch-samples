@@ -7,7 +7,7 @@ namespace AdaptivePhotos
 {
 	public class PhotoViewController : CustomViewController
 	{
-		private Photo photo;
+		Photo photo;
 
 		public Photo Photo { 
 			get {
@@ -22,11 +22,11 @@ namespace AdaptivePhotos
 			}
 		}
 
-		private UIImageView ImageView { get; set; }
+		UIImageView ImageView { get; set; }
 
-		private OverlayView OverlayButton { get; set; }
+		OverlayView OverlayButton { get; set; }
 
-		private RatingControl RatingControl { get; set; }
+		RatingControl RatingControl { get; set; }
 
 		public PhotoViewController ()
 		{
@@ -95,12 +95,12 @@ namespace AdaptivePhotos
 			return Photo;
 		}
 
-		private void RatingChanges (object sender, EventArgs e)
+		void RatingChanges (object sender, EventArgs e)
 		{
 			photo.Rating = ((RatingControl)sender).Rating;
 		}
 
-		private void UpdatePhoto ()
+		void UpdatePhoto ()
 		{
 			if (ImageView == null)
 				return;

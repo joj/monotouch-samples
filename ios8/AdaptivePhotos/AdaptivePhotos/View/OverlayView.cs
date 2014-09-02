@@ -8,7 +8,7 @@ namespace AdaptivePhotos
 {
 	public class OverlayView : UIView
 	{
-		private UILabel label;
+		UILabel label;
 
 		public string Text { 
 			get {

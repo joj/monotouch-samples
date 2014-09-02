@@ -8,8 +8,8 @@ namespace AdaptivePhotos
 {
 	public class TraitOverrideViewController : CustomViewController
 	{
-		private UITraitCollection forcedTraitCollection = new UITraitCollection ();
-		private UIViewController viewController;
+		UITraitCollection forcedTraitCollection = new UITraitCollection ();
+		UIViewController viewController;
 
 		public UITraitCollection ForcedTraitCollection {
 			get {

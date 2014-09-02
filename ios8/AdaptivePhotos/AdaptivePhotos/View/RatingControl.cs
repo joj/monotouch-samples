@@ -8,13 +8,13 @@ namespace AdaptivePhotos
 {
 	public class RatingControl : UIControl
 	{
-		private readonly nint AAPLRatingControlMinimumRating = 0;
-		private readonly nint AAPLRatingControlMaximumRating = 4;
+		readonly nint AAPLRatingControlMinimumRating = 0;
+		readonly nint AAPLRatingControlMaximumRating = 4;
 
-		private nint currentrating;
-		private UIVisualEffectView backgroundView;
+		nint currentrating;
+		UIVisualEffectView backgroundView;
 
-		private NSArray ImageViews { get; set; }
+		NSArray ImageViews { get; set; }
 
 		public nint Rating {
 			get {
@@ -75,13 +75,13 @@ namespace AdaptivePhotos
 			UpdateRatingWithTouches (touches, evt);
 		}
 
-		private void UpdateImageViews ()
+		void UpdateImageViews ()
 		{
 			for (nint i = 0; i < (nint)ImageViews.Count; i++)
 				ImageViews.GetItem <UIImageView> (i).Highlighted = (i + AAPLRatingControlMinimumRating <= Rating);
 		}
 
-		private void UpdateRatingWithTouches (NSSet touches, UIEvent evt)
+		void UpdateRatingWithTouches (NSSet touches, UIEvent evt)
 		{
 			UITouch touch = (UITouch)touches.AnyObject;
 			CGPoint position = touch.LocationInView (this);
@@ -95,7 +95,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		private void SetupConstraints ()
+		void SetupConstraints ()
 		{
 			backgroundView.TranslatesAutoresizingMaskIntoConstraints = false;
 			NSDictionary views = NSDictionary.FromObjectAndKey (backgroundView, new NSString ("backgroundView"));

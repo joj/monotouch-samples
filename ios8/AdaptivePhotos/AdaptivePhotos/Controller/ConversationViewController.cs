@@ -7,7 +7,7 @@ namespace AdaptivePhotos
 {
 	public class ConversationViewController : CustomTableViewController
 	{
-		private readonly NSString AAPLListTableViewControllerCellIdentifier = new NSString ("Cell");
+		readonly NSString AAPLListTableViewControllerCellIdentifier = new NSString ("Cell");
 
 		public Conversation Conversation { get; set; }
 
@@ -67,7 +67,7 @@ namespace AdaptivePhotos
 			}
 		}
 
-		private Photo PhotoForIndexPath (NSIndexPath indexPath)
+		Photo PhotoForIndexPath (NSIndexPath indexPath)
 		{
 			return Conversation.Photos.GetItem<Photo> (indexPath.Item);
 		}
@@ -103,7 +103,7 @@ namespace AdaptivePhotos
 			controller.Photo = photo;
 
 			int photoNumber = indexPath.Row + 1;
-			int photoCount = (int)Conversation.Photos.Count;
+			nuint photoCount = Conversation.Photos.Count;
 			controller.Title = string.Format ("{0} of {1}", photoNumber, photoCount);
 			ShowDetailViewController (controller, this);
 		}
