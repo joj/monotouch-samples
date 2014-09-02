@@ -1,0 +1,29 @@
+# Version: 7.9.4.8 (b9c078a)
+# [first argument, ignore] # /Users/olegoid/Projects/Fit/Fit/mtouch.exe
+/Library/Frameworks/Xamarin.iOS.framework/Versions/7.9.4.8/bin/mtouch \
+	--cache \
+	obj/iPhoneSimulator/Debug/mtouch-cache \
+	--nomanifest \
+	--nosign \
+	--sim \
+	bin/iPhoneSimulator/Debug/Fit.app \
+	--debug \
+	--nolink \
+	--sdkroot \
+	/Applications/Xcode6-Beta6.app/Contents/Developer \
+	--sdk \
+	8.0 \
+	--targetver \
+	8.0 \
+	--abi=i386 \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Xml.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Xamarin.iOS.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Core.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/mscorlib.dll \
+	/Users/olegoid/Projects/Fit/Fit/bin/iPhoneSimulator/Debug//Fit.exe \

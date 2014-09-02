@@ -1,0 +1,4 @@
+/Users/olegoid/Projects/Fit/Fit/obj/iPhone/Debug/mtouch-cache/64/Link/System.dll
+/Users/olegoid/Projects/Fit/Fit/obj/iPhone/Debug/mtouch-cache/64/Link/Fit.exe
+/Users/olegoid/Projects/Fit/Fit/obj/iPhone/Debug/mtouch-cache/64/Link/mscorlib.dll
+/Users/olegoid/Projects/Fit/Fit/obj/iPhone/Debug/mtouch-cache/64/Link/Xamarin.iOS.dll
