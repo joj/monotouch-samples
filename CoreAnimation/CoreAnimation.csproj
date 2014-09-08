@@ -16,7 +16,7 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;XAMCORE_2_0;ARCH_64</DefineConstants>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>True</MtouchDebug>
@@ -133,12 +133,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPad\BasicUIViewAnimation\BasicUIViewAnimationScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\CustomizableAnimationViewer\CustomizableAnimationViewerScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\TransitionViewController.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\BackTransitionViewController.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\LayerAnimationScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\ImplicitAnimationScreen.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPad\BasicUIViewAnimation\BasicUIViewAnimationScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPad\CustomizableAnimationViewer\CustomizableAnimationViewerScreen.xib"  />
+    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\TransitionViewController.xib"  />
+    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\BackTransitionViewController.xib"  />
+    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\LayerAnimationScreen.xib"  />
+    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\ImplicitAnimationScreen.xib"  />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icon-72.png" />
