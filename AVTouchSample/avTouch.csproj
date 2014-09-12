@@ -80,8 +80,8 @@
     <Compile Include="LevelMeter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainWindow.xib" xmlns="" />
-    <InterfaceDefinition Include="avTouchViewController.xib" xmlns="" />
+    <InterfaceDefinition Include="MainWindow.xib" />
+    <InterfaceDefinition Include="avTouchViewController.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
