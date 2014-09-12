@@ -25,14 +25,13 @@ namespace SimpleTextInput
 		private IndexedRange ()
 		{
 		}
-		
-		public override UITextPosition start {
+		public override UITextPosition Start {
 			get {
 				return IndexedPosition.GetPosition ((int)Range.Location);
 			}
 		}
 		
-		public override UITextPosition end {
+		public override UITextPosition End {
 			get {
 				return IndexedPosition.GetPosition ((int)(Range.Location + Range.Length));
 			}
