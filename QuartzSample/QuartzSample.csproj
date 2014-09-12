@@ -105,9 +105,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainWindow.xib" xmlns="" />
-    <InterfaceDefinition Include="QuartzViewController.xib" xmlns="" />
-    <InterfaceDefinition Include="QuartzBlendingViewController.xib" xmlns="" />
+    <InterfaceDefinition Include="MainWindow.xib" />
+    <InterfaceDefinition Include="QuartzViewController.xib" />
+    <InterfaceDefinition Include="QuartzBlendingViewController.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
