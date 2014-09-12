@@ -71,7 +71,7 @@
     <Compile Include="reachability.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainWindow.xib" xmlns="" />
+    <InterfaceDefinition Include="MainWindow.xib"/>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
