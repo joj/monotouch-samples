@@ -125,10 +125,10 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPhone\Home\HomeScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Method1Autosize\AutosizeScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Method3SwapViews\LandscapeView.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Method3SwapViews\PortraitView.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPhone\Home\HomeScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Method1Autosize\AutosizeScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Method3SwapViews\LandscapeView.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Method3SwapViews\PortraitView.xib" />
     <InterfaceDefinition Include="Screens\iPad\Home\HomeScreenPad.xib" />
     <InterfaceDefinition Include="Screens\iPad\Method1Autosize\AutosizeScreenPad.xib" />
   </ItemGroup>
