@@ -174,17 +174,17 @@
     <Compile Include="Screens\iPhone\AVAssets\AssetGroupEnumerationScreen.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPhone\Network\ActivityIndicatorScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Battery\BatteryStatusScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Network\ReachabilityScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Contacts\ContactPickerScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Contacts\AddressBookScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Contacts\NewAndUnknownContactScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Photos\ImagePickerScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Accelerometer\XYZDataScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Accelerometer\ShakeScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\FileSystem\FileSystemInfo.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\Photos\CustomCameraViewScreen.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPhone\Network\ActivityIndicatorScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Battery\BatteryStatusScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Network\ReachabilityScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Contacts\ContactPickerScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Contacts\AddressBookScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Contacts\NewAndUnknownContactScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Photos\ImagePickerScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Accelerometer\XYZDataScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Accelerometer\ShakeScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\FileSystem\FileSystemInfo.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\Photos\CustomCameraViewScreen.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

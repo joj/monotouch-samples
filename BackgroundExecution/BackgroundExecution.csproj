@@ -87,7 +87,7 @@
     <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPhone\HomeScreen_iPhone.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPhone\HomeScreen_iPhone.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icon-29.png" />

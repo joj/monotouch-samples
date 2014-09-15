@@ -109,8 +109,8 @@
     <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPhone\FontViewer\FontViewerScreen_iPhone.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\FontViewer\FontViewerScreen_iPad.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPhone\FontViewer\FontViewerScreen_iPhone.xib" />
+    <InterfaceDefinition Include="Screens\iPad\FontViewer\FontViewerScreen_iPad.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icon-72.png" />

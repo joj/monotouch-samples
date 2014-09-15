@@ -132,10 +132,10 @@
     <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPhone\Home\Home_iPhone.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\SimpleTouch\Touches_iPhone.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\GestureRecognizers\GestureRecognizers_iPhone.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPhone\GestureRecognizers\CustomCheckmarkGestureRecognizer_iPhone.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPhone\Home\Home_iPhone.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\SimpleTouch\Touches_iPhone.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\GestureRecognizers\GestureRecognizers_iPhone.xib" />
+    <InterfaceDefinition Include="Screens\iPhone\GestureRecognizers\CustomCheckmarkGestureRecognizer_iPhone.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
