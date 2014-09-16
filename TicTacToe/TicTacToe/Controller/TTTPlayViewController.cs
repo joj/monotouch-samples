@@ -60,7 +60,7 @@ namespace TicTacToe
 
 			float topHeight = UIApplication.SharedApplication.StatusBarFrame.Size.Height;
 			UITabBar tabBar = TabBarController.TabBar;
-			float bottomHeight = tabBar.Translucent ? tabBar.Frame.Size.Height : 0;
+			nfloat bottomHeight = tabBar.Translucent ? tabBar.Frame.Size.Height : 0;
 
 			var mTopHeight = new NSNumber (topHeight + ControllerMargin);
 			var mBottomHeight = new NSNumber (bottomHeight + ControllerMargin);
