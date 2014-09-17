@@ -1211,13 +1211,21 @@ namespace coreimage
 			
 			return straightFilter.OutputImage;
 		}
-
+		/// <summary>
+		/// Corrects the perspective of Image
+		/// </summary>
+		/// <returns>The altered image.</returns>
 		public CIImage PerspectiveCorrection ()
 		{
+			var extent = heron.Extent;
 			var perspectiveCorrection = new CIPerspectiveCorrection () {
-				Image = heron
-			};
+				Image = heron,
+				BottomLeft = new CIVector (extent.Left + 70, extent.Top + 20),
+				BottomRight = new CIVector (extent.Right - 70, extent.Top - 20),
+				TopLeft = new CIVector (extent.Left - 70, extent.Bottom - 20),
+				TopRight = new CIVector (extent.Right + 70, extent.Bottom + 20),
 
+			};
 			return perspectiveCorrection.OutputImage;
 		}
 		
@@ -1547,9 +1555,9 @@ namespace coreimage
 			return softLightBlend.OutputImage;
 		}
 		/// <summary>
-		/// Divides the blend mode.
+		/// Applies the divide blend mode. (divides the pixel values from one image with the other)
 		/// </summary>
-		/// <returns>The blend mode.</returns>
+		/// <returns>The composite image</returns>
 		public CIImage DivideBlendMode ()
 		{
 			var divideBlend = new CIDivideBlendMode () {
@@ -1560,9 +1568,9 @@ namespace coreimage
 			return divideBlend.OutputImage;
 		}
 		/// <summary>
-		/// Linears the dodge blend mode.
+		/// Applies the Linear Dodge blend mode. (sums the pixel values of the two images)
 		/// </summary>
-		/// <returns>The dodge blend mode.</returns>
+		/// <returns>The composite image.</returns>
 		public CIImage LinearDodgeBlendMode () 
 		{
 			var linearDodge = new CILinearDodgeBlendMode () {
@@ -1573,9 +1581,9 @@ namespace coreimage
 			return linearDodge.OutputImage;
 		}
 		/// <summary>
-		/// Pins the light blend mode.
+		/// Applies the Pin Light blend mode. (Lighten on lighter pixels + Darken on darker pixels)
 		/// </summary>
-		/// <returns>The light blend mode.</returns>
+		/// <returns>The composite image.</returns>
 		public CIImage PinLightBlendMode () {
 			var pinLight = new CIPinLightBlendMode () {
 				Image = heron,
@@ -1585,9 +1593,9 @@ namespace coreimage
 			return pinLight.OutputImage;
 		}
 		/// <summary>
-		/// Subtracts the blend mode.
+		/// Applies the Subtract blend mode. (pixelA - pixelB)
 		/// </summary>
-		/// <returns>The blend mode.</returns>
+		/// <returns>The composite image.</returns>
 		public CIImage SubtractBlendMode () {
 			var substract = new CISubtractBlendMode () {
 				Image = heron,
@@ -1597,7 +1605,7 @@ namespace coreimage
 			return substract.OutputImage;
 		}
 		/// <summary>
-		/// Linears the burn blend mode.
+		/// Applies the Linear Burn blend mode. (pixelA + pixelB - 1)
 		/// </summary>
 		/// <returns>The burn blend mode.</returns>
 		public CIImage LinearBurnBlendMode ()
@@ -1797,9 +1805,9 @@ namespace coreimage
 			return vortex_distortion.OutputImage;
 		}
 		/// <summary>
-		/// Glasses the distortion.
+		/// Applies the glass distortion to the image
 		/// </summary>
-		/// <returns>The distortion.</returns>
+		/// <returns>The altered image.</returns>
 		CIImage GlassDistortion ()
 		{
 			var glass_distortion = new CIGlassDistortion () {
@@ -1887,6 +1895,10 @@ namespace coreimage
 
 			return Crop (generator);
 		}
+		/// <summary>
+		/// Generates a Code128 barcode
+		/// </summary>
+		/// <returns>The image containing the barcode</returns>
 		public CIImage Code128BarcodeGenerator () 
 		{
 			var barcode = new CICode128BarcodeGenerator () {
@@ -1895,6 +1907,10 @@ namespace coreimage
 
 			return barcode.OutputImage;
 		}
+		/// <summary>
+		/// Generates an aztec code
+		/// </summary>
+		/// <returns>The image containing the code</returns>
 		public CIImage AztecCodeGenerator ()
 		{
 			var aztecCode = new CIAztecCodeGenerator () {
@@ -2384,7 +2400,10 @@ namespace coreimage
 
 			return swipe_transition.OutputImage;
 		}
-
+		/// <summary>
+		/// Applies the accordion fold transition from Image to TargetImage on Time. 
+		/// </summary>
+		/// <returns>The composite image.</returns>
 		CIImage AccordionFoldTransition ()
 		{
 			var accordionFold = new CIAccordionFoldTransition () {
@@ -2399,7 +2418,10 @@ namespace coreimage
 		#endregion
 
 		#region CICategoryReduction
-
+		/// <summary>
+		/// Creates a histogram based on a Area Histogram
+		/// </summary>
+		/// <returns>The altered image.</returns>
 		CIImage HistogramDisplayFilter () {
 			var input = new CIAreaHistogram () {
 				Image = heron,
