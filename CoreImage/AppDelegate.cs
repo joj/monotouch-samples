@@ -76,6 +76,7 @@ namespace coreimage
 			var byIOSSection = new Section ("By iOS Version");
 			root.Add (byIOSSection);
 
+			AddVersionRoot (byIOSSection, "iOS 8", 8);
 			AddVersionRoot (byIOSSection, "iOS 7", 7);
 			AddVersionRoot (byIOSSection, "iOS 6", 6);
 			AddVersionRoot (byIOSSection, "iOS 5", 5);
@@ -115,7 +116,7 @@ namespace coreimage
 		}
 		#endregion
 
-		string [] sectionList = new [] {
+			string [] sectionList = new [] {
 			"Blur",
 			"Color Adjustment",
 			"Color Effect",
@@ -129,6 +130,7 @@ namespace coreimage
 			"Stylize",
 			"Tile Effect",
 			"Transition",
+			"Reduction"
 		};
 		FilterHolder[] masterList;
 
@@ -201,7 +203,11 @@ namespace coreimage
 				new FilterHolder ("SourceInCompositing", sectionList[3], 5, typeof (CISourceInCompositing), SourceInCompositing),
 				new FilterHolder ("SourceOutCompositing", sectionList[3], 5, typeof (CISourceOutCompositing), SourceOutCompositing),
 				new FilterHolder ("SourceOverCompositing", sectionList[3], 5, typeof (CISourceOverCompositing), SourceOverCompositing),
-
+				new FilterHolder ("DivideBlendMode", sectionList[3], 8, typeof (CIDivideBlendMode), DivideBlendMode),
+				new FilterHolder ("LinearBurnBlendMode", sectionList[3], 8, typeof (CILinearBurnBlendMode), LinearBurnBlendMode),
+				new FilterHolder ("LinearDodgeBlendMode", sectionList[3], 8, typeof (CILinearDodgeBlendMode), LinearDodgeBlendMode),
+				new FilterHolder ("PinLightBlendMode", sectionList[3], 8, typeof(CIPinLightBlendMode), PinLightBlendMode),
+				new FilterHolder ("SubstractBlendMode", sectionList[3], 8, typeof(CISubtractBlendMode), SubtractBlendMode),
 				// Distortions
 				new FilterHolder ("BumpDistortion", sectionList[4], 6, typeof (CIBumpDistortion), BumpDistortion),
 				new FilterHolder ("BumpDistortionLinear", sectionList[4], 6, typeof (CIBumpDistortionLinear), BumpDistortionLinear),
@@ -211,6 +217,7 @@ namespace coreimage
 				new FilterHolder ("PinchDistortion", sectionList[4], 6, typeof (CIPinchDistortion), PinchDistortion),
 				new FilterHolder ("TwirlDistortion", sectionList[4], 6, typeof (CITwirlDistortion), TwirlDistortion),
 				new FilterHolder ("VortexDistortion", sectionList[4], 6, typeof (CIVortexDistortion), VortexDistortion),
+				new FilterHolder ("GlassDistortion", sectionList[4], 8, typeof (CIGlassDistortion), GlassDistortion),
 
 				// Generators
 				new FilterHolder ("CheckerboardGenerator", sectionList[5], 5, typeof (CICheckerboardGenerator), CheckerboardGenerator),
@@ -219,6 +226,8 @@ namespace coreimage
 				new FilterHolder ("RandomGenerator", sectionList[5], 6, typeof (CIRandomGenerator), RandomGenerator),
 				new FilterHolder ("StarShineGenerator", sectionList[5], 6, typeof (CIStarShineGenerator), StarShineGenerator),
 				new FilterHolder ("StripesGenerator", sectionList[5], 5, typeof (CIStripesGenerator), StripesGenerator),
+				new FilterHolder ("AztecCodeGenerator", sectionList[5], 8, typeof(CIAztecCodeGenerator), AztecCodeGenerator),
+				new FilterHolder ("Code128BarcodeGenerator", sectionList[5], 8, typeof(CICode128BarcodeGenerator), Code128BarcodeGenerator),
 
 				// Geometry Adjust
 				new FilterHolder ("AffineTransform", sectionList[6], 5, typeof (CIAffineTransform), AffineTransform),
@@ -227,7 +236,7 @@ namespace coreimage
 				new FilterHolder ("PerspectiveTransform", sectionList[6], 6, typeof (CIPerspectiveTransform), PerspectiveTransform),
 				new FilterHolder ("PerspectiveTransformWithExtent", sectionList[6], 6, typeof (CIPerspectiveTransformWithExtent), PerspectiveTransformWithExtent),
 				new FilterHolder ("StraightenFilter", sectionList[6], 5, typeof (CIStraightenFilter), StraightenFilter),
-
+				new FilterHolder ("PerspectiveCorrection", sectionList[6], 8, typeof(CIPerspectiveCorrection), PerspectiveCorrection),
 				// Gradients
 				new FilterHolder ("GaussianGradient", sectionList[7], 5, typeof (CIGaussianGradient), GaussianGradient),
 				new FilterHolder ("LinearGradient", sectionList[7], 5, typeof (CILinearGradient), LinearGradient),
@@ -278,6 +287,19 @@ namespace coreimage
 				new FilterHolder ("FlashTransition", sectionList[12], 6, typeof (CIFlashTransition), FlashTransition),
 				new FilterHolder ("ModTransition", sectionList[12], 6, typeof (CIModTransition), ModTransition),
 				new FilterHolder ("SwipeTransition", sectionList[12], 6, typeof (CISwipeTransition), SwipeTransition),
+				new FilterHolder ("AccordionFoldTransition", sectionList[12], 8, typeof(CIAccordionFoldTransition), AccordionFoldTransition),
+
+				// Reduction
+				// CIAreaAverage
+				// CIAreaHistogram
+				// CIRowAverage
+				// CIColumnAverage
+				// CIHistogramDisplayFilter
+				// CIAreaMaximum
+				// CIAreaMinimum
+				// CIAreaMaximumAlpha
+				// CIAreaMinimumAlpha
+				new FilterHolder ("HistogramDisplayFilter", sectionList[13], 8, typeof (CIHistogramDisplayFilter), HistogramDisplayFilter)
 			};  
 
 			int maxVer = 5;
@@ -1189,7 +1211,15 @@ namespace coreimage
 			
 			return straightFilter.OutputImage;
 		}
-		
+
+		public CIImage PerspectiveCorrection ()
+		{
+			var perspectiveCorrection = new CIPerspectiveCorrection () {
+				Image = heron
+			};
+
+			return perspectiveCorrection.OutputImage;
+		}
 		
 		#endregion
 		
@@ -1516,7 +1546,69 @@ namespace coreimage
 			
 			return softLightBlend.OutputImage;
 		}
-		
+		/// <summary>
+		/// Divides the blend mode.
+		/// </summary>
+		/// <returns>The blend mode.</returns>
+		public CIImage DivideBlendMode ()
+		{
+			var divideBlend = new CIDivideBlendMode () {
+				Image = heron,
+				BackgroundImage = clouds
+			};
+
+			return divideBlend.OutputImage;
+		}
+		/// <summary>
+		/// Linears the dodge blend mode.
+		/// </summary>
+		/// <returns>The dodge blend mode.</returns>
+		public CIImage LinearDodgeBlendMode () 
+		{
+			var linearDodge = new CILinearDodgeBlendMode () {
+				Image = heron,
+				BackgroundImage = clouds
+			};
+
+			return linearDodge.OutputImage;
+		}
+		/// <summary>
+		/// Pins the light blend mode.
+		/// </summary>
+		/// <returns>The light blend mode.</returns>
+		public CIImage PinLightBlendMode () {
+			var pinLight = new CIPinLightBlendMode () {
+				Image = heron,
+				BackgroundImage = clouds
+			};
+
+			return pinLight.OutputImage;
+		}
+		/// <summary>
+		/// Subtracts the blend mode.
+		/// </summary>
+		/// <returns>The blend mode.</returns>
+		public CIImage SubtractBlendMode () {
+			var substract = new CISubtractBlendMode () {
+				Image = heron,
+				BackgroundImage = clouds
+			};
+
+			return substract.OutputImage;
+		}
+		/// <summary>
+		/// Linears the burn blend mode.
+		/// </summary>
+		/// <returns>The burn blend mode.</returns>
+		public CIImage LinearBurnBlendMode ()
+		{
+			var linearBurn = new CILinearBurnBlendMode () {
+				Image = heron,
+				BackgroundImage = clouds
+			};
+
+			return linearBurn.OutputImage;
+		}
 		/// <summary>
 		/// Places the source image over the background image, then uses the luminance of the background image to determine what to show.
 		/// </summary>
@@ -1704,6 +1796,18 @@ namespace coreimage
 
 			return vortex_distortion.OutputImage;
 		}
+		/// <summary>
+		/// Glasses the distortion.
+		/// </summary>
+		/// <returns>The distortion.</returns>
+		CIImage GlassDistortion ()
+		{
+			var glass_distortion = new CIGlassDistortion () {
+				Image = heron
+			};
+
+			return glass_distortion.OutputImage;
+		}
 
 		#endregion
 		
@@ -1783,7 +1887,23 @@ namespace coreimage
 
 			return Crop (generator);
 		}
-		
+		public CIImage Code128BarcodeGenerator () 
+		{
+			var barcode = new CICode128BarcodeGenerator () {
+				Message = NSData.FromString ("Xamarin")
+			};
+
+			return barcode.OutputImage;
+		}
+		public CIImage AztecCodeGenerator ()
+		{
+			var aztecCode = new CIAztecCodeGenerator () {
+				Message = NSData.FromString("One little two little three little monkeys"),
+				CorrectionLevel = 5.0f
+			};
+
+			return aztecCode.OutputImage;
+		}
 		/// <summary>
 		/// Generates a stripe pattern.
 		/// </summary>
@@ -2263,6 +2383,35 @@ namespace coreimage
 			};
 
 			return swipe_transition.OutputImage;
+		}
+
+		CIImage AccordionFoldTransition ()
+		{
+			var accordionFold = new CIAccordionFoldTransition () {
+				Image = heron,
+				TargetImage = clouds,
+				Time = 0.7f
+			};
+
+			return accordionFold.OutputImage;
+		}
+
+		#endregion
+
+		#region CICategoryReduction
+
+		CIImage HistogramDisplayFilter () {
+			var input = new CIAreaHistogram () {
+				Image = heron,
+				Extent = new CIVector(0, 0, 10, 50),
+				Scale = 10
+			};
+			var histogram = new CIHistogramDisplayFilter () {
+				Image = input.OutputImage,
+				Height = 200, 
+			};
+
+			return histogram.OutputImage;
 		}
 
 		#endregion
