@@ -91,7 +91,9 @@ namespace avcaptureframes
 			
 			// create a VideoDataOutput and add it to the sesion
 			var output = new AVCaptureVideoDataOutput () {
-				CompressedVideoSetting = new AVVideoSettingsCompressed ()
+				WeakVideoSettings = new CVPixelBufferAttributes () {
+					PixelFormatType = CVPixelFormatType.CV32BGRA
+				}.Dictionary,
 			};
 
 
