@@ -1,10 +1,17 @@
 using System;
+<<<<<<< Updated upstream
 using CoreGraphics;
 
+=======
+>>>>>>> Stashed changes
 using Foundation;
 using UIKit;
 using CoreVideo;
 using AVFoundation;
+<<<<<<< Updated upstream
+=======
+using CoreGraphics;
+>>>>>>> Stashed changes
 
 namespace RosyWriter
 {
@@ -19,7 +26,7 @@ namespace RosyWriter
 		
 		NSTimer timer;
 		bool shouldShowStats;
-		int backgroundRecordingID;
+		nint backgroundRecordingID;
 		
 		static bool UserInterfaceIdiomIsPhone {
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -67,7 +74,7 @@ namespace RosyWriter
 		{
 			const float labelWidth = 200.0F;
 			const float labelHeight = 40.0F;
-			float xPosition = previewView.Bounds.Size.Width - labelWidth - 10;
+			nfloat xPosition = previewView.Bounds.Size.Width - labelWidth - 10;
 			
 			var label = new UILabel (new CGRect (xPosition, yPosition, labelWidth, labelHeight)) {
 				Font = UIFont.SystemFontOfSize (36F),
@@ -127,8 +134,10 @@ namespace RosyWriter
 		public void OnPixelBufferReadyForDisplay (CVImageBuffer imageBuffer)
 		{	
 			// Don't make OpenGLES calls while in the backgroud.
-			if (UIApplication.SharedApplication.ApplicationState != UIApplicationState.Background)
-				oglView.DisplayPixelBuffer(imageBuffer);
+			if (UIApplication.SharedApplication.ApplicationState != UIApplicationState.Background) {
+				Console.WriteLine ("DisplayPixels....");
+				oglView.DisplayPixelBuffer (imageBuffer);
+			}
 		}
 				
 		public void OnToggleRecording (object sender, EventArgs e)
@@ -208,6 +217,7 @@ namespace RosyWriter
 		#region UIViewController Methods		
 		public override void ViewDidLoad ()
 		{
+			Console.WriteLine ("ViewDidLoad");
 			base.ViewDidLoad ();
 				
 			// Initialize the class responsible for managing AV capture session and asset writer
@@ -262,7 +272,7 @@ namespace RosyWriter
 		{
 			base.ViewWillAppear (animated);
 			
-			timer = NSTimer.CreateRepeatingScheduledTimer (.25, UpdateLabels);
+			timer = NSTimer.CreateRepeatingScheduledTimer (.25, (t) => { UpdateLabels(); });
 		}
 		
 		public override void ViewDidDisappear (bool animated)

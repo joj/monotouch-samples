@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RosyWriter", "RosyWriter.csproj", "{EBC654AC-7F6C-46B3-9111-C6291164B396}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RosyWriter", "RosyWriter.csproj", "{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,16 +9,22 @@ Global
 		Release|iPhoneSimulator = Release|iPhoneSimulator
 		Debug|iPhone = Debug|iPhone
 		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Debug|iPhone.ActiveCfg = Debug|iPhone
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Debug|iPhone.Build.0 = Debug|iPhone
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Release|iPhone.ActiveCfg = Release|iPhone
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Release|iPhone.Build.0 = Release|iPhone
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{EBC654AC-7F6C-46B3-9111-C6291164B396}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Debug|iPhone.Build.0 = Debug|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Release|iPhone.ActiveCfg = Release|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Release|iPhone.Build.0 = Release|iPhone
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{DF4CAE26-5E45-463C-BE2A-92F827DE0A7B}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = RosyWriter.csproj

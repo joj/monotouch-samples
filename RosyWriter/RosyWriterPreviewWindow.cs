@@ -29,9 +29,11 @@ namespace RosyWriter
 		[Export ("initWithFrame:")]
 		public RosyWriterPreviewWindow (CGRect frame) : base(frame)
 		{
+			Console.WriteLine ("RosyWriterPreviewWindow");
+			BackgroundColor = UIColor.Blue;
 			// Use 2x scale factor on Retina dispalys.
 			ContentScaleFactor = UIScreen.MainScreen.Scale;
-			
+
 			// Initialize OpenGL ES 2
 			var eagleLayer = (CAEAGLLayer)Layer;
 			eagleLayer.Opaque = true;
@@ -44,6 +46,7 @@ namespace RosyWriter
 			
 			if (!EAGLContext.SetCurrentContext (Context))
 				throw new ApplicationException ("Could not set EAGLContext");
+		
 		}
 	
 		[Export ("layerClass")]
@@ -55,6 +58,7 @@ namespace RosyWriter
 		#region Setup
 		bool CreateFrameBuffer ()
 		{
+			Console.WriteLine ("CreateFrameBuffer");
 			bool success = true;
 					
 			GL.Disable (EnableCap.DepthTest);
@@ -163,6 +167,10 @@ namespace RosyWriter
 		#region Rendering
 		public void DisplayPixelBuffer (CVImageBuffer imageBuffer)
 		{
+			if (imageBuffer == null)
+				Console.WriteLine ("IMAGEBUFFER IS NULL");
+
+			Console.WriteLine ("DisplayPixelBuffer");
 			// First check to make sure we have a FrameBuffer to write to.
 			if (FrameBuffer == 0) {
 				var success = CreateFrameBuffer ();
@@ -176,18 +184,21 @@ namespace RosyWriter
 				Console.WriteLine ("Video Texture Cache not initialized");
 				return;
 			}
-			
+			/*
 			var pixelBuffer = imageBuffer as CVPixelBuffer;
 			if (pixelBuffer == null) {
-				Console.WriteLine ("Could not get Pixel Buffer from Image Buffer");
+				Console.WriteLine ("Here... Could not get Pixel Buffer from Image Buffer");
 				return;
 			}
 			
 			// Create a CVOpenGLESTexture from the CVImageBuffer
 			var frameWidth = pixelBuffer.Width;
 			var frameHeight = pixelBuffer.Height;
+			*/
+			var frameWidth = imageBuffer.DisplaySize.Width;
+			var frameHeight = imageBuffer.DisplaySize.Height;
 			CVReturn ret;
-			using (var texture =  videoTextureCache.TextureFromImage(imageBuffer, true, All.Rgba, frameWidth, frameHeight, All.Bgra, DataType.UnsignedByte, 0, out ret)) {
+			using (var texture =  videoTextureCache.TextureFromImage(imageBuffer, true, All.Rgba, (int)frameWidth, (int)frameHeight, All.Bgra, DataType.UnsignedByte, 0, out ret)) {
 				if (texture == null || ret != CVReturn.Success) {
 					Console.WriteLine ("Could not create Texture from Texture Cache");
 					return;
@@ -205,7 +216,7 @@ namespace RosyWriter
 				// Set the view port to the entire view
 				GL.Viewport (0, 0, renderBufferWidth, renderBufferHeight);
 			
-				var squareVerticies = new float[,] {
+				var squareVerticies = new nfloat[,] {
 					 { -1.0F, -1.0F},
 					 { 1.0F, -1.0F },
 					 { -1.0F, 1.0F },
@@ -215,7 +226,11 @@ namespace RosyWriter
 				// The texture verticies are setup such that we flip the texture vertically.
 				// This is so that our top left origin buffers match OpenGL's bottom left texture coordinate system.
 				var textureSamplingRect = TextureSamplingRectForCroppingTextureWithAspectRatio (new CGSize (frameWidth, frameHeight), Bounds.Size);
+<<<<<<< Updated upstream
 				var textureVertices = new float[,]
+=======
+				var textureVertices = new nfloat[,]
+>>>>>>> Stashed changes
 				{
 					{textureSamplingRect.Left, textureSamplingRect.Bottom},
 					{textureSamplingRect.Right, textureSamplingRect.Bottom},
@@ -237,11 +252,15 @@ namespace RosyWriter
 		{
 			CGRect normalizedSamplingRect;
 			var cropScaleAmount = new CGSize (croppingAspectRatio.Width / textureAspectRatio.Width, croppingAspectRatio.Height / textureAspectRatio.Height);
+<<<<<<< Updated upstream
 			var maxScale = Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
+=======
+			nfloat maxScale = (nfloat)Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
+>>>>>>> Stashed changes
 			
 			var scaledTextureSize = new CGSize (textureAspectRatio.Width * maxScale, textureAspectRatio.Height * maxScale);
 			
-			float width, height;
+			nfloat width, height;
 			if (cropScaleAmount.Height > cropScaleAmount.Width) {
 				width = croppingAspectRatio.Width / scaledTextureSize.Width;
 				height = 1.0F;
@@ -259,7 +278,7 @@ namespace RosyWriter
 			return normalizedSamplingRect;
 		}
 		
-		void RenderWithSquareVerticies (float[,] squareVerticies, float[,] textureVerticies)
+		void RenderWithSquareVerticies (nfloat[,] squareVerticies, nfloat[,] textureVerticies)
 		{
 			// Use Shader Program
 			GL.UseProgram (glProgram);

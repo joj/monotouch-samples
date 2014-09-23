@@ -16,10 +16,5 @@ namespace RosyWriter
 			Window.MakeKeyAndVisible ();
 			return true;
 		}
-
-		static void Main (string[] args)
-		{
-			UIApplication.Main (args, null, "AppDelegate");
-		}
 	}
 }
