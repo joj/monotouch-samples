@@ -24,7 +24,7 @@ namespace RosyWriter
 		const int UNIFORM_UV = 1;
 		const int ATTRIB_VERTEX = 0;
 		const int ATTRIB_TEXCOORD = 1;
-		nint glProgram;
+		int glProgram;
 		
 		[Export ("initWithFrame:")]
 		public RosyWriterPreviewWindow (CGRect frame) : base(frame)
@@ -263,7 +263,6 @@ namespace RosyWriter
 		{
 			// Use Shader Program
 			GL.UseProgram (glProgram);
-			
 			// Update attribute values
 			GL.VertexAttribPointer (ATTRIB_VERTEX, 2, VertexAttribPointerType.Float, false, 0, squareVerticies);
 			GL.EnableVertexAttribArray (ATTRIB_VERTEX);
