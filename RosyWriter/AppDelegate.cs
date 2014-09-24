@@ -5,7 +5,7 @@ namespace RosyWriter
 {
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate {
-
+			
 		public override UIWindow Window { get; set; }
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
@@ -15,6 +15,11 @@ namespace RosyWriter
 			};
 			Window.MakeKeyAndVisible ();
 			return true;
+		}
+
+		static void Main (string[] args)
+		{
+			UIApplication.Main (args, null, "AppDelegate");
 		}
 	}
 }

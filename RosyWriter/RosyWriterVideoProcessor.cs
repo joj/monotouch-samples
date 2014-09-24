@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-<<<<<<< Updated upstream
 using CoreGraphics;
-=======
-
->>>>>>> Stashed changes
 using System.IO;
 using System.Runtime.InteropServices;
 using MonoTouch;
@@ -12,20 +8,13 @@ using AVFoundation;
 using AssetsLibrary;
 using AudioToolbox;
 using CoreFoundation;
-<<<<<<< Updated upstream
 
-=======
-using CoreGraphics;
->>>>>>> Stashed changes
 using CoreMedia;
 using CoreVideo;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
-<<<<<<< Updated upstream
 using System.Threading.Tasks;
-=======
->>>>>>> Stashed changes
 
 namespace RosyWriter
 {
@@ -66,7 +55,6 @@ namespace RosyWriter
 		
 		public RosyWriterVideoProcessor ()
 		{
-			Console.WriteLine ("RosyWriterVideoProcessor");
 			previousSecondTimestamps = new List<CMTime> ();
 			ReferenceOrientation = AVCaptureVideoOrientation.Portrait;
 			
@@ -282,7 +270,7 @@ namespace RosyWriter
 	
 	    bool SetupCaptureSession ()
 		{
-			Console.WriteLine ("SetupCaptureSession");
+			//Console.WriteLine ("SetupCaptureSession");
 			// Overview: RosyWriter uses separate GCD queues for audio and video capture.  If a single GCD queue
 			// is used to deliver both audio and video buffers, and our video processing consistently takes
 			// too long, the delivery queue can back up, resulting in audio being dropped.
@@ -329,25 +317,18 @@ namespace RosyWriter
 			// Clients whose image processing is faster than real-time should consider setting AVCaptureVideoDataOutput's
 			// alwaysDiscardsLateVideoFrames property to NO.
 			var videoOut = new AVCaptureVideoDataOutput {
-<<<<<<< Updated upstream
-				AlwaysDiscardsLateVideoFrames = true
-			};
-=======
 				AlwaysDiscardsLateVideoFrames = true,
-				//WeakVideoSettings = new AVVideoSettingsUncompressed(),
-				//VideoSettings = new AVVideoSettings (CVPixelFormatType.CV32BGRA)
+				WeakVideoSettings = new CVPixelBufferAttributes () {
+					PixelFormatType = CVPixelFormatType.CV32BGRA
+				}.Dictionary
 			};
-
->>>>>>> Stashed changes
 			// Create a DispatchQueue for the Video Processing
 			var videoCaptureQueue = new DispatchQueue ("Video Capture Queue");
 			videoOut.SetSampleBufferDelegateQueue (this, videoCaptureQueue);
 			
 			if (captureSession.CanAddOutput (videoOut))
 				captureSession.AddOutput (videoOut);
-			else
-				Console.WriteLine ("Cannot add video output");
-
+			
 			// Set the Video connection from the Video Output object
 			videoConnection = videoOut.ConnectionFromMediaType (AVMediaType.Video);
 			videoOrientation = videoConnection.VideoOrientation;
@@ -360,7 +341,7 @@ namespace RosyWriter
 		
 		public async void SetupAndStartCaptureSession ()
 		{
-			Console.WriteLine ("SetupAndStartCapture Session");
+			//Console.WriteLine ("SetupAndStartCapture Session");
 			
 			// Create a shallow queue for buffers going to the display for preview.
 			previewBufferQueue = CMBufferQueue.CreateUnsorted (1);
@@ -438,7 +419,6 @@ namespace RosyWriter
 		[Export ("captureOutput:didOutputSampleBuffer:fromConnection:")]
 		public virtual void DidOutputSampleBuffer (AVCaptureOutput captureOutput, CMSampleBuffer sampleBuffer, AVCaptureConnection connection)
 		{
-<<<<<<< Updated upstream
 			CMFormatDescription formatDescription =  sampleBuffer.GetVideoFormatDescription ();
 
 			if (connection == videoConnection) {
@@ -447,69 +427,41 @@ namespace RosyWriter
 				CalculateFramerateAtTimestamp (timestamp);			
 					
 				// Get frame dimensions (for onscreen display)
-				//if (VideoDimensions.IsEmpty)
-				//	VideoDimensions = formatDescription.GetVideoPresentationDimensions (true, false); 
-					
+				if (VideoDimensions.IsEmpty) {
+					CMVideoFormatDescription videoDesc = (CMVideoFormatDescription)formatDescription;
+					VideoDimensions = new CGSize(videoDesc.Dimensions.Width, videoDesc.Dimensions.Height);
+				}
 				// Get the buffer type
 				if (VideoType == 0)
 					VideoType = formatDescription.MediaSubType;
-=======
-			Console.WriteLine ("DidOutputSampleBuffer");
-			CMVideoFormatDescription formatDescription = sampleBuffer.GetVideoFormatDescription ();
 
->>>>>>> Stashed changes
+				// Synchronously process the pixel buffer to de-green it.
+				using (var pixelBuffer = sampleBuffer.GetImageBuffer ())
+					ProcessPixelBuffer (pixelBuffer);
 
-			// Get framerate
-			CMTime timestamp = sampleBuffer.PresentationTimeStamp;
-			CalculateFramerateAtTimestamp (timestamp);			
-			// Get frame dimensions (for onscreen display)
-			if (VideoDimensions.IsEmpty) {
-				VideoDimensions = new CGSize (formatDescription.Dimensions.Width, formatDescription.Dimensions.Height);
-			}
-			// Get the buffer type
-			if (VideoType == 0)
-				VideoType = formatDescription.MediaSubType;
-
-			// Synchronously process the pixel buffer to de-green it.
-
-			using (var pixelBuffer = sampleBuffer.GetImageBuffer () as CVPixelBuffer) {
-				ProcessPixelBuffer (pixelBuffer);
+				previewBufferQueue.Enqueue (sampleBuffer);
+					
+				//var writeBuffer = sampleBuffer.Duplicate ();
 				InvokeOnMainThread (() => {
-					if (PixelBufferReadyForDisplay != null) {
-						Console.WriteLine("Will callback with a buffer: "+(pixelBuffer == null) +" "+(sampleBuffer == null));
-						PixelBufferReadyForDisplay (pixelBuffer);
+					var j = previewBufferQueue.Dequeue ();
+			
+					var sbuf = j as CMSampleBuffer;
+					if (sbuf == null) {
+#if DEBUG
+						// Record the current sampleBuffer.ClassHandle
+						// Then run another iteration and on the next one, print the ClassHandle
+						Console.WriteLine ("The type is {0}", new NSString (CFCopyDescription (j.Handle)));
+#endif
+						return;
+					}
+
+					using (CVImageBuffer pixBuf = sbuf.GetImageBuffer ()) {
+						if (PixelBufferReadyForDisplay != null)
+							PixelBufferReadyForDisplay (pixBuf);
 					}
 				});
 			}
-			previewBufferQueue.Enqueue (sampleBuffer);
-				
-			//var writeBuffer = sampleBuffer.Duplicate ();
-		/*
-			InvokeOnMainThread (() => {
-				var j = previewBufferQueue.Dequeue ();
-		
-				var sbuf = j as CMSampleBuffer;
-				if (sbuf == null) {
-#if DEBUG
-					// Record the current sampleBuffer.ClassHandle
-					// Then run another iteration and on the next one, print the ClassHandle
-					//Console.WriteLine ("The type is {0}", new NSString (CFCopyDescription (j.Handle)));
-#endif
-				Console.WriteLine("Sample Buffer is null");
-					return;
-				}
-
-				using (CVImageBuffer pixBuf = sbuf.GetImageBuffer ()) {
-					if (PixelBufferReadyForDisplay != null) {
-						PixelBufferReadyForDisplay (pixBuf);
-					}
-				}
-			});
-		*/
-		//} else {
-		//	Console.WriteLine ("nei");
-		//}
-		// keep a reference to 'sampleBuffer', movieWritingQueue will remove it
+			// keep a reference to 'sampleBuffer', movieWritingQueue will remove it
 			CompleteBufferUse (sampleBuffer);
 
 			movieWritingQueue.DispatchAsync (() => {
@@ -546,11 +498,12 @@ namespace RosyWriter
 			});	
 		}
 
-		public bool SetupAssetWriterVideoInput (CMVideoFormatDescription currentFormatDescription)
+		public bool SetupAssetWriterVideoInput (CMFormatDescription currentFormatDescription)
 		{
-			Console.WriteLine ("Setting up Video Asset Writer");
+			//Console.WriteLine ("Setting up Video Asset Writer");
 			float bitsPerPixel;
-			var dimensions = currentFormatDescription.Dimensions;
+			CMVideoFormatDescription videoDesc = (CMVideoFormatDescription)currentFormatDescription;
+			var dimensions = videoDesc.Dimensions;
 			int numPixels = dimensions.Width * dimensions.Height;
 			int bitsPerSecond; 
 			
@@ -587,7 +540,7 @@ namespace RosyWriter
 				);
 			
 			if (assetWriter.CanApplyOutputSettings (videoCompressionSettings, AVMediaType.Video)){
-				assetWriterVideoIn = AVAssetWriterInput.Create (AVMediaType.Video.ToString (), new AVVideoSettingsCompressed(videoCompressionSettings));
+				assetWriterVideoIn = AVAssetWriterInput.Create (AVMediaType.Video.ToString(), new AVVideoSettingsCompressed(videoCompressionSettings));
 				assetWriterVideoIn.ExpectsMediaDataInRealTime = true;
 				assetWriterVideoIn.Transform = TransformFromCurrentVideoOrientationToOrientation (ReferenceOrientation);
 				
@@ -605,7 +558,6 @@ namespace RosyWriter
 
 		public bool SetupAssetWriterAudioInput (CMFormatDescription currentFormatDescription)
 		{
-			Console.WriteLine("SetupAssetWriterAudioInput");
 			// If the AudioStreamBasicDescription is null return false;
 			if (!currentFormatDescription.AudioStreamBasicDescription.HasValue)
 				return false;
@@ -635,7 +587,7 @@ namespace RosyWriter
 				});
 
 			if (assetWriter.CanApplyOutputSettings (audioCompressionSettings, AVMediaType.Audio)){
-				assetWriterAudioIn = AVAssetWriterInput.Create (AVMediaType.Audio.ToString (), new AudioSettings (audioCompressionSettings));
+				assetWriterAudioIn = AVAssetWriterInput.Create (AVMediaType.Audio, new AudioSettings(audioCompressionSettings));
 				assetWriterAudioIn.ExpectsMediaDataInRealTime = true;
 
 				if (assetWriter.CanAddInput (assetWriterAudioIn))
@@ -669,27 +621,22 @@ namespace RosyWriter
 		
 		public unsafe void ProcessPixelBuffer (CVImageBuffer imageBuffer)
 		{
-			if (imageBuffer == null)
-				return;
-
 			using (var pixelBuffer = imageBuffer as CVPixelBuffer)
 			{
 				pixelBuffer.Lock (CVOptionFlags.None);
+				
 				nint bufferWidth = pixelBuffer.Width;
 				nint bufferHeight = pixelBuffer.Height;
-				Console.WriteLine ("Buffer width: " + bufferWidth + ", height: " + bufferHeight);
 				// offset by one to de-green the BGRA array (green is second)
-
 				byte* pixelPtr = (byte*)pixelBuffer.BaseAddress.ToPointer () + 1;
-
+				
 				for (var row = 0; row < bufferHeight; row++){
 					for (var column = 0; column < bufferWidth; column++) {
-						//*pixelPtr = 0;
-						//pixelPtr += 8;
-						//pixelPtr += BYTES_PER_PIXEL;
+						*pixelPtr = 0;
+						pixelPtr += BYTES_PER_PIXEL;
 					}
 				}
-
+				
 				pixelBuffer.Unlock (CVOptionFlags.None);
 			}
 		}

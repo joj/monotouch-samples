@@ -24,29 +24,26 @@ namespace RosyWriter
 		const int UNIFORM_UV = 1;
 		const int ATTRIB_VERTEX = 0;
 		const int ATTRIB_TEXCOORD = 1;
-		int glProgram;
+		nint glProgram;
 		
 		[Export ("initWithFrame:")]
 		public RosyWriterPreviewWindow (CGRect frame) : base(frame)
 		{
-			Console.WriteLine ("RosyWriterPreviewWindow");
-			BackgroundColor = UIColor.Blue;
 			// Use 2x scale factor on Retina dispalys.
 			ContentScaleFactor = UIScreen.MainScreen.Scale;
-
+			
 			// Initialize OpenGL ES 2
 			var eagleLayer = (CAEAGLLayer)Layer;
-			eagleLayer.Opaque = true;
+			eagleLayer.Opaque = false;
 			eagleLayer.DrawableProperties = NSDictionary.FromObjectsAndKeys (
-				new object[] { NSNumber.FromBoolean (false), EAGLColorFormat.RGBA8  },
-				new object[] { EAGLDrawableProperty.RetainedBacking, EAGLDrawableProperty.ColorFormat }
+				new object[] { EAGLColorFormat.RGBA8, NSNumber.FromBoolean (false) },
+				new object[] { EAGLDrawableProperty.ColorFormat, EAGLDrawableProperty.RetainedBacking }
 			);
-			
+
 			Context = new EAGLContext (EAGLRenderingAPI.OpenGLES2);
 			
 			if (!EAGLContext.SetCurrentContext (Context))
 				throw new ApplicationException ("Could not set EAGLContext");
-		
 		}
 	
 		[Export ("layerClass")]
@@ -58,7 +55,6 @@ namespace RosyWriter
 		#region Setup
 		bool CreateFrameBuffer ()
 		{
-			Console.WriteLine ("CreateFrameBuffer");
 			bool success = true;
 					
 			GL.Disable (EnableCap.DepthTest);
@@ -167,10 +163,6 @@ namespace RosyWriter
 		#region Rendering
 		public void DisplayPixelBuffer (CVImageBuffer imageBuffer)
 		{
-			if (imageBuffer == null)
-				Console.WriteLine ("IMAGEBUFFER IS NULL");
-
-			Console.WriteLine ("DisplayPixelBuffer");
 			// First check to make sure we have a FrameBuffer to write to.
 			if (FrameBuffer == 0) {
 				var success = CreateFrameBuffer ();
@@ -184,19 +176,16 @@ namespace RosyWriter
 				Console.WriteLine ("Video Texture Cache not initialized");
 				return;
 			}
-			/*
+			
 			var pixelBuffer = imageBuffer as CVPixelBuffer;
 			if (pixelBuffer == null) {
-				Console.WriteLine ("Here... Could not get Pixel Buffer from Image Buffer");
+				Console.WriteLine ("Could not get Pixel Buffer from Image Buffer");
 				return;
 			}
 			
 			// Create a CVOpenGLESTexture from the CVImageBuffer
-			var frameWidth = pixelBuffer.Width;
-			var frameHeight = pixelBuffer.Height;
-			*/
-			var frameWidth = imageBuffer.DisplaySize.Width;
-			var frameHeight = imageBuffer.DisplaySize.Height;
+			nint frameWidth = pixelBuffer.Width;
+			nint frameHeight = pixelBuffer.Height;
 			CVReturn ret;
 			using (var texture =  videoTextureCache.TextureFromImage(imageBuffer, true, All.Rgba, (int)frameWidth, (int)frameHeight, All.Bgra, DataType.UnsignedByte, 0, out ret)) {
 				if (texture == null || ret != CVReturn.Success) {
@@ -226,11 +215,7 @@ namespace RosyWriter
 				// The texture verticies are setup such that we flip the texture vertically.
 				// This is so that our top left origin buffers match OpenGL's bottom left texture coordinate system.
 				var textureSamplingRect = TextureSamplingRectForCroppingTextureWithAspectRatio (new CGSize (frameWidth, frameHeight), Bounds.Size);
-<<<<<<< Updated upstream
-				var textureVertices = new float[,]
-=======
 				var textureVertices = new nfloat[,]
->>>>>>> Stashed changes
 				{
 					{textureSamplingRect.Left, textureSamplingRect.Bottom},
 					{textureSamplingRect.Right, textureSamplingRect.Bottom},
@@ -252,11 +237,7 @@ namespace RosyWriter
 		{
 			CGRect normalizedSamplingRect;
 			var cropScaleAmount = new CGSize (croppingAspectRatio.Width / textureAspectRatio.Width, croppingAspectRatio.Height / textureAspectRatio.Height);
-<<<<<<< Updated upstream
-			var maxScale = Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
-=======
-			nfloat maxScale = (nfloat)Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
->>>>>>> Stashed changes
+			nint maxScale = (nint)Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
 			
 			var scaledTextureSize = new CGSize (textureAspectRatio.Width * maxScale, textureAspectRatio.Height * maxScale);
 			
