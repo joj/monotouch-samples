@@ -217,12 +217,12 @@ namespace RosyWriter
 				var textureSamplingRect = TextureSamplingRectForCroppingTextureWithAspectRatio (new CGSize (frameWidth, frameHeight), Bounds.Size);
 				var textureVertices = new nfloat[,]
 				{
-					{textureSamplingRect.Left, textureSamplingRect.Bottom},
-					{textureSamplingRect.Right, textureSamplingRect.Bottom},
-					{textureSamplingRect.Left, textureSamplingRect.Top},
-					{textureSamplingRect.Right, textureSamplingRect.Top}
+					{textureSamplingRect.Bottom, textureSamplingRect.Right},
+					{textureSamplingRect.Bottom, textureSamplingRect.Left},
+					{textureSamplingRect.Top, textureSamplingRect.Right},
+					{textureSamplingRect.Top, textureSamplingRect.Left}
 				};
-				
+
 				// Draw the texture on the screen with OpenGL ES 2
 				RenderWithSquareVerticies (squareVerticies, textureVertices);
 			
@@ -242,7 +242,7 @@ namespace RosyWriter
 			var scaledTextureSize = new CGSize (textureAspectRatio.Width * maxScale, textureAspectRatio.Height * maxScale);
 			
 			nfloat width, height;
-			if (cropScaleAmount.Height > cropScaleAmount.Width) {
+			if (cropScaleAmount.Height < cropScaleAmount.Width) {
 				width = croppingAspectRatio.Width / scaledTextureSize.Width;
 				height = 1.0F;
 				normalizedSamplingRect = new CGRect (0, 0, width, height);				
