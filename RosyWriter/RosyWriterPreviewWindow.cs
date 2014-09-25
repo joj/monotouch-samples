@@ -235,10 +235,10 @@ namespace RosyWriter
 		
 		static CGRect TextureSamplingRectForCroppingTextureWithAspectRatio (CGSize textureAspectRatio, CGSize croppingAspectRatio)
 		{
-			CGRect normalizedSamplingRect;
+			CGRect normalizedSamplingRect = CGRect.Empty;
 			var cropScaleAmount = new CGSize (croppingAspectRatio.Width / textureAspectRatio.Width, croppingAspectRatio.Height / textureAspectRatio.Height);
-			nint maxScale = (nint)Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
-			
+			nfloat maxScale = (nfloat)Math.Max (cropScaleAmount.Width, cropScaleAmount.Height);
+
 			var scaledTextureSize = new CGSize (textureAspectRatio.Width * maxScale, textureAspectRatio.Height * maxScale);
 			
 			nfloat width, height;
