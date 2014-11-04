@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{98F6ED66-B4E9-45F2-948E-5DCF19E18B24}</ProjectGuid>
-    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Example_CoreAnimation</RootNamespace>
     <AssemblyName>Example_CoreAnimation</AssemblyName>
@@ -16,14 +16,14 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;XAMCORE_2_0;ARCH_64</DefineConstants>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>True</MtouchDebug>
     <ConsolePause>False</ConsolePause>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
-    <MtouchExtraArgs>--registrar:static --nofastsim --override-abi x86_64</MtouchExtraArgs>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>True</DebugSymbols>
@@ -46,7 +47,8 @@
     <MtouchDebug>True</MtouchDebug>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -56,17 +58,16 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS">
-    	<HintPath>\Developer\MonoTouch\usr\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
-    </Reference>
+    <Reference Include="Xamarin.iOS" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Screens\" />
     <Folder Include="Code\" />
@@ -132,12 +133,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Screens\iPad\BasicUIViewAnimation\BasicUIViewAnimationScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\CustomizableAnimationViewer\CustomizableAnimationViewerScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\TransitionViewController.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\BackTransitionViewController.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\LayerAnimationScreen.xib" xmlns="" />
-    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\ImplicitAnimationScreen.xib" xmlns="" />
+    <InterfaceDefinition Include="Screens\iPad\BasicUIViewAnimation\BasicUIViewAnimationScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPad\CustomizableAnimationViewer\CustomizableAnimationViewerScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\TransitionViewController.xib" />
+    <InterfaceDefinition Include="Screens\iPad\ViewTransitions\BackTransitionViewController.xib" />
+    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\LayerAnimationScreen.xib" />
+    <InterfaceDefinition Include="Screens\iPad\LayerAnimation\ImplicitAnimationScreen.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icon-72.png" />

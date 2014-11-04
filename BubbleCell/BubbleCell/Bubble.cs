@@ -1,3 +1,4 @@
+
 //
 // Bubble.cs: Provides both a UITableViewCell that can be used with UITableViews
 // as well as a ChatBubble which is a MonoTouch.Dialog Element that can be used
@@ -86,9 +87,7 @@ namespace BubbleCell
 		{
 			this.isLeft = isLeft;
 		}
-
-		
-		public override UITableViewCell GetCell (UITableView tv)
+		public override UIKit.UITableViewCell GetCell (UIKit.UITableView tv)
 		{
 			var cell = tv.DequeueReusableCell (isLeft ? BubbleCell.KeyLeft : BubbleCell.KeyRight) as BubbleCell;
 			if (cell == null)
@@ -96,10 +95,12 @@ namespace BubbleCell
 			cell.Update (Caption);
 			return cell;
 		}
-		
 		public nfloat GetHeight (UITableView tableView, NSIndexPath indexPath)
 		{
-			return BubbleCell.GetSizeForText (tableView, Caption).Height + BubbleCell.BubblePadding.Height;
+			Console.WriteLine ("GetHeight "+BubbleCell.GetSizeForText (tableView, Caption).Height);
+			//return 250;
+			//return UITableView.AutomaticDimension;
+			return BubbleCell.GetSizeForText (tableView, Caption).Height + BubbleCell.BubblePadding.Height + 1;
 		}
 	}
 }

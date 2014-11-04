@@ -40,7 +40,7 @@ namespace BubbleCell
 		
 		public override void ViewDidLoad ()
 		{
-			base.ViewDidLoad ();
+
 			NavigationController.NavigationBar.Translucent = false;
 			var bounds = View.Bounds;
 			
@@ -52,15 +52,16 @@ namespace BubbleCell
 			//
 			discussionHost = new UIView (new CGRect (bounds.X, bounds.Y, bounds.Width, bounds.Height-entryHeight)) {
 				AutoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth,
-				AutosizesSubviews = true,
+				//AutosizesSubviews = true,
 				UserInteractionEnabled = true
 			};
-			View.AddSubview (discussionHost);
 
 			discussion = new DialogViewController (UITableViewStyle.Plain, root, true);	
+			Console.WriteLine (discussion.View.Frame+" <-- Frame");
 			discussionHost.AddSubview (discussion.View);
 			discussion.View.BackgroundColor = backgroundColor;
-			
+			View.AddSubview (discussionHost);
+
 			// 
 			// Add styled entry
 			//
@@ -119,6 +120,9 @@ namespace BubbleCell
 			ScrollToBottom (false);
 			// Track changes in the entry to resize the view accordingly
 			entry.Changed += HandleEntryChanged;
+
+			base.ViewDidLoad ();
+
 		}
 		
 		public override void ViewDidUnload ()
@@ -153,6 +157,8 @@ namespace BubbleCell
 		{
 			side = !side;
 			discussion.Root [0].Add (new ChatBubble (side, entry.Text));
+			discussion.Root.TableView.ReloadData ();
+			Console.WriteLine (discussion.Root.TableView.Frame);
 			entry.Text = "";
 			ScrollToBottom (true);
 		}
@@ -262,6 +268,7 @@ namespace BubbleCell
 			if (row == -1)
 				return;
 			discussion.TableView.ScrollToRow (NSIndexPath.FromRowSection (row, 0), UITableViewScrollPosition.Bottom, true);
+			discussion.TableView.ReloadData ();
 		}
 		
 		public override bool AutomaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {

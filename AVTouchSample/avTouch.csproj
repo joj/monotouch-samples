@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{39F57FAA-67B1-4686-9D42-377DFC6DE989}</ProjectGuid>
-    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <AssemblyName>avTouch</AssemblyName>
     <RootNamespace>avTouch</RootNamespace>
@@ -16,7 +16,7 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;XAMCORE_2_0;ARCH_64</DefineConstants>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExtraMtouchArgs>-debug</ExtraMtouchArgs>
@@ -24,7 +24,6 @@
     <MtouchDebug>True</MtouchDebug>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchExtraArgs>--registrar:static --nofastsim --override-abi x86_64</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -64,9 +63,7 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS">
-      <HintPath>\Developer\MonoTouch\usr\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
-    </Reference>
+    <Reference Include="Xamarin.iOS" />
     <Reference Include="OpenTK" />
   </ItemGroup>
   <ItemGroup>
@@ -83,10 +80,10 @@
     <Compile Include="LevelMeter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainWindow.xib" xmlns="" />
-    <InterfaceDefinition Include="avTouchViewController.xib" xmlns="" />
+    <InterfaceDefinition Include="MainWindow.xib" />
+    <InterfaceDefinition Include="avTouchViewController.xib" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <Content Include="Default.png" />
     <Content Include="icon.png" />

@@ -1,11 +1,11 @@
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace RosyWriter
 {
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate {
-
+			
 		public override UIWindow Window { get; set; }
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)

@@ -1,10 +1,10 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreVideo;
-using MonoTouch.AVFoundation;
+using Foundation;
+using UIKit;
+using CoreVideo;
+using AVFoundation;
 
 namespace RosyWriter
 {
@@ -19,7 +19,7 @@ namespace RosyWriter
 		
 		NSTimer timer;
 		bool shouldShowStats;
-		int backgroundRecordingID;
+		nint backgroundRecordingID;
 		
 		static bool UserInterfaceIdiomIsPhone {
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -67,9 +67,9 @@ namespace RosyWriter
 		{
 			const float labelWidth = 200.0F;
 			const float labelHeight = 40.0F;
-			float xPosition = previewView.Bounds.Size.Width - labelWidth - 10;
+			nfloat xPosition = previewView.Bounds.Size.Width - labelWidth - 10;
 			
-			var label = new UILabel (new RectangleF (xPosition, yPosition, labelWidth, labelHeight)) {
+			var label = new UILabel (new CGRect (xPosition, yPosition, labelWidth, labelHeight)) {
 				Font = UIFont.SystemFontOfSize (36F),
 				LineBreakMode = UILineBreakMode.WordWrap,
 				TextAlignment = UITextAlignment.Right,
@@ -224,14 +224,14 @@ namespace RosyWriter
 
 			notificationCenter.AddObserver (UIApplication.DidBecomeActiveNotification, OnApplicationDidBecomeActive);
 			
-			oglView = new RosyWriterPreviewWindow(RectangleF.Empty);
+			oglView = new RosyWriterPreviewWindow(CGRect.Empty);
 			
 			// Our interface is always in portrait
 			oglView.Transform = videoProcessor.TransformFromCurrentVideoOrientationToOrientation(AVCaptureVideoOrientation.Portrait);
 				
-			RectangleF bounds = previewView.ConvertRectToView(previewView.Bounds, oglView);
+			CGRect bounds = previewView.ConvertRectToView(previewView.Bounds, oglView);
 			oglView.Bounds = bounds;
-			oglView.Center = new PointF(previewView.Bounds.Size.Width / 2.0F, previewView.Bounds.Size.Height / 2.0F);
+			oglView.Center = new CGPoint(previewView.Bounds.Size.Width / 2.0F, previewView.Bounds.Size.Height / 2.0F);
 			
 			previewView.AddSubview(oglView);
 			
@@ -262,7 +262,7 @@ namespace RosyWriter
 		{
 			base.ViewWillAppear (animated);
 			
-			timer = NSTimer.CreateRepeatingScheduledTimer (.25, UpdateLabels);
+			timer = NSTimer.CreateRepeatingScheduledTimer (.25, (t) => { UpdateLabels(); });
 		}
 		
 		public override void ViewDidDisappear (bool animated)
