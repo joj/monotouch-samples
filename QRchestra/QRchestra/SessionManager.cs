@@ -1,11 +1,12 @@
 using System;
-using MonoTouch.AVFoundation;
-using MonoTouch.Foundation;
+using AVFoundation;
+using Foundation;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
-using MonoTouch.CoreFoundation;
+using UIKit;
+using CoreFoundation;
 using System.Linq;
 using System.Drawing;
+using CoreGraphics;
 
 namespace QRchestra
 {
@@ -31,7 +32,7 @@ namespace QRchestra
 
 		NSObject applicationWillEnterForegroundNotificationObserver;
 
-		int pipelineRunningTask;
+		nint pipelineRunningTask;
 
 		AVCaptureMetadataOutput metadataOutput;
 
@@ -51,7 +52,7 @@ namespace QRchestra
 					setupCaptureSession ();
 					CaptureSession.StartRunning ();
 					running = true;
-					metadataOutput.MetadataObjectTypes = new [] { AVMetadataObject.TypeQRCode };
+					metadataOutput.MetadataObjectTypes = AVMetadataObjectType.QRCode | AVMetadataObjectType.AztecCode | AVMetadataObjectType.Code128Code | AVMetadataObjectType.Code39Code | AVMetadataObjectType.Code39Mod43Code | AVMetadataObjectType.Code93Code | AVMetadataObjectType.DataMatrixCode | AVMetadataObjectType.EAN13Code | AVMetadataObjectType.EAN8Code | AVMetadataObjectType.Face | AVMetadataObjectType.Interleaved2of5Code | AVMetadataObjectType.ITF14Code | AVMetadataObjectType.None | AVMetadataObjectType.PDF417Code | AVMetadataObjectType.QRCode | AVMetadataObjectType.UPCECode | AVMetadataObjectType.UPCECode;
 				} catch (Exception e) {
 					Console.WriteLine (e.Message);
 				}
@@ -203,9 +204,9 @@ namespace QRchestra
 			get {
 				AVCaptureDevice device = videoInput.Device;
 
-				return (device.IsFocusModeSupported (AVCaptureFocusMode.ModeLocked) ||
-					device.IsFocusModeSupported (AVCaptureFocusMode.ModeAutoFocus) ||
-					device.IsFocusModeSupported (AVCaptureFocusMode.ModeContinuousAutoFocus));
+				return (device.IsFocusModeSupported (AVCaptureFocusMode.Locked) ||
+					device.IsFocusModeSupported (AVCaptureFocusMode.AutoFocus) ||
+					device.IsFocusModeSupported (AVCaptureFocusMode.ContinuousAutoFocus));
 			}
 		}
 
@@ -256,35 +257,35 @@ namespace QRchestra
 			}
 		}
 
-		public void AutoFocus (PointF point)
+		public void AutoFocus (CGPoint point)
 		{
 			AVCaptureDevice device = videoInput.Device;
 
-			if (device.FocusPointOfInterestSupported && device.IsFocusModeSupported (AVCaptureFocusMode.ModeAutoFocus)) {
+			if (device.FocusPointOfInterestSupported && device.IsFocusModeSupported (AVCaptureFocusMode.AutoFocus)) {
 				NSError error;
 				if (device.LockForConfiguration (out error)) {
 					device.FocusPointOfInterest = point;
-					device.FocusMode = AVCaptureFocusMode.ModeAutoFocus;
+					device.FocusMode = AVCaptureFocusMode.AutoFocus;
 					device.UnlockForConfiguration ();
 				}
 			}
 		}
 
-		void ContinuousFocus (PointF point)
+		void ContinuousFocus (CGPoint point)
 		{
 			AVCaptureDevice device = videoInput.Device;
 
-			if (device.FocusPointOfInterestSupported && device.IsFocusModeSupported (AVCaptureFocusMode.ModeContinuousAutoFocus)) {
+			if (device.FocusPointOfInterestSupported && device.IsFocusModeSupported (AVCaptureFocusMode.ContinuousAutoFocus)) {
 				NSError error;
 				if (device.LockForConfiguration (out error)) {
 					device.FocusPointOfInterest = point;
-					device.FocusMode = AVCaptureFocusMode.ModeContinuousAutoFocus;
+					device.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
 					device.UnlockForConfiguration ();
 				}
 			}
 		}
 
-		public void Expose (PointF point)
+		public void Expose (CGPoint point)
 		{
 			AVCaptureDevice device = videoInput.Device;
 

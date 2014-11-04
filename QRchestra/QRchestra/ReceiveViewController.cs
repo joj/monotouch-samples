@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 using System.Collections.Generic;
-using MonoTouch.AVFoundation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreText;
-using MonoTouch.ObjCRuntime;
+using AVFoundation;
+using CoreAnimation;
+using CoreText;
+using ObjCRuntime;
 using System.Threading;
 
 namespace QRchestra
@@ -31,18 +31,18 @@ namespace QRchestra
 			}
 		}
 
-		CGPath createPathForPoints (NSDictionary[] points)
+		CGPath createPathForPoints (CGPoint[] points)
 		{
 			CGPath path = new CGPath ();
-			PointF point;
+			CGPoint point;
 
 			if (points.Length > 0) {
-				points [0].ToPoint (out point);
+				point = points [0];
 				path.MoveToPoint (point);
 
 				int i = 1;
 				while (i < points.Length) {
-					points [i].ToPoint (out point);
+					point = points [i];
 					path.AddLineToPoint (point);
 					i++;
 				}
@@ -61,33 +61,35 @@ namespace QRchestra
 		{
 			base.ViewDidLoad ();
 
-			sessionManager = new SessionManager ();
-			sessionManager.StartRunning ();
+			NSTimer.CreateScheduledTimer (0.1f, (v) => {
+				sessionManager = new SessionManager ();
+				sessionManager.StartRunning ();
 
-			previewLayer = new AVCaptureVideoPreviewLayer (sessionManager.CaptureSession) {
-				Frame = previewView.Bounds,
-				LayerVideoGravity = AVLayerVideoGravity.ResizeAspectFill
-			};
+				previewLayer = new AVCaptureVideoPreviewLayer (sessionManager.CaptureSession) {
+					Frame = previewView.Bounds,
+					VideoGravity = AVLayerVideoGravity.ResizeAspectFill
+				};
 
-			if (previewLayer.Connection != null && previewLayer.Connection.SupportsVideoOrientation)
-				previewLayer.Connection.VideoOrientation = AVCaptureVideoOrientation.LandscapeLeft;
-			previewView.Layer.AddSublayer (previewLayer);
-			previewView.Layer.MasksToBounds = true;
+				if (previewLayer.Connection != null && previewLayer.Connection.SupportsVideoOrientation)
+					previewLayer.Connection.VideoOrientation = AVCaptureVideoOrientation.LandscapeLeft;
+				previewView.Layer.AddSublayer (previewLayer);
+				previewView.Layer.MasksToBounds = true;
 
-			barcodeTargetLayer = new CALayer () {
-				Frame = View.Layer.Bounds
-			};
-			View.Layer.AddSublayer (barcodeTargetLayer);
+				barcodeTargetLayer = new CALayer () {
+					Frame = View.Layer.Bounds
+				};
+				View.Layer.AddSublayer (barcodeTargetLayer);
 
-			synth = new Synth ();
-			synth.LoadPreset (this);
+				synth = new Synth ();
+				synth.LoadPreset (this);
 
-			stepTimer = NSTimer.CreateRepeatingScheduledTimer (0.15, step);
+				stepTimer = NSTimer.CreateRepeatingScheduledTimer (0.15, step);
+			});
 		}
 
 		partial void handleTap (UIGestureRecognizer recognizer)
 		{
-			PointF tapPoint = recognizer.LocationInView (previewView);
+			var tapPoint = recognizer.LocationInView (previewView);
 			focus (tapPoint);
 			expose (tapPoint);
 		}
@@ -110,15 +112,15 @@ namespace QRchestra
 			PresentViewController (controller, true, null);
 		}
 
-		void focus (PointF point)
+		void focus (CGPoint point)
 		{
-			PointF convertedFocusPoint = previewLayer.CaptureDevicePointOfInterestForPoint (point);
+			var convertedFocusPoint = previewLayer.CaptureDevicePointOfInterestForPoint (point);
 			sessionManager.AutoFocus (convertedFocusPoint);
 		}
 
-		void expose (PointF point)
+		void expose (CGPoint point)
 		{
-			PointF convertedExposurePoint = previewLayer.CaptureDevicePointOfInterestForPoint (point);
+			var convertedExposurePoint = previewLayer.CaptureDevicePointOfInterestForPoint (point);
 			sessionManager.Expose (convertedExposurePoint);
 		}
 
@@ -128,11 +130,11 @@ namespace QRchestra
 
 			sessionManager.AutoFocus (pointOfInterest);
 			sessionManager.Expose (pointOfInterest);
-			sessionManager.FocusMode = AVCaptureFocusMode.ModeContinuousAutoFocus;
+			sessionManager.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
 		}
 
-		[Export("step")]
-		void step ()
+		[Export("step:")]
+		void step (NSTimer timer)
 		{
 			if (sessionManager.Barcodes == null || sessionManager.Barcodes.Count < 1)
 				return;
@@ -141,6 +143,8 @@ namespace QRchestra
 				barcodeIndex = (barcodeIndex + 1) % sessionManager.Barcodes.Count;
 				var barcode = (AVMetadataMachineReadableCodeObject)sessionManager.Barcodes [barcodeIndex];
 
+				if (barcode == null)
+					return;
 				if (barcodeTimer != null)
 					barcodeTimer.Invalidate ();
 				barcodeTimer = NSTimer.CreateScheduledTimer (0.5, this, new Selector ("removeDetectedBarcodeUI"), null, false);

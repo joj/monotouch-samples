@@ -1,11 +1,11 @@
 using System.Drawing;
-using MonoTouch.UIKit;
+using UIKit;
 using System.Collections.Generic;
-using MonoTouch.CoreAnimation;
-using MonoTouch.Foundation;
+using CoreAnimation;
+using Foundation;
 using System;
-using MonoTouch.CoreImage;
-using MonoTouch.CoreGraphics;
+using CoreImage;
+using CoreGraphics;
 
 namespace QRchestra
 {
@@ -69,11 +69,11 @@ namespace QRchestra
 		UIImage machineReadableCodeFromMessage (string message)
 		{
 			var mrcFilter = CIFilter.FromName ("CIQRCodeGenerator");
-			NSData messageData = new NSString (message).DataUsingEncoding (NSStringEncoding.UTF8);
+			NSData messageData = new NSString (message).Encode (NSStringEncoding.UTF8);
 			mrcFilter.SetValueForKey (messageData, (NSString)"inputMessage");
 
 			var barcodeCIImage = (CIImage)mrcFilter.ValueForKey ((NSString)"outputImage");
-			RectangleF extent = barcodeCIImage.Extent;
+			var extent = barcodeCIImage.Extent;
 
 			CGImage barcodeCGImage = CIContext.CreateCGImage (barcodeCIImage, extent);
 			UIImage image = new UIImage (barcodeCGImage);

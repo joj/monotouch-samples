@@ -4,9 +4,9 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace QRchestra
 {
@@ -14,31 +14,31 @@ namespace QRchestra
 	partial class SendViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIImageView keyImageView1 { get; set; }
+		UIImageView keyImageView1 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView keyImageView2 { get; set; }
+		UIImageView keyImageView2 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView keyImageView3 { get; set; }
+		UIImageView keyImageView3 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView keyImageView4 { get; set; }
+		UIImageView keyImageView4 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITapGestureRecognizer tapGestureRecognizer1 { get; set; }
+		UITapGestureRecognizer tapGestureRecognizer1 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITapGestureRecognizer tapGestureRecognizer2 { get; set; }
+		UITapGestureRecognizer tapGestureRecognizer2 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITapGestureRecognizer tapGestureRecognizer3 { get; set; }
+		UITapGestureRecognizer tapGestureRecognizer3 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITapGestureRecognizer tapGestureRecognizer4 { get; set; }
+		UITapGestureRecognizer tapGestureRecognizer4 { get; set; }
 
 		[Action ("done:")]
-		partial void done (MonoTouch.Foundation.NSObject sender);
+		partial void done (NSObject sender);
 
 		[Action ("handleTap:")]
 		partial void handleTap (UITapGestureRecognizer sender);
