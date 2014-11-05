@@ -39,11 +39,8 @@ namespace NSZombieApocalypse
 			AddSubview (label);
 			label.AccessibilityTraits = UIAccessibilityTrait.Header;
 
-<<<<<<< HEAD
-			var nextFrame = new RectangleF (frame.Size.Width - 90, frame.Size.Height - 140, 80, 80);
-=======
 			var nextFrame = new CGRect (frame.Size.Width - 100, frame.Size.Height - 140, 80, 80);
->>>>>>> NSZombieApocalypse sample ported to 64-bits
+			var nextFrame = new CGRect (frame.Size.Width - 100, frame.Size.Height - 140, 80, 80);
 			nextButton = new SymbolMarkView (nextFrame);
 			nextButton.TouchUpInside += (s, e) => NextSlide ();
 			AddSubview (nextButton);

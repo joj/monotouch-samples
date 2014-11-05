@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace TicTacToe
 {
@@ -17,7 +17,7 @@ namespace TicTacToe
 			TabBarItem.Image = UIImage.FromBundle ("playTab");
 			TabBarItem.SelectedImage = UIImage.FromBundle ("playTabSelected");
 
-			NSNotificationCenter.DefaultCenter.AddObserver (TTTProfile.IconDidChangeNotification, iconDidChange);
+			NSNotificationCenter.DefaultCenter.AddObserver ((NSString)TTTProfile.IconDidChangeNotification, iconDidChange);
 		}
 
 		public static TTTPlayViewController FromProfile (TTTProfile profile, string profilePath)
@@ -58,7 +58,7 @@ namespace TicTacToe
 			};
 			view.AddSubview (gameView);
 
-			float topHeight = UIApplication.SharedApplication.StatusBarFrame.Size.Height;
+			nfloat topHeight = UIApplication.SharedApplication.StatusBarFrame.Size.Height;
 			UITabBar tabBar = TabBarController.TabBar;
 			nfloat bottomHeight = tabBar.Translucent ? tabBar.Frame.Size.Height : 0;
 
