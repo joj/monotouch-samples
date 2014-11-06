@@ -32,7 +32,7 @@ Building this sample requires Xcode 5.0 and iOS 7.0 SDK
 
 Target
 ------
-This sample runnable on iPhoneSimulator/iPadSimulator iPhone/iPad
+This sample runnable on iPhoneSimulator or iPhone
 
 Author
 ------
